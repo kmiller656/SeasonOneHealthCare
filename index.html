@@ -736,7 +736,7 @@ textarea.hf-input { resize: none; }
         <h4>Contact</h4>
         <a href="mailto:SeasonOneHealthCare@gmail.com">SeasonOneHealthCare@gmail.com</a>
         <a href="#" onclick="showPage('contact');return false;">Submit a Staffing Need</a>
-        <a href="#" onclick="showPage('jobs');return false;">Find a Position</a>
+        <a href="#" onclick="showPage('jobs');return false;">For Clinicians</a>
         <a href="#" onclick="showPage('contact');return false;">Submit Your Profile</a>
       </div>
     </div>
@@ -753,22 +753,68 @@ textarea.hf-input { resize: none; }
 <script>
 
 
+var W3F_KEY = "29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
+
+function collectFields(ids) {
+  var data = {};
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+  return data;
+}
+
+function clearFields(ids) {
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
 function submitSeoForm(type) {
-  var fields = {
-    'rn': ['rn-name','rn-email','rn-specialty','rn-location','rn-notes'],
-    'pa': ['pa-name','pa-email','pa-specialty','pa-location','pa-notes'],
-    'np': ['np-name','np-email','np-specialty','np-location','np-notes'],
-    'dh': ['dh-fname','dh-name','dh-title','dh-email','dh-role','dh-notes']
+  var fieldMap = {
+    'rn': ['rn-name','rn-email','rn-specialty','rn-location','rn-avail','rn-notes'],
+    'pa': ['pa-name','pa-email','pa-specialty','pa-location','pa-avail','pa-notes'],
+    'np': ['np-name','np-email','np-specialty','np-location','np-avail','np-notes'],
+    'dh': ['dh-fname','dh-name','dh-title','dh-email','dh-role','dh-timeline','dh-notes']
   };
   var nameId = type === 'dh' ? 'dh-name' : type + '-name';
   var emailId = type + '-email';
   var n = document.getElementById(nameId);
   var e = document.getElementById(emailId);
   if (!n || !n.value || !e || !e.value) { alert('Please fill in your name and email.'); return; }
-  var success = document.getElementById(type + '-success');
-  if (success) success.style.display = 'block';
-  (fields[type] || []).forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
+
+  var btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  var formData = collectFields(fieldMap[type]);
+  var subjectMap = { rn:'RN Profile Submission', pa:'PA Profile Submission', np:'NP Profile Submission', dh:'Facility Staffing Request' };
+  formData['access_key'] = W3F_KEY;
+  formData['subject'] = subjectMap[type] + ' — Season One Healthcare';
+  formData['from_name'] = 'Season One Healthcare Website';
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      var success = document.getElementById(type + '-success');
+      if (success) success.style.display = 'block';
+      clearFields(fieldMap[type]);
+    } else {
+      alert('Something went wrong. Please email us directly at SeasonOneHealthCare@gmail.com');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Submit My Profile';
+  })
+  .catch(function() {
+    alert('Something went wrong. Please email us directly at SeasonOneHealthCare@gmail.com');
+    btn.disabled = false;
+    btn.textContent = 'Submit My Profile';
   });
 }
 
@@ -776,11 +822,47 @@ function submitHomeForm() {
   var name = document.getElementById('hf-name').value;
   var email = document.getElementById('hf-email').value;
   if (!name || !email) { alert('Please fill in your name and email.'); return; }
-  document.getElementById('hf-success').style.display = 'block';
-  ['hf-name','hf-email','hf-phone','hf-role','hf-notes'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
+
+  var btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  var formData = {
+    access_key: W3F_KEY,
+    subject: 'New Inquiry — Season One Healthcare',
+    from_name: 'Season One Healthcare Website',
+    name: name,
+    email: email,
+    phone: document.getElementById('hf-phone').value,
+    type: document.getElementById('hf-type').value,
+    role: document.getElementById('hf-role').value,
+    notes: document.getElementById('hf-notes').value
+  };
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.success) {
+      document.getElementById('hf-success').style.display = 'block';
+      ['hf-name','hf-email','hf-phone','hf-role','hf-notes'].forEach(function(id) {
+        var el = document.getElementById(id); if (el) el.value = '';
+      });
+      var sel = document.getElementById('hf-type'); if (sel) sel.selectedIndex = 0;
+    } else {
+      alert('Something went wrong. Please email us directly at SeasonOneHealthCare@gmail.com');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Submit — We Will Be In Touch';
+  })
+  .catch(function() {
+    alert('Something went wrong. Please email us directly at SeasonOneHealthCare@gmail.com');
+    btn.disabled = false;
+    btn.textContent = 'Submit — We Will Be In Touch';
   });
-  var sel = document.getElementById('hf-type'); if (sel) sel.selectedIndex = 0;
 }
 
 function showPage(id) {
@@ -793,18 +875,74 @@ function toggleMenu() {
   m.style.display = m.style.display === 'block' ? 'none' : 'block';
 }
 function submitForm(type) {
+  var btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
   if (type === 'facility') {
-    const n = document.getElementById('fac-name').value;
-    const e = document.getElementById('fac-email').value;
-    if (!n || !e) { alert('Please fill in Facility Name and Email.'); return; }
-    document.getElementById('fac-success').style.display = 'block';
-    ['fac-name','fac-contact','fac-title','fac-email','fac-phone','fac-role','fac-notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    var n = document.getElementById('fac-name').value;
+    var e = document.getElementById('fac-email').value;
+    if (!n || !e) { alert('Please fill in Facility Name and Email.'); btn.disabled=false; btn.textContent='Submit Staffing Need'; return; }
+    var formData = {
+      access_key: W3F_KEY,
+      subject: 'Facility Staffing Need — Season One Healthcare',
+      from_name: 'Season One Healthcare Website',
+      facility_name: n,
+      facility_type: document.getElementById('fac-type').value,
+      contact_name: document.getElementById('fac-contact').value,
+      contact_title: document.getElementById('fac-title').value,
+      email: e,
+      phone: document.getElementById('fac-phone').value,
+      roles_needed: document.getElementById('fac-role').value,
+      timeline: document.getElementById('fac-timeline').value,
+      notes: document.getElementById('fac-notes').value
+    };
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        document.getElementById('fac-success').style.display = 'block';
+        ['fac-name','fac-contact','fac-title','fac-email','fac-phone','fac-role','fac-notes'].forEach(function(id) { var el=document.getElementById(id); if(el) el.value=''; });
+      } else { alert('Something went wrong. Please email SeasonOneHealthCare@gmail.com'); }
+      btn.disabled=false; btn.textContent='Submit Staffing Need';
+    })
+    .catch(function() { alert('Something went wrong. Please email SeasonOneHealthCare@gmail.com'); btn.disabled=false; btn.textContent='Submit Staffing Need'; });
+
   } else {
-    const n = document.getElementById('cl-name').value;
-    const e = document.getElementById('cl-email').value;
-    if (!n || !e) { alert('Please fill in Name and Email.'); return; }
-    document.getElementById('cl-success').style.display = 'block';
-    ['cl-name','cl-specialty','cl-email','cl-phone','cl-location','cl-notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    var n = document.getElementById('cl-name').value;
+    var e = document.getElementById('cl-email').value;
+    if (!n || !e) { alert('Please fill in Name and Email.'); btn.disabled=false; btn.textContent='Submit My Profile'; return; }
+    var formData = {
+      access_key: W3F_KEY,
+      subject: 'Clinician Profile — Season One Healthcare',
+      from_name: 'Season One Healthcare Website',
+      name: n,
+      credential: document.getElementById('cl-cred').value,
+      specialty: document.getElementById('cl-specialty').value,
+      email: e,
+      phone: document.getElementById('cl-phone').value,
+      location: document.getElementById('cl-location').value,
+      availability: document.getElementById('cl-avail').value,
+      notes: document.getElementById('cl-notes').value
+    };
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        document.getElementById('cl-success').style.display = 'block';
+        ['cl-name','cl-specialty','cl-email','cl-phone','cl-location','cl-notes'].forEach(function(id) { var el=document.getElementById(id); if(el) el.value=''; });
+      } else { alert('Something went wrong. Please email SeasonOneHealthCare@gmail.com'); }
+      btn.disabled=false; btn.textContent='Submit My Profile';
+    })
+    .catch(function() { alert('Something went wrong. Please email SeasonOneHealthCare@gmail.com'); btn.disabled=false; btn.textContent='Submit My Profile'; });
   }
 }
 window.addEventListener('scroll', () => {
@@ -821,8 +959,8 @@ window.addEventListener('scroll', () => {
   <div class="page-hero">
     <div class="container">
       <div class="section-eyebrow">Find Your Next Position</div>
-      <h1>Healthcare Jobs<br/>Across Washington State</h1>
-      <p>We place healthcare professionals in permanent positions with facilities that are ready to invest in the right person. Browse by role below or submit your profile and we will reach out when there is a match.</p>
+      <h1>We Find the Right<br/>Position For You</h1>
+      <p>We work directly with healthcare professionals to understand what they are looking for, then reach out when we have a facility match. Submit your profile below and we will be in touch.</p>
     </div>
   </div>
   <section class="section">
@@ -830,32 +968,32 @@ window.addEventListener('scroll', () => {
       <div class="services-grid">
         <div class="service-card" style="cursor:pointer;" onclick="showPage('jobs-rn')">
           <div class="service-icon-bar"></div>
-          <h3>RN Jobs — Rural Washington</h3>
-          <p>Registered Nurse positions with critical access hospitals, rural health clinics, and community health centers across Washington State.</p>
-          <div class="service-fee" style="color:var(--teal);cursor:pointer;">View RN opportunities &rarr;</div>
+          <h3>Registered Nurses</h3>
+          <p>We work with facilities seeking RNs for permanent positions. Submit your profile and we will reach out when we have a match that fits your background and preferences.</p>
+          <div class="service-fee" style="color:var(--teal);cursor:pointer;">Submit your RN profile &rarr;</div>
         </div>
         <div class="service-card" style="cursor:pointer;" onclick="showPage('jobs-pa')">
           <div class="service-icon-bar"></div>
-          <h3>PA Jobs — Washington State</h3>
-          <p>Permanent Physician Assistant positions with facilities that need qualified APP coverage, including rural health clinics and community health centers.</p>
-          <div class="service-fee" style="color:var(--teal);cursor:pointer;">View PA opportunities &rarr;</div>
+          <h3>Physician Assistants</h3>
+          <p>We place PAs in permanent positions with facilities that need long-term APP coverage. Tell us what you are looking for and we will find the right fit.</p>
+          <div class="service-fee" style="color:var(--teal);cursor:pointer;">Submit your PA profile &rarr;</div>
         </div>
         <div class="service-card" style="cursor:pointer;" onclick="showPage('jobs-np')">
           <div class="service-icon-bar"></div>
-          <h3>NP Jobs — Rural Washington</h3>
-          <p>Nurse Practitioner positions in rural and underserved settings across Washington State, a full practice authority state for NPs.</p>
-          <div class="service-fee" style="color:var(--teal);cursor:pointer;">View NP opportunities &rarr;</div>
+          <h3>Nurse Practitioners</h3>
+          <p>Washington is a full practice authority state for NPs. We connect Nurse Practitioners with facilities that offer the autonomy and community you are looking for.</p>
+          <div class="service-fee" style="color:var(--teal);cursor:pointer;">Submit your NP profile &rarr;</div>
         </div>
         <div class="service-card" style="cursor:pointer;" onclick="showPage('jobs-direct-hire')">
           <div class="service-icon-bar"></div>
-          <h3>Direct Hire — Pacific Northwest</h3>
-          <p>For facilities seeking permanent staff without ongoing agency contracts. One transparent placement fee. The relationship is yours from day one.</p>
-          <div class="service-fee" style="color:var(--teal);cursor:pointer;">Learn about direct hire &rarr;</div>
+          <h3>I Am a Facility</h3>
+          <p>Looking to hire permanently without ongoing agency contracts? We source, screen, and present qualified candidates. You make the final call.</p>
+          <div class="service-fee" style="color:var(--teal);cursor:pointer;">Submit a staffing need &rarr;</div>
         </div>
         <div class="service-card" style="cursor:pointer;" onclick="showPage('contact')">
           <div class="service-icon-bar"></div>
-          <h3>Don&rsquo;t See Your Role?</h3>
-          <p>We place LPNs, CNAs, Physicians, and allied health professionals as well. Submit your profile and tell us what you are looking for.</p>
+          <h3>Other Roles</h3>
+          <p>We also place LPNs, CNAs, Physicians, and allied health professionals. Submit your profile and tell us what you are looking for — we will be in touch when there is a match.</p>
           <div class="service-fee" style="color:var(--teal);cursor:pointer;">Submit your profile &rarr;</div>
         </div>
       </div>
@@ -868,8 +1006,8 @@ window.addEventListener('scroll', () => {
   <div class="page-hero">
     <div class="container">
       <div class="section-eyebrow">Registered Nurse Placement</div>
-      <h1>RN Jobs in Rural<br/>Washington State</h1>
-      <p>Permanent registered nurse positions with facilities across rural Washington. We match RNs with organizations that are committed to keeping them long-term.</p>
+      <h1>Looking for a Permanent<br/>RN Position?</h1>
+      <p>Submit your profile and we will reach out when we have a facility that matches your background, specialty, and location preferences. No open listings to browse — just a direct conversation when the right fit exists.</p>
     </div>
   </div>
   <section class="section">
@@ -907,8 +1045,8 @@ window.addEventListener('scroll', () => {
       <div style="margin-top:64px;background:var(--off);border-radius:12px;padding:48px;border:1px solid var(--border);">
         <div class="centered" style="margin-bottom:32px;">
           <div class="section-eyebrow">Ready to connect?</div>
-          <h2 class="section-title">Submit Your Nursing Profile</h2>
-          <p class="section-sub">Tell us about your background and what you are looking for. We will reach out when we have a position that fits.</p>
+          <h2 class="section-title">Submit Your Profile</h2>
+          <p class="section-sub">We do not post open listings. Instead, we get to know you and reach out personally when we have a facility that is the right match.</p>
         </div>
         <div style="max-width:560px;margin:0 auto;">
           <div class="form-row">
@@ -943,8 +1081,8 @@ window.addEventListener('scroll', () => {
   <div class="page-hero">
     <div class="container">
       <div class="section-eyebrow">Physician Assistant Placement</div>
-      <h1>PA Jobs in<br/>Washington State</h1>
-      <p>Permanent Physician Assistant positions with facilities across Washington State. We specialize in placing PAs with organizations that need long-term APP coverage.</p>
+      <h1>Looking for a Permanent<br/>PA Position?</h1>
+      <p>Submit your profile and we will reach out when we have a facility seeking a PA with your background. We focus on permanent placement — not locums or short-term coverage.</p>
     </div>
   </div>
   <section class="section">
@@ -977,8 +1115,8 @@ window.addEventListener('scroll', () => {
       <div style="margin-top:64px;background:var(--off);border-radius:12px;padding:48px;border:1px solid var(--border);">
         <div class="centered" style="margin-bottom:32px;">
           <div class="section-eyebrow">Ready to connect?</div>
-          <h2 class="section-title">Submit Your PA Profile</h2>
-          <p class="section-sub">Tell us where you are and what you are looking for. We will reach out when a matching permanent position opens.</p>
+          <h2 class="section-title">Submit Your Profile</h2>
+          <p class="section-sub">We do not post open listings. Share your background and preferences and we will reach out when a facility is the right fit.</p>
         </div>
         <div style="max-width:560px;margin:0 auto;">
           <div class="form-row">
@@ -1013,8 +1151,8 @@ window.addEventListener('scroll', () => {
   <div class="page-hero">
     <div class="container">
       <div class="section-eyebrow">Nurse Practitioner Placement</div>
-      <h1>NP Jobs in Rural<br/>Washington State</h1>
-      <p>Permanent Nurse Practitioner positions across rural Washington &mdash; a full practice authority state where NPs can practice to the full extent of their training.</p>
+      <h1>Looking for a Permanent<br/>NP Position?</h1>
+      <p>Submit your profile and we will reach out when we have a facility match in Washington State — a full practice authority state where NPs can practice to the full extent of their training.</p>
     </div>
   </div>
   <section class="section">
@@ -1047,8 +1185,8 @@ window.addEventListener('scroll', () => {
       <div style="margin-top:64px;background:var(--off);border-radius:12px;padding:48px;border:1px solid var(--border);">
         <div class="centered" style="margin-bottom:32px;">
           <div class="section-eyebrow">Ready to connect?</div>
-          <h2 class="section-title">Submit Your NP Profile</h2>
-          <p class="section-sub">Tell us your background and what you are looking for. We will reach out when a matching permanent position opens in Washington State.</p>
+          <h2 class="section-title">Submit Your Profile</h2>
+          <p class="section-sub">We do not post open listings. Share your background and we will reach out when we have a facility in Washington State that matches what you are looking for.</p>
         </div>
         <div style="max-width:560px;margin:0 auto;">
           <div class="form-row">
