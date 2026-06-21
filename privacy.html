@@ -14,8 +14,12 @@ body{font-family:'Inter',sans-serif;color:var(--navy);background:var(--white);li
 a{text-decoration:none;color:var(--blue)}
 a:hover{text-decoration:underline}
 h1,h2,h3,h4{font-weight:800;letter-spacing:-0.04em;line-height:1.08}
-nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1100px;margin:0 auto;padding:0 24px}
+nav{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:1100px;margin:0 auto;padding:0 24px}
+.nav-brand{display:flex;flex-direction:column;line-height:1;cursor:pointer}
+.nav-brand-name{font-size:18px;font-weight:800;letter-spacing:-0.04em;color:var(--navy)}
+.nav-brand-name span{color:var(--blue)}
+.nav-brand-tag{font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
 .nav-back{font-size:13px;color:var(--text-muted);font-weight:600;transition:color .15s;text-decoration:none}
 .nav-back:hover{color:var(--blue)}
 .page-hero{background:linear-gradient(135deg,#0f1923 0%,#1a2e4a 100%);padding:80px 24px 64px}
@@ -24,12 +28,15 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1
 .page-hero h1{font-size:clamp(30px,4vw,48px);color:#fff;margin-bottom:10px}
 .page-hero .updated{font-size:13px;color:rgba(255,255,255,.40);font-weight:400;letter-spacing:0}
 .layout{max-width:1100px;margin:0 auto;padding:60px 24px;display:grid;grid-template-columns:210px 1fr;gap:56px;align-items:start}
-.toc{position:sticky;top:84px}
+.toc{position:sticky;top:88px}
 .toc-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
 .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
 .toc-list a{font-size:13px;color:var(--text-muted);padding:7px 10px;border-radius:7px;display:block;border-left:2px solid transparent;transition:all .15s;text-decoration:none;line-height:1.4;font-weight:500}
 .toc-list a:hover{color:var(--navy);background:var(--surface);border-left-color:var(--blue)}
 .content{max-width:680px}
+.disclaimer-box{background:var(--blue-light);border:1px solid var(--blue-border);border-left:4px solid var(--blue);border-radius:8px;padding:20px 24px;margin-bottom:40px}
+.disclaimer-box h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:-0.02em}
+.disclaimer-box p{font-size:13px;color:var(--text-mid);line-height:1.7;margin:0}
 .policy-section{margin-bottom:52px;padding-bottom:52px;border-bottom:1px solid var(--border)}
 .policy-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .policy-section h2{font-size:20px;color:var(--navy);margin-bottom:14px;font-weight:700;letter-spacing:-0.03em}
@@ -58,7 +65,12 @@ footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
 <body>
 <nav>
   <div class="nav-inner">
-    <a href="index.html"><img src="logo.png" alt="Season One Healthcare" style="height:44px;width:auto;display:block"/></a>
+    <a href="index.html" style="text-decoration:none">
+      <div class="nav-brand">
+        <div class="nav-brand-name">Season One Healthcare</div>
+        <div class="nav-brand-tag">We Find It. You Choose It.</div>
+      </div>
+    </a>
     <a class="nav-back" href="index.html">&larr; Back to site</a>
   </div>
 </nav>
@@ -73,6 +85,7 @@ footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
   <aside class="toc">
     <div class="toc-title">On This Page</div>
     <ul class="toc-list">
+      <li><a href="#disclaimer">Important Disclaimer</a></li>
       <li><a href="#collect">1. Information We Collect</a></li>
       <li><a href="#use">2. How We Use Your Information</a></li>
       <li><a href="#sharing">3. Data Sharing</a></li>
@@ -85,49 +98,59 @@ footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
     </ul>
   </aside>
   <main class="content">
+
+    <div class="disclaimer-box" id="disclaimer">
+      <h3>Important Notice — Nature of Our Services</h3>
+      <p>Season One Healthcare is an innovative healthcare recruitment and opportunity-matching company. We are <strong>not a licensed employment agency, talent agency, or legal agent</strong> as defined under applicable state or federal law. Our team works on behalf of Physician Assistants to identify, research, and present employment and contract opportunities — however, we do not act as your legal representative, do not have authority to enter into agreements on your behalf, and do not provide legal, financial, or career advice. All final employment decisions, contract negotiations, and agreements are made directly between you and the hiring facility. Our role is to connect, inform, and support — not to represent you in a legal capacity.</p>
+    </div>
+
     <div class="policy-section">
-      <p>Season One Healthcare ("we," "us," or "our") operates the Season One Healthcare website and related services (the "Service"). This Privacy Policy describes how we collect, use, and protect information about you when you use our website, subscribe to our PA list, or contact us.</p>
+      <p>Season One Healthcare ("we," "us," or "our") operates the Season One Healthcare website and related services (the "Service"). This Privacy Policy describes how we collect, use, and protect information about you when you use our website, subscribe to our opportunity list, or contact us.</p>
       <p>By using the Service or submitting your information, you agree to the practices described in this policy. If you do not agree, please discontinue use of the Service.</p>
     </div>
+
     <div class="policy-section" id="collect">
       <h2>1. Information We Collect</h2>
       <p><strong>Information You Provide</strong></p>
-      <p>When you subscribe to our PA list, submit a form, or contact us, we collect information you voluntarily provide, including:</p>
+      <p>When you subscribe, submit a form, or contact us, we collect information you voluntarily provide, including:</p>
       <ul>
         <li>Name and email address</li>
         <li>Professional credential (PA-C or PA Student)</li>
         <li>Specialty, practice setting, and geographic preference</li>
-        <li>Availability and employment status</li>
-        <li>Any additional information you choose to share in notes or messages</li>
+        <li>Compensation goals and availability</li>
+        <li>Any additional information you choose to share</li>
       </ul>
       <p><strong>Information Collected Automatically</strong></p>
       <p>When you visit our website, we may automatically collect limited technical information including IP address, browser type, device type, pages visited, and referring URLs.</p>
       <p><strong>PA Professional Data</strong></p>
-      <p>Our PA contact database contains professional information gathered from publicly available sources (such as state licensing boards and professional associations) as well as information voluntarily submitted through our forms. We maintain this data for the purpose of connecting PAs with employment opportunities. Any PA may request removal at any time.</p>
+      <p>Our database contains professional information gathered from publicly available sources (such as state licensing boards and professional associations) as well as information voluntarily submitted through our forms. We maintain this data solely to identify and present relevant opportunities to qualified PAs. Any PA may request removal at any time.</p>
     </div>
+
     <div class="policy-section" id="use">
       <h2>2. How We Use Your Information</h2>
       <p>We use information we collect to:</p>
       <ul>
-        <li>Send you curated PA job listings, contract opportunities, and career updates</li>
-        <li>Communicate pre-launch announcements and service updates</li>
-        <li>Match you with healthcare facilities looking for PA candidates</li>
+        <li>Research and identify PA job opportunities, contracts, and direct hire positions that match your profile</li>
+        <li>Send you curated opportunity updates and announcements</li>
+        <li>Connect you with healthcare facilities that are actively seeking PA candidates</li>
         <li>Respond to inquiries and support requests</li>
         <li>Improve our website and services</li>
         <li>Comply with applicable legal obligations</li>
       </ul>
       <p>We will only contact you for purposes consistent with what you consented to at the time of submission. You may withdraw consent at any time by <a href="unsubscribe.html">unsubscribing</a>.</p>
     </div>
+
     <div class="policy-section" id="sharing">
       <h2>3. Data Sharing</h2>
       <p>We may share information only in the following circumstances:</p>
       <ul>
-        <li><strong>Healthcare Facilities:</strong> With your explicit consent, we may share your professional profile with facilities seeking to hire a PA. We will always notify you before making an introduction.</li>
+        <li><strong>Healthcare Facilities:</strong> With your explicit consent, we may share your professional profile with facilities seeking to hire a PA. We will always notify you before making an introduction. We do not share your information without your knowledge.</li>
         <li><strong>Service Providers:</strong> With third-party vendors that help us operate the Service (form processing, email delivery, hosting). These providers are contractually required to protect your data.</li>
         <li><strong>Legal Requirements:</strong> When required by law, regulation, legal process, or government request.</li>
         <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets, with appropriate notice to you.</li>
       </ul>
     </div>
+
     <div class="policy-section" id="security">
       <h2>4. Data Security &amp; Standards</h2>
       <p>We implement the following security standards and practices to protect your information:</p>
@@ -143,6 +166,7 @@ footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
       </div>
       <p style="margin-top:18px">No method of transmission or storage is completely secure. If you believe your information has been compromised, please contact us immediately.</p>
     </div>
+
     <div class="policy-section" id="rights">
       <h2>5. Your Rights</h2>
       <p>You have the following rights regarding your personal information. To exercise any of these rights, contact us at <a href="mailto:SeasonOneHealthCare@gmail.com">SeasonOneHealthCare@gmail.com</a>.</p>
@@ -153,20 +177,23 @@ footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
         <div class="right-row"><span class="right-badge">Opt-Out</span><span class="right-desc">Unsubscribe from all email communications at any time via our <a href="unsubscribe.html">unsubscribe page</a> or the link in any email we send.</span></div>
       </div>
     </div>
+
     <div class="policy-section" id="retention">
       <h2>6. Data Retention</h2>
       <p>We retain your information for as long as you remain subscribed or as needed to provide the Service. If you unsubscribe or request deletion, we will remove your personal information within 30 days, except where retention is required by law.</p>
       <p>PA professional data gathered from public sources is reviewed on an ongoing basis. Any PA may request removal at any time via our <a href="unsubscribe.html">unsubscribe page</a> or by emailing us directly.</p>
     </div>
+
     <div class="policy-section" id="cookies">
       <h2>7. Cookies</h2>
-      <p>Our website uses minimal cookies for basic site functionality only. We do not use tracking cookies for advertising or cross-site behavioral analytics.</p>
-      <p>You can control or disable cookies through your browser settings. Disabling cookies will not affect your ability to use most features of our site.</p>
+      <p>Our website uses minimal cookies for basic site functionality only. We do not use tracking cookies for advertising or cross-site behavioral analytics. You can control or disable cookies through your browser settings.</p>
     </div>
+
     <div class="policy-section" id="changes">
       <h2>8. Changes to This Policy</h2>
       <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. For material changes, we will provide notice via email or a prominent announcement on our website.</p>
     </div>
+
     <div class="policy-section" id="contact">
       <h2>9. Contact</h2>
       <p>If you have questions about this Privacy Policy or our data practices, please contact us:</p>
@@ -178,6 +205,6 @@ footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
     </div>
   </main>
 </div>
-<footer><p>&copy; 2026 Season One Healthcare &nbsp;&middot;&nbsp;<a href="index.html">Home</a><a href="subscribe.html">Join the List</a><a href="unsubscribe.html">Unsubscribe</a></p></footer>
+<footer><p>&copy; 2026 Season One Healthcare &nbsp;&middot;&nbsp;<a href="index.html">Home</a><a href="terms.html">Terms of Service</a><a href="subscribe.html">Subscribe</a><a href="unsubscribe.html">Unsubscribe</a></p></footer>
 </body>
 </html>
