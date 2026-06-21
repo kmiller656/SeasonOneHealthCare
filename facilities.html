@@ -181,9 +181,9 @@ function submitFacility(){
   .then(r=>r.json())
   .then(d=>{
     if(d.success){document.getElementById('fac-success').style.display='block';btn.style.display='none';}
-    else{alert('Something went wrong. Please email us at SeasonOneHealthCare@gmail.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';}
+    else{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';}
   })
-  .catch(()=>{alert('Something went wrong. Please email us at SeasonOneHealthCare@gmail.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
+  .catch(()=>{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
 }
 </script>
 </body>

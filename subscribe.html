@@ -105,7 +105,7 @@ function submitSubscribe(){
   if(!consent){alert('Please check the consent box to join the list.');return;}
   var btn=document.getElementById('sub-btn');btn.disabled=true;btn.textContent='Submitting...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'New PA List Subscriber — Season One Healthcare',from_name:'Season One Healthcare Subscribe Page',first_name:first,last_name:last,email:email,status:document.getElementById('sub-status').value,specialty:document.getElementById('sub-specialty').value,location:document.getElementById('sub-location').value,consent:'Yes — subscribed via subscribe.html'})})
-  .then(r=>r.json()).then(d=>{if(d.success){document.getElementById('sub-success').style.display='block';btn.style.display='none';['sub-first','sub-last','sub-email','sub-specialty','sub-location'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});}else{alert('Something went wrong. Please email us at SeasonOneHealthCare@gmail.com');btn.disabled=false;btn.textContent="Let's Connect";}})
+  .then(r=>r.json()).then(d=>{if(d.success){document.getElementById('sub-success').style.display='block';btn.style.display='none';['sub-first','sub-last','sub-email','sub-specialty','sub-location'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});}else{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent="Let's Connect";}})
   .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent="Let's Connect";});
 }
 </script>
