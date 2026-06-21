@@ -1,203 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Privacy Policy | Season One Healthcare</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --dark:       #1A2424;
-  --teal:       #2D7A7A;
-  --teal-light: #3D9494;
-  --teal-pale:  #E8F4F4;
-  --white:      #FFFFFF;
-  --off:        #F6F8F8;
-  --slate:      #4A5C5C;
-  --border:     #D0DEDE;
-  --text:       #1A2424;
-}
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text);
-  background: var(--white);
-  line-height: 1.7;
-  font-size: 15px;
-}
-a { text-decoration: none; color: var(--teal); }
-a:hover { text-decoration: underline; }
-h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
-
-/* NAV — white background, dark text */
-nav {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 100;
-}
-.nav-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px; height: 68px; max-width: 1120px; margin: 0 auto;
-}
-.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-mark {
-  width: 34px; height: 34px; background: var(--dark);
-  border-radius: 6px; display: flex; align-items: center; justify-content: center;
-}
-.nav-mark svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
-.nav-wordmark span { font-family: 'Cormorant Garamond', serif; color: var(--dark); font-size: 17px; font-weight: 600; }
-.nav-back { font-size: 13px; color: var(--slate); font-weight: 500; }
-.nav-back:hover { color: var(--dark); text-decoration: none; }
-
-/* HERO — dark background, WHITE text */
-.page-hero { background: var(--dark); padding: 64px 28px 52px; }
-.page-hero-inner { max-width: 780px; margin: 0 auto; }
-.hero-eyebrow {
-  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
-  text-transform: uppercase; color: #9DD4D4;
-  margin-bottom: 14px; font-family: 'DM Sans', sans-serif;
-}
-.page-hero h1 { font-size: clamp(32px, 4vw, 52px); color: #FFFFFF; font-weight: 600; margin-bottom: 10px; }
-.page-hero .updated { font-size: 13px; color: rgba(255,255,255,0.55); }
-
-/* LAYOUT — white background */
-.layout {
-  max-width: 1100px; margin: 0 auto;
-  padding: 60px 28px;
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 56px;
-  align-items: start;
-  background: var(--white);
-}
-
-/* SIDEBAR — light background, dark text */
-.toc { position: sticky; top: 88px; }
-.toc-title {
-  font-size: 10px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--slate);
-  margin-bottom: 16px; font-family: 'DM Sans', sans-serif;
-}
-.toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-.toc-list a {
-  font-size: 13px; color: var(--slate);
-  padding: 7px 10px; border-radius: 5px; display: block;
-  border-left: 2px solid transparent; transition: all .2s; line-height: 1.4;
-}
-.toc-list a:hover {
-  color: var(--dark); background: var(--off);
-  border-left-color: var(--teal); text-decoration: none;
-}
-
-/* CONTENT — white background, dark text */
-.content { max-width: 680px; }
-
-.policy-section {
-  margin-bottom: 52px; padding-bottom: 52px;
-  border-bottom: 1px solid var(--border);
-}
-.policy-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-
-.policy-section h2 {
-  font-size: 26px; font-weight: 600;
-  color: var(--dark);
-  margin-bottom: 16px; letter-spacing: -0.2px;
-}
-.policy-section p {
-  color: #3A4A4A;
-  font-size: 15px; line-height: 1.8; margin-bottom: 14px;
-}
-.policy-section p strong { color: var(--dark); font-weight: 600; }
-.policy-section p:last-child { margin-bottom: 0; }
-
-.policy-section ul {
-  margin: 14px 0; padding: 0;
-  list-style: none; display: flex; flex-direction: column; gap: 8px;
-}
-.policy-section ul li {
-  color: #3A4A4A; font-size: 15px; line-height: 1.7;
-  padding-left: 18px; position: relative;
-}
-.policy-section ul li strong { color: var(--dark); }
-.policy-section ul li::before {
-  content: ''; position: absolute; left: 0; top: 10px;
-  width: 5px; height: 5px; border-radius: 50%; background: var(--teal);
-}
-
-/* SECURITY GRID — light cards, dark text */
-.security-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px; margin-top: 20px;
-}
-.security-card {
-  background: var(--off);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--teal);
-  border-radius: 8px; padding: 18px 16px;
-}
-.security-card h4 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px; font-weight: 700;
-  letter-spacing: .5px; text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 6px;
-}
-.security-card p {
-  font-size: 13px;
-  color: #3A4A4A;
-  line-height: 1.6; margin: 0;
-}
-
-/* RIGHTS GRID — light cards, dark text */
-.rights-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-.right-row {
-  display: flex; gap: 14px; align-items: flex-start;
-  padding: 14px 16px;
-  background: var(--off);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-.right-badge {
-  background: var(--teal-pale);
-  color: var(--teal);
-  font-size: 10px; font-weight: 700;
-  letter-spacing: .5px; text-transform: uppercase;
-  padding: 4px 10px; border-radius: 20px;
-  white-space: nowrap; flex-shrink: 0; margin-top: 2px;
-}
-.right-desc { font-size: 13px; color: #3A4A4A; line-height: 1.6; }
-
-/* FOOTER — dark background, light text */
-footer { background: var(--dark); padding: 28px; text-align: center; }
-footer p { color: rgba(255,255,255,0.50); font-size: 12px; }
-footer a { color: rgba(255,255,255,0.55); margin: 0 10px; }
-footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
-
-@media (max-width: 820px) {
-  .layout { grid-template-columns: 1fr; gap: 32px; padding: 36px 20px; }
-  .toc { position: static; }
-  .security-grid { grid-template-columns: 1fr; }
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0f1923;--navy-footer:#080e16;--blue:#2563eb;--blue-dark:#1d4ed8;--blue-light:#eff6ff;--blue-border:#bfdbfe;--text-mid:#374151;--text-muted:#6b7280;--border:#e5e7eb;--surface:#f8faff;--white:#ffffff;}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--navy);background:var(--white);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:var(--blue)}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{font-weight:800;letter-spacing:-0.04em;line-height:1.08}
+nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1100px;margin:0 auto;padding:0 24px}
+.nav-back{font-size:13px;color:var(--text-muted);font-weight:600;transition:color .15s;text-decoration:none}
+.nav-back:hover{color:var(--blue)}
+.page-hero{background:linear-gradient(135deg,#0f1923 0%,#1a2e4a 100%);padding:80px 24px 64px}
+.page-hero-inner{max-width:1100px;margin:0 auto}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#93c5fd;margin-bottom:14px}
+.page-hero h1{font-size:clamp(30px,4vw,48px);color:#fff;margin-bottom:10px}
+.page-hero .updated{font-size:13px;color:rgba(255,255,255,.40);font-weight:400;letter-spacing:0}
+.layout{max-width:1100px;margin:0 auto;padding:60px 24px;display:grid;grid-template-columns:210px 1fr;gap:56px;align-items:start}
+.toc{position:sticky;top:84px}
+.toc-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.toc-list a{font-size:13px;color:var(--text-muted);padding:7px 10px;border-radius:7px;display:block;border-left:2px solid transparent;transition:all .15s;text-decoration:none;line-height:1.4;font-weight:500}
+.toc-list a:hover{color:var(--navy);background:var(--surface);border-left-color:var(--blue)}
+.content{max-width:680px}
+.policy-section{margin-bottom:52px;padding-bottom:52px;border-bottom:1px solid var(--border)}
+.policy-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.policy-section h2{font-size:20px;color:var(--navy);margin-bottom:14px;font-weight:700;letter-spacing:-0.03em}
+.policy-section p{color:var(--text-mid);font-size:15px;line-height:1.8;margin-bottom:14px}
+.policy-section p strong{color:var(--navy);font-weight:600}
+.policy-section p:last-child{margin-bottom:0}
+.policy-section ul{margin:14px 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.policy-section ul li{color:var(--text-mid);font-size:15px;line-height:1.7;padding-left:18px;position:relative}
+.policy-section ul li strong{color:var(--navy)}
+.policy-section ul li::before{content:'';position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.security-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.security-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:8px;padding:16px}
+.security-card h4{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.security-card p{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0}
+.rights-grid{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.right-row{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.right-badge{background:var(--blue-light);color:var(--blue-dark);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px;border:1px solid var(--blue-border)}
+.right-desc{font-size:13px;color:var(--text-mid);line-height:1.6}
+footer{background:var(--navy-footer);padding:28px;text-align:center;margin-top:40px}
+footer p{color:rgba(255,255,255,.35);font-size:12px}
+footer a{color:rgba(255,255,255,.35);margin:0 10px}
+footer a:hover{color:rgba(255,255,255,.7);text-decoration:none}
+@media(max-width:820px){.layout{grid-template-columns:1fr;gap:32px;padding:36px 20px}.toc{position:static}.security-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <div class="nav-mark">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="2"/><line x1="12" y1="8" x2="12" y2="18"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
-      </div>
-      <div class="nav-wordmark"><span>Season One Healthcare</span></div>
-    </a>
+    <a href="index.html"><img src="logo.png" alt="Season One Healthcare" style="height:44px;width:auto;display:block"/></a>
     <a class="nav-back" href="index.html">&larr; Back to site</a>
   </div>
 </nav>
-
-<!-- HERO -->
 <div class="page-hero">
   <div class="page-hero-inner">
     <div class="hero-eyebrow">Legal</div>
@@ -205,11 +69,7 @@ footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
     <p class="updated">Last updated: June 2026</p>
   </div>
 </div>
-
-<!-- LAYOUT -->
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <aside class="toc">
     <div class="toc-title">On This Page</div>
     <ul class="toc-list">
@@ -224,15 +84,11 @@ footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
       <li><a href="#contact">9. Contact</a></li>
     </ul>
   </aside>
-
-  <!-- CONTENT -->
   <main class="content">
-
     <div class="policy-section">
       <p>Season One Healthcare ("we," "us," or "our") operates the Season One Healthcare website and related services (the "Service"). This Privacy Policy describes how we collect, use, and protect information about you when you use our website, subscribe to our PA list, or contact us.</p>
       <p>By using the Service or submitting your information, you agree to the practices described in this policy. If you do not agree, please discontinue use of the Service.</p>
     </div>
-
     <div class="policy-section" id="collect">
       <h2>1. Information We Collect</h2>
       <p><strong>Information You Provide</strong></p>
@@ -249,7 +105,6 @@ footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
       <p><strong>PA Professional Data</strong></p>
       <p>Our PA contact database contains professional information gathered from publicly available sources (such as state licensing boards and professional associations) as well as information voluntarily submitted through our forms. We maintain this data for the purpose of connecting PAs with employment opportunities. Any PA may request removal at any time.</p>
     </div>
-
     <div class="policy-section" id="use">
       <h2>2. How We Use Your Information</h2>
       <p>We use information we collect to:</p>
@@ -263,7 +118,6 @@ footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
       </ul>
       <p>We will only contact you for purposes consistent with what you consented to at the time of submission. You may withdraw consent at any time by <a href="unsubscribe.html">unsubscribing</a>.</p>
     </div>
-
     <div class="policy-section" id="sharing">
       <h2>3. Data Sharing</h2>
       <p>We may share information only in the following circumstances:</p>
@@ -274,88 +128,45 @@ footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
         <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets, with appropriate notice to you.</li>
       </ul>
     </div>
-
     <div class="policy-section" id="security">
       <h2>4. Data Security &amp; Standards</h2>
       <p>We implement the following security standards and practices to protect your information:</p>
       <div class="security-grid">
-        <div class="security-card">
-          <h4>Encryption in Transit</h4>
-          <p>All data transmitted between your browser and our servers is encrypted using TLS 1.2 or higher (HTTPS).</p>
-        </div>
-        <div class="security-card">
-          <h4>Encryption at Rest</h4>
-          <p>Stored data is protected using AES-256, the current industry standard for data at rest.</p>
-        </div>
-        <div class="security-card">
-          <h4>Access Controls</h4>
-          <p>Access to personal data is restricted on a need-to-know basis with authentication controls to prevent unauthorized access.</p>
-        </div>
-        <div class="security-card">
-          <h4>SPF / DKIM / DMARC</h4>
-          <p>Our outbound email is authenticated with SPF, DKIM, and DMARC records to prevent spoofing and protect your inbox.</p>
-        </div>
-        <div class="security-card">
-          <h4>Consent-Based Lists</h4>
-          <p>We maintain opt-in records for every contact, including the date, source, and method of consent.</p>
-        </div>
-        <div class="security-card">
-          <h4>CAN-SPAM Compliance</h4>
-          <p>All marketing emails include a clear unsubscribe link and comply with the CAN-SPAM Act.</p>
-        </div>
-        <div class="security-card">
-          <h4>Minimal Data Collection</h4>
-          <p>We collect only the data necessary to provide the Service. We do not collect payment information, SSNs, or sensitive financial data.</p>
-        </div>
-        <div class="security-card">
-          <h4>Third-Party Vetting</h4>
-          <p>Vendors who handle your data are selected based on their own security practices and data protection commitments.</p>
-        </div>
+        <div class="security-card"><h4>Encryption in Transit</h4><p>All data transmitted between your browser and our servers is encrypted using TLS 1.2 or higher (HTTPS).</p></div>
+        <div class="security-card"><h4>Encryption at Rest</h4><p>Stored data is protected using AES-256, the current industry standard for data at rest.</p></div>
+        <div class="security-card"><h4>Access Controls</h4><p>Access to personal data is restricted on a need-to-know basis with authentication controls to prevent unauthorized access.</p></div>
+        <div class="security-card"><h4>SPF / DKIM / DMARC</h4><p>Our outbound email is authenticated with SPF, DKIM, and DMARC records to prevent spoofing and protect your inbox.</p></div>
+        <div class="security-card"><h4>Consent-Based Lists</h4><p>We maintain opt-in records for every contact, including the date, source, and method of consent.</p></div>
+        <div class="security-card"><h4>CAN-SPAM Compliance</h4><p>All marketing emails include a clear unsubscribe link and comply with the CAN-SPAM Act.</p></div>
+        <div class="security-card"><h4>Minimal Data Collection</h4><p>We collect only the data necessary to provide the Service. We do not collect payment information, SSNs, or sensitive financial data.</p></div>
+        <div class="security-card"><h4>Third-Party Vetting</h4><p>Vendors who handle your data are selected based on their own security practices and data protection commitments.</p></div>
       </div>
-      <p style="margin-top:20px;">No method of transmission or storage is completely secure. If you believe your information has been compromised, please contact us immediately.</p>
+      <p style="margin-top:18px">No method of transmission or storage is completely secure. If you believe your information has been compromised, please contact us immediately.</p>
     </div>
-
     <div class="policy-section" id="rights">
       <h2>5. Your Rights</h2>
       <p>You have the following rights regarding your personal information. To exercise any of these rights, contact us at <a href="mailto:SeasonOneHealthCare@gmail.com">SeasonOneHealthCare@gmail.com</a>.</p>
       <div class="rights-grid">
-        <div class="right-row">
-          <span class="right-badge">Access</span>
-          <span class="right-desc">Request a copy of the personal information we hold about you.</span>
-        </div>
-        <div class="right-row">
-          <span class="right-badge">Correction</span>
-          <span class="right-desc">Request correction of any inaccurate personal information we have on file.</span>
-        </div>
-        <div class="right-row">
-          <span class="right-badge">Deletion</span>
-          <span class="right-desc">Request deletion of your personal information. We will comply promptly, subject to any legal retention obligations.</span>
-        </div>
-        <div class="right-row">
-          <span class="right-badge">Opt-Out</span>
-          <span class="right-desc">Unsubscribe from all email communications at any time via our <a href="unsubscribe.html">unsubscribe page</a> or the link in any email we send.</span>
-        </div>
+        <div class="right-row"><span class="right-badge">Access</span><span class="right-desc">Request a copy of the personal information we hold about you.</span></div>
+        <div class="right-row"><span class="right-badge">Correction</span><span class="right-desc">Request correction of any inaccurate personal information we have on file.</span></div>
+        <div class="right-row"><span class="right-badge">Deletion</span><span class="right-desc">Request deletion of your personal information. We will comply promptly, subject to any legal retention obligations.</span></div>
+        <div class="right-row"><span class="right-badge">Opt-Out</span><span class="right-desc">Unsubscribe from all email communications at any time via our <a href="unsubscribe.html">unsubscribe page</a> or the link in any email we send.</span></div>
       </div>
     </div>
-
     <div class="policy-section" id="retention">
       <h2>6. Data Retention</h2>
       <p>We retain your information for as long as you remain subscribed or as needed to provide the Service. If you unsubscribe or request deletion, we will remove your personal information within 30 days, except where retention is required by law.</p>
       <p>PA professional data gathered from public sources is reviewed on an ongoing basis. Any PA may request removal at any time via our <a href="unsubscribe.html">unsubscribe page</a> or by emailing us directly.</p>
     </div>
-
     <div class="policy-section" id="cookies">
       <h2>7. Cookies</h2>
       <p>Our website uses minimal cookies for basic site functionality only. We do not use tracking cookies for advertising or cross-site behavioral analytics.</p>
       <p>You can control or disable cookies through your browser settings. Disabling cookies will not affect your ability to use most features of our site.</p>
     </div>
-
     <div class="policy-section" id="changes">
       <h2>8. Changes to This Policy</h2>
       <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. For material changes, we will provide notice via email or a prominent announcement on our website.</p>
-      <p>We encourage you to review this policy periodically.</p>
     </div>
-
     <div class="policy-section" id="contact">
       <h2>9. Contact</h2>
       <p>If you have questions about this Privacy Policy or our data practices, please contact us:</p>
@@ -365,18 +176,8 @@ footer a:hover { color: rgba(255,255,255,0.85); text-decoration: none; }
       </ul>
       <p>We aim to respond to all privacy-related inquiries within 5 business days.</p>
     </div>
-
   </main>
 </div>
-
-<footer>
-  <p>
-    &copy; 2026 Season One Healthcare &nbsp;&middot;&nbsp;
-    <a href="index.html">Home</a>
-    <a href="subscribe.html">Join the List</a>
-    <a href="unsubscribe.html">Unsubscribe</a>
-  </p>
-</footer>
-
+<footer><p>&copy; 2026 Season One Healthcare &nbsp;&middot;&nbsp;<a href="index.html">Home</a><a href="subscribe.html">Join the List</a><a href="unsubscribe.html">Unsubscribe</a></p></footer>
 </body>
 </html>
