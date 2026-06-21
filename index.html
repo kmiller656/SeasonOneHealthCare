@@ -282,11 +282,10 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
       <a href="#" onclick="showPage('home');return false">Home</a>
       <a href="#" onclick="showPage('about');return false">About</a>
       <a href="#" onclick="showPage('why');return false">Why It Pays</a>
-      <a href="#" onclick="showPage('contact');return false">Contact</a>
     </div>
     <div class="nav-actions">
-      <button class="btn-outline-nav" onclick="showPage('contact')">For Facilities</button>
-      <button class="btn-nav-cta" onclick="window.location='subscribe.html'">Join Free &rarr;</button>
+      <a href="facilities.html" class="btn-outline-nav" style="text-decoration:none">For Facilities</a>
+      <a href="subscribe.html" class="btn-nav-cta" style="text-decoration:none">Join Free &rarr;</a>
     </div>
     <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
   </div>
@@ -295,8 +294,8 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
   <a href="#" onclick="showPage('home');toggleMenu();return false">Home</a>
   <a href="#" onclick="showPage('about');toggleMenu();return false">About</a>
   <a href="#" onclick="showPage('why');toggleMenu();return false">Why It Pays</a>
-  <a href="#" onclick="showPage('contact');toggleMenu();return false">Contact</a>
   <a href="subscribe.html">Join Free &rarr;</a>
+  <a href="facilities.html">For Facilities</a>
 </div>
 
 <!-- ====== HOME ====== -->
@@ -304,10 +303,10 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
   <div class="hero">
     <div class="hero-inner">
       <div class="hero-left">
-        <div class="trust-badge"><span class="trust-dot"></span>Free for Active PAs &amp; PA Students — Nationwide</div>
+        <div class="trust-badge"><span class="trust-dot"></span>Free for Active PAs &amp; PA Students Across the U.S.</div>
         <h1>We Find The<br/><span class="accent">Opportunities.</span></h1>
         <p class="hero-subhead">We Find The Opportunities. You Choose The Best One.</p>
-        <p class="hero-body">Stop wasting hours on job boards built for every credential but yours. Our team works on your behalf — searching the market, vetting opportunities, and delivering only the best contracts and direct hire positions nationwide to your inbox. Free for active PAs and PA students, always.</p>
+        <p class="hero-body">Stop wasting hours on job boards built for every credential but yours. Our team works on your behalf — searching the market, vetting opportunities, and delivering only the best contracts and direct hire positions available across the United States to your inbox. Free for active PAs and PA students, always.</p>
         <div class="hero-actions">
           <button class="btn-hero" onclick="window.location='subscribe.html'">Find My Next Opportunity &rarr;</button>
           <button class="btn-ghost-hero" onclick="showPage('why')">See why it pays &rarr;</button>
@@ -384,7 +383,7 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
       <div class="proof-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Agents work on your behalf</div>
       <div class="proof-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>High-paying contracts &amp; direct hire</div>
       <div class="proof-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Free for PAs &amp; PA students</div>
-      <div class="proof-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Nationwide opportunities</div>
+      <div class="proof-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Opportunities across the United States</div>
       <div class="proof-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>No job board searching</div>
     </div>
   </div>
@@ -404,7 +403,7 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
         <div class="step-card" data-step="02">
           <div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
           <h3>We Source &amp; Curate</h3>
-          <p>Our team searches the market on your behalf — permanent roles, high-paying locum contracts, and direct hire opportunities nationwide — and delivers only what matches your profile. No noise, nothing irrelevant.</p>
+          <p>Our team searches the market on your behalf — permanent roles, high-paying locum contracts, and direct hire opportunities available across the United States — and delivers only what matches your profile. No noise, nothing irrelevant.</p>
         </div>
         <div class="step-card" data-step="03">
           <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
@@ -459,56 +458,12 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
     </div>
   </div>
 
-  <!-- WHY US -->
-  <section class="why-section">
-    <div class="s-inner">
-      <div class="eyebrow">Why Season One Healthcare</div>
-      <h2 class="s-h">We work for you,<br/>not the facility.</h2>
-      <p class="s-sub">We flip the traditional model on its head. Instead of working for the facility, our team represents your interests — your goals, your timeline, your terms.</p>
-      <div class="why-grid">
-        <div class="why-card featured">
-          <div class="why-num">01</div>
-          <h3>We Work For You</h3>
-          <p>Unlike a job board or a traditional recruiter working for the facility, our team represents your interests. We source opportunities based on what you want — not what's easiest to fill.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">02</div>
-          <h3>High-Paying Opportunities Only</h3>
-          <p>We focus on contracts and positions that pay competitively. Locum rates, rural premiums, critical shortage bonuses — our agents know where the money is and find it for you.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">03</div>
-          <h3>Free for Life — For PAs</h3>
-          <p>Active PAs and PA students never pay. Our fee comes from the facility at placement. Free while you're in school. Free when you practice. No catch, no tier, no upgrade.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">04</div>
-          <h3>Start Before You Graduate</h3>
-          <p>PA students can join now and start building their opportunity pipeline before they finish their program. The best positions go fast — getting ahead starts early.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">05</div>
-          <h3>Nationwide Reach</h3>
-          <p>Our team sources opportunities across the country — rural facilities, underserved markets, urban health systems — wherever the right role for you exists, we find it.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-num">06</div>
-          <h3>Curated, Not Blasted</h3>
-          <p>You won't receive a flood of irrelevant listings. Every opportunity is reviewed against your profile, preferences, and goals before it ever reaches your inbox.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA -->
   <section class="cta-section">
     <div class="cta-box">
       <h2>Stop searching.<br/>Let us do it for you.</h2>
       <p>Join free today and our team gets to work on your behalf. High-paying contracts and direct hire opportunities, delivered to you.</p>
-      <div class="cta-form">
-        <input class="cta-input" type="email" id="cta-email" placeholder="Enter your email address"/>
-        <button class="cta-btn" onclick="ctaSubmit()">Get Started Free &rarr;</button>
-      </div>
+      <a href="subscribe.html" class="cta-btn" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none">Get Started Now &rarr;</a>
     </div>
   </section>
 </div>
@@ -529,7 +484,7 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
           <div class="eyebrow">Our Story</div>
           <h2 class="s-h">Built to Represent You</h2>
           <p>The PA job market is full of job boards, generic recruiters, and platforms built to serve facilities — not clinicians. PAs spend dozens of hours searching, applying, and negotiating alone, while the facilities they're applying to have HR departments, compensation consultants, and legal teams working on their side.</p>
-          <p>Season One Healthcare was founded to change that dynamic. Our agents work on your behalf — sourcing opportunities, vetting facilities, and identifying the highest-paying contracts and direct hire positions across the country so you don't have to go looking for them.</p>
+          <p>Season One Healthcare was founded to change that dynamic. Our agents work on your behalf — sourcing opportunities, vetting facilities, and identifying the highest-paying contracts and direct hire positions available across the United States so you don't have to go looking for them.</p>
           <p>The name reflects where we are: this is our first season. We're building something deliberately, one PA and one placement at a time, with a commitment to always keeping our service free for the clinicians we represent.</p>
           <div class="values-grid">
             <div class="val-item"><h4>We Work For You</h4><p>Our team answers to you, not the facility. Your goals, your preferences, your terms drive everything we do.</p></div>
@@ -548,7 +503,7 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
             <div class="mission-items">
               <div class="mission-item">
                 <div class="mission-num">01</div>
-                <div><h4>Market Intelligence</h4><p>Our team tracks compensation trends, facility needs, and contract premiums nationwide — so you know what you should be earning.</p></div>
+                <div><h4>Market Intelligence</h4><p>Our team tracks compensation trends, facility needs, and contract premiums across the United States — so you know what you should be earning.</p></div>
               </div>
               <div class="mission-item">
                 <div class="mission-num">02</div>
@@ -708,54 +663,6 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
     </div>
   </section>
 
-  <!-- SECTION 3: WHAT WE DO AND DON'T PROMISE -->
-  <section class="section">
-    <div class="s-inner">
-      <div class="eyebrow">What We Actually Deliver</div>
-      <h2 class="s-h">What Season One Healthcare<br/>can and cannot promise</h2>
-      <p class="s-sub" style="margin-bottom:48px">We believe in being direct with you. Here is exactly what we deliver &mdash; and what we do not claim.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
-        <div style="border:2px solid #bbf7d0;border-radius:12px;padding:28px;background:#f0fdf4">
-          <div style="font-size:12px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">&#10003; What We Do</div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="display:flex;gap:10px;font-size:14px;color:#166534"><span style="flex-shrink:0;font-weight:700">&#10003;</span><span>Search the market and bring opportunities to you &mdash; so you don&rsquo;t spend time on job boards</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#166534"><span style="flex-shrink:0;font-weight:700">&#10003;</span><span>Share real market compensation data from verified sources so you know what to expect</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#166534"><span style="flex-shrink:0;font-weight:700">&#10003;</span><span>Surface locum and contract opportunities that frequently pay above permanent positions</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#166534"><span style="flex-shrink:0;font-weight:700">&#10003;</span><span>Connect you directly with facilities actively looking to hire PAs</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#166534"><span style="flex-shrink:0;font-weight:700">&#10003;</span><span>Flag NHSC loan repayment-eligible facilities for qualifying PAs</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#166534"><span style="flex-shrink:0;font-weight:700">&#10003;</span><span>Provide all of this at no cost to active PAs and PA students</span></div>
-          </div>
-        </div>
-        <div style="border:2px solid #fecaca;border-radius:12px;padding:28px;background:#fef2f2">
-          <div style="font-size:12px;font-weight:700;color:#991b1b;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">&#10007; What We Don&rsquo;t Promise</div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="display:flex;gap:10px;font-size:14px;color:#991b1b"><span style="flex-shrink:0;font-weight:700">&#10007;</span><span>We cannot guarantee you will receive a job offer or be placed in any position</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#991b1b"><span style="flex-shrink:0;font-weight:700">&#10007;</span><span>We cannot guarantee any specific compensation figure &mdash; final offers are set by the facility</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#991b1b"><span style="flex-shrink:0;font-weight:700">&#10007;</span><span>We do not negotiate contracts on your behalf or act as your legal representative</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#991b1b"><span style="flex-shrink:0;font-weight:700">&#10007;</span><span>We do not provide legal, financial, or career advice</span></div>
-            <div style="display:flex;gap:10px;font-size:14px;color:#991b1b"><span style="flex-shrink:0;font-weight:700">&#10007;</span><span>Market data on this page reflects published averages &mdash; your actual offers may differ</span></div>
-          </div>
-        </div>
-      </div>
-      <div style="background:var(--navy);border-radius:12px;padding:32px">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px">
-          <div>
-            <div style="font-size:11px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Market Knowledge</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.75">Most PAs negotiate without knowing what the market actually pays. We give you that data upfront so you walk into every conversation informed.</div>
-          </div>
-          <div>
-            <div style="font-size:11px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Access to Opportunities</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.75">We actively source from rural, underserved, and specialty markets that aren&rsquo;t always well-represented on the major job boards &mdash; including locum and direct hire roles.</div>
-          </div>
-          <div>
-            <div style="font-size:11px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Zero Cost to You</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.75">Active PAs and PA students use our service at no charge. Our placement fee is paid by the facility. You get the information and connections without the cost.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- DATA SOURCES -->
   <section style="padding:40px 0;background:var(--surface);border-top:1px solid var(--border)">
     <div class="s-inner">
@@ -776,16 +683,13 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
     <div class="cta-box">
       <h2>Ready to have a team<br/>working for you?</h2>
       <p>Join free today. Our team starts sourcing opportunities on your behalf immediately.</p>
-      <div class="cta-form">
-        <input class="cta-input" type="email" id="cta-email-why" placeholder="Enter your email address"/>
-        <button class="cta-btn" onclick="ctaSubmitWhy()">Get Started Free &rarr;</button>
-      </div>
+      <a href="subscribe.html" class="cta-btn" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none">Get Started Now &rarr;</a>
     </div>
   </section>
 </div>
 
-<!-- ====== CONTACT ====== -->
-<div id="contact" class="page">
+<!-- CONTACT PAGE REMOVED -->
+<div id="contact" class="page" style="display:none">
   <div class="page-hero">
     <div class="page-hero-inner">
       <div class="eyebrow eyebrow-lt">Contact</div>
@@ -830,7 +734,7 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
           <div class="fg"><label>Specialty or Area of Practice</label><input type="text" placeholder="e.g. Family Medicine, Emergency, Surgery" id="cl-specialty"/></div>
           <div class="fg"><label>Email *</label><input type="email" placeholder="you@email.com" id="cl-email"/></div>
           <div class="fg"><label>Phone</label><input type="tel" placeholder="Your phone number" id="cl-phone"/></div>
-          <div class="fg"><label>Preferred Location or Region</label><input type="text" placeholder="e.g. Southeast, Midwest, open to relocation" id="cl-location"/></div>
+          <div class="fg"><label>Current Location *</label><input type="text" placeholder="City, State — e.g. Seattle, WA" id="cl-location" required/></div>
           <div class="fg"><label>What are you looking for?</label>
             <select id="cl-avail"><option>High-paying locum / contract work</option><option>Permanent direct hire position</option><option>Both — show me everything</option><option>Just starting to explore options</option></select>
           </div>
@@ -857,20 +761,24 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
       <div class="footer-brand">
         <div class="footer-brand-name">Season One Healthcare</div>
         <div class="footer-brand-tag">We Find It. You Choose It.</div>
-        <p>Our team works on your behalf to find high-paying contracts and direct hire opportunities nationwide. Free for active PAs and PA students, always.</p>
+        <p>Our team works on your behalf to find high-paying contracts and direct hire opportunities across the United States. Free for active PAs and PA students, always.</p>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
         <a href="#" onclick="showPage('home');return false">Home</a>
         <a href="#" onclick="showPage('about');return false">About</a>
         <a href="#" onclick="showPage('why');return false">Why It Pays</a>
-        <a href="#" onclick="showPage('contact');return false">Contact</a>
       </div>
       <div class="footer-col">
         <h4>For PAs</h4>
-        <a href="subscribe.html">Find My Next Opportunity</a>
+        <a href="subscribe.html">Join Free</a>
         <a href="unsubscribe.html">Unsubscribe</a>
         <a href="mailto:SeasonOneHealthCare@gmail.com">Email Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>For Facilities</h4>
+        <a href="facilities.html">Submit a Role</a>
+        <a href="mailto:SeasonOneHealthCare@gmail.com">Contact Us</a>
       </div>
     </div>
     <div class="footer-bottom">

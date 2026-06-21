@@ -64,18 +64,18 @@ footer a:hover{color:rgba(255,255,255,.7)}
   <div class="page-inner">
     <div class="left">
       <div class="left-badge"><span class="badge-dot"></span>Free for Active PAs &amp; PA Students — Nationwide</div>
-      <h1>We Find The<br/>Opportunities <em>For You.<\/em></h1>
+      <h1>We Find The<br/>Opportunities <em>For You</h1>
       <p class="left-sub">Join free and our team immediately gets to work on your behalf — sourcing high-paying contracts and direct hire opportunities nationwide, so you can stop searching and start choosing.</p>
       <ul class="benefit-list">
         <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>High-paying contracts and direct hire positions, sourced for you</li>
         <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Our team works on your behalf — you never search a job board again</li>
         <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Free for active PAs and PA students — our fee comes from the facility</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Nationwide reach — rural, underserved, urban, and specialty markets</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Opportunities sourced across the entire United States</li>
         <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Unsubscribe anytime. No pressure, no spam.</li>
       </ul>
     </div>
     <div class="form-card">
-      <h2>Get Your Free Agent</h2>
+      <h2>Let's Get Started</h2>
       <p class="sub">Tell us what you're looking for. Our agents get to work on your behalf immediately.</p>
       <div class="fg"><label>First Name *</label><input type="text" id="sub-first" placeholder="Your first name"/></div>
       <div class="fg"><label>Last Name *</label><input type="text" id="sub-last" placeholder="Your last name"/></div>
@@ -83,13 +83,14 @@ footer a:hover{color:rgba(255,255,255,.7)}
       <div class="fg"><label>I am currently a</label>
         <select id="sub-status"><option value="PA-C">PA-C — actively practicing</option><option value="PA Student">PA Student — still in school</option></select>
       </div>
+      <div class="fg"><label>Current Location * <span style="font-size:11px;color:#6b7280;font-weight:400">(required)</span></label><input type="text" id="sub-location2" placeholder="City, State — e.g. Seattle, WA" required/></div>
       <div class="fg"><label>Primary Specialty or Interest Area</label><input type="text" id="sub-specialty" placeholder="e.g. Family Medicine, Emergency, Surgery"/></div>
       <div class="fg"><label>State or Region</label><input type="text" id="sub-location" placeholder="e.g. Southeast, Midwest, Open to relocation"/></div>
       <div class="consent-row">
         <input type="checkbox" id="sub-consent"/>
         <label for="sub-consent">I agree to receive email updates, job listings, and announcements from Season One Healthcare. This is free and I can <a href="unsubscribe.html">unsubscribe at any time</a>. See our <a href="privacy.html">Privacy Policy</a>.</label>
       </div>
-      <button class="btn-submit" id="sub-btn" onclick="submitSubscribe()">Find My Opportunities Free</button>
+      <button class="btn-submit" id="sub-btn" onclick="submitSubscribe()">Let's Connect</button>
       <p class="form-note">No commitment. No spam. Unsubscribe any time.</p>
       <div class="success-box" id="sub-success"><h3>We are on it.</h3><p>Welcome to Season One. Our agents will be in touch shortly to start sourcing opportunities on your behalf.</p></div>
     </div>
@@ -104,8 +105,8 @@ function submitSubscribe(){
   if(!consent){alert('Please check the consent box to join the list.');return;}
   var btn=document.getElementById('sub-btn');btn.disabled=true;btn.textContent='Submitting...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'New PA List Subscriber — Season One Healthcare',from_name:'Season One Healthcare Subscribe Page',first_name:first,last_name:last,email:email,status:document.getElementById('sub-status').value,specialty:document.getElementById('sub-specialty').value,location:document.getElementById('sub-location').value,consent:'Yes — subscribed via subscribe.html'})})
-  .then(r=>r.json()).then(d=>{if(d.success){document.getElementById('sub-success').style.display='block';btn.style.display='none';['sub-first','sub-last','sub-email','sub-specialty','sub-location'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});}else{alert('Something went wrong. Please email us at SeasonOneHealthCare@gmail.com');btn.disabled=false;btn.textContent="Find My Opportunities Free";}})
-  .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent="Find My Opportunities Free";});
+  .then(r=>r.json()).then(d=>{if(d.success){document.getElementById('sub-success').style.display='block';btn.style.display='none';['sub-first','sub-last','sub-email','sub-specialty','sub-location'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});}else{alert('Something went wrong. Please email us at SeasonOneHealthCare@gmail.com');btn.disabled=false;btn.textContent="Let's Connect";}})
+  .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent="Let's Connect";});
 }
 </script>
 </body>
