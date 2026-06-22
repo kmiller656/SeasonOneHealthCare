@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/><meta name="theme-color" content="#0f1923"/>
 <title>Your Personal PA Agent | Season One Healthcare</title>
-<meta name="description" content="Season One Healthcare agents work on your behalf to find high-paying PA contracts and direct hire opportunities nationwide. Free for PAs and PA students."/>
+<meta name="description" content="Season One Healthcare works on your behalf to find high-paying PA contracts and direct hire opportunities across the United States. Free for PAs and PA students."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -340,7 +340,7 @@ footer{background:var(--navy-footer);padding:48px 24px 28px}
               <div class="dash-item">&#9632; Locum Work</div>
               <div class="dash-sec">My Profile</div>
               <div class="dash-item">&#9632; Preferences</div>
-              <div class="dash-item">&#9632; My Agent</div>
+              <div class="dash-item">&#9632; My Team</div>
             </div>
             <div class="dash-main">
               <div class="dash-title">Your Opportunities This Week</div>
@@ -807,10 +807,10 @@ function submitForm(type){
     .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
   } else {
     var n2=document.getElementById('cl-name').value,e2=document.getElementById('cl-email').value;
-    if(!n2||!e2){alert('Please fill in your Name and Email.');btn.disabled=false;btn.textContent='Get My Free Agent →';return;}
+    if(!n2||!e2){alert('Please fill in your Name and Email.');btn.disabled=false;btn.textContent='Submit My Profile';return;}
     fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'New PA Opportunity Request — Season One Healthcare',from_name:'Season One Healthcare Website',name:n2,credential:document.getElementById('cl-cred').value,specialty:document.getElementById('cl-specialty').value,email:e2,phone:document.getElementById('cl-phone').value,location:document.getElementById('cl-location').value,looking_for:document.getElementById('cl-avail').value,compensation_goal:document.getElementById('cl-comp').value,notes:document.getElementById('cl-notes').value})})
-    .then(r=>r.json()).then(d=>{if(d.success)document.getElementById('cl-success').style.display='block';else alert('Something went wrong. Please email us directly.');btn.disabled=false;btn.textContent='Get My Free Agent →';})
-    .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent='Get My Free Agent →';});
+    .then(r=>r.json()).then(d=>{if(d.success)document.getElementById('cl-success').style.display='block';else alert('Something went wrong. Please email us directly.');btn.disabled=false;btn.textContent='Submit My Profile';})
+    .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent='Submit My Profile';});
   }
 }
 </script>
