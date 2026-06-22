@@ -186,5 +186,22 @@ function submitFacility(){
   .catch(()=>{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
 }
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesFac" async defer></script>
+<script>
+function initPlacesFac() {
+  var el = document.getElementById('fac-location');
+  if (!el) return;
+  var ac = new google.maps.places.Autocomplete(el, {
+    types: ['(cities)'],
+    componentRestrictions: { country: 'us' },
+    fields: ['formatted_address', 'name']
+  });
+  ac.addListener('place_changed', function() {
+    var place = ac.getPlace();
+    if (place.name) el.value = place.name + (place.formatted_address ? ', ' + place.formatted_address.split(',').slice(-2).join(',').trim() : '');
+  });
+}
+</script>
 </body>
 </html>

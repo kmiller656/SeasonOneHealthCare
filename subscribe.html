@@ -109,5 +109,28 @@ function submitSubscribe(){
   .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent="Let's Connect";});
 }
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesSub" async defer></script>
+<script>
+function initPlacesSub() {
+  var fields = [
+    { id: 'sub-location2', types: ['(cities)'] },
+    { id: 'sub-location',  types: ['(regions)'] }
+  ];
+  fields.forEach(function(f) {
+    var el = document.getElementById(f.id);
+    if (!el) return;
+    var ac = new google.maps.places.Autocomplete(el, {
+      types: f.types,
+      componentRestrictions: { country: 'us' },
+      fields: ['formatted_address', 'name']
+    });
+    ac.addListener('place_changed', function() {
+      var place = ac.getPlace();
+      if (place.name) el.value = place.name + (place.formatted_address ? ', ' + place.formatted_address.split(',').slice(-2).join(',').trim() : '');
+    });
+  });
+}
+</script>
 </body>
 </html>

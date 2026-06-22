@@ -814,5 +814,30 @@ function submitForm(type){
   }
 }
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesIdx" async defer></script>
+<script>
+function initPlacesIdx() {
+  var locationFields = [
+    'cl-location',
+    'hf-role'
+  ];
+  // Location fields that should get city autocomplete
+  var cityFields = ['cl-location'];
+  cityFields.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var ac = new google.maps.places.Autocomplete(el, {
+      types: ['(cities)'],
+      componentRestrictions: { country: 'us' },
+      fields: ['formatted_address', 'name']
+    });
+    ac.addListener('place_changed', function() {
+      var place = ac.getPlace();
+      if (place.name) el.value = place.name + (place.formatted_address ? ', ' + place.formatted_address.split(',').slice(-2).join(',').trim() : '');
+    });
+  });
+}
+</script>
 </body>
 </html>
