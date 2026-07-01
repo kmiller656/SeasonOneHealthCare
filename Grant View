@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recent Rural Health Grant Awards — Season One Healthcare</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --navy: #0a1f3d;
+    --navy-mid: #14335e;
+    --blue: #1d4ed8;
+    --line: #d7dce3;
+    --bg: #f6f7f9;
+    --text: #1a2431;
+    --muted: #5b6472;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 40px 20px;
+  }
+
+  .panel {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .panel-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .panel-header h1 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--navy);
+  }
+
+  .panel-header .source {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .panel-header .source a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+
+  .filters {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filters select, .filters button {
+    font-family: inherit;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 6px 10px;
+    color: var(--text);
+  }
+
+  .filters button {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+    cursor: pointer;
+  }
+
+  .filters button:hover { background: var(--navy-mid); }
+
+  .rows { min-height: 120px; }
+
+  .row {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row:last-child { border-bottom: none; }
+
+  .row-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .recipient {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .amount {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    white-space: nowrap;
+  }
+
+  .meta {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .desc {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .state {
+    padding: 40px 28px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .footer-note {
+    padding: 14px 28px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <div class="panel-header">
+    <h1>Recent Rural Health Grant Awards</h1>
+    <span class="source">Live from <a href="https://www.usaspending.gov" target="_blank">USASpending.gov</a></span>
+  </div>
+
+  <div class="filters">
+    <select id="program">
+      <option value="93.224">HRSA Health Center Program (93.224)</option>
+      <option value="93.913">HRSA Rural Health Workforce (93.913)</option>
+      <option value="93.162">NHSC Loan Repayment (93.162)</option>
+      <option value="93.970">IHS Workforce Development (93.970)</option>
+    </select>
+    <select id="state">
+      <option value="WA">Washington</option>
+      <option value="OR">Oregon</option>
+      <option value="ID">Idaho</option>
+      <option value="MT">Montana</option>
+      <option value="AK">Alaska</option>
+    </select>
+    <button id="load">Search Awards</button>
+  </div>
+
+  <div class="rows" id="rows">
+    <div class="state">Select a program and state, then search.</div>
+  </div>
+
+  <div class="footer-note">
+    Data sourced directly from the USASpending.gov public API. Amounts reflect total obligation, not confirmed staffing spend.
+  </div>
+</div>
+
+<script>
+const rowsEl = document.getElementById('rows');
+const loadBtn = document.getElementById('load');
+
+function fmtMoney(n) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+async function loadAwards() {
+  const program = document.getElementById('program').value;
+  const state = document.getElementById('state').value;
+
+  rowsEl.innerHTML = '<div class="state">Loading recent awards…</div>';
+
+  const body = {
+    filters: {
+      award_type_codes: ["02", "03", "04", "05"],
+      time_period: [{ start_date: "2025-10-01", end_date: "2026-06-30" }],
+      program_numbers: [program],
+      place_of_performance_locations: [{ country: "USA", state: state }]
+    },
+    fields: ["Award ID", "Recipient Name", "Award Amount", "Start Date", "Awarding Agency", "Description"],
+    page: 1,
+    limit: 10,
+    sort: "Award Amount",
+    order: "desc"
+  };
+
+  try {
+    const res = await fetch('https://api.usaspending.gov/api/v2/search/spending_by_award/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) throw new Error('Request failed: ' + res.status);
+
+    const data = await res.json();
+    const results = data.results || [];
+
+    if (results.length === 0) {
+      rowsEl.innerHTML = '<div class="state">No awards found for this program and state in the selected window.</div>';
+      return;
+    }
+
+    rowsEl.innerHTML = results.map(r => `
+      <div class="row">
+        <div class="row-top">
+          <span class="recipient">${(r['Recipient Name'] || 'Unknown Recipient')}</span>
+          <span class="amount">${fmtMoney(r['Award Amount'] || 0)}</span>
+        </div>
+        <div class="meta">${r['Awarding Agency'] || ''} · Awarded ${fmtDate(r['Start Date'])} · ${r['Award ID'] || ''}</div>
+        ${r['Description'] ? `<div class="desc">${r['Description']}</div>` : ''}
+      </div>
+    `).join('');
+
+  } catch (err) {
+    rowsEl.innerHTML = `<div class="state">Couldn't load awards right now (${err.message}). The USASpending API may be temporarily unavailable — try again shortly.</div>`;
+  }
+}
+
+loadBtn.addEventListener('click', loadAwards);
+</script>
+
+</body>
+</html>
