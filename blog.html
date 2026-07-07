@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unsubscribe from Season One Healthcare email communications." />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://seasononehealthcare.com/unsubscribe.html" />
+  <meta name="description" content="Insights for healthcare recruiters on sourcing verified PA contacts, HRSA and rural health grant programs, and the PA job market." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/blog.html" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-  <title>Unsubscribe | Season One Healthcare</title>
+  <title>Blog | Season One Healthcare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -17,7 +17,6 @@
 </head>
 <body class="rsr-page">
 
-<!-- NAV -->
 <nav class="rsr-nav">
   <div class="rsr-nav-inner">
     <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
@@ -65,19 +64,38 @@
   </div>
 </div>
 
-<!-- FORM -->
-<section class="rsr-form-section">
-  <div class="rsr-form-inner" style="text-align:center;">
-    <h1 class="rsr-h2">Unsubscribe</h1>
-    <p style="color:var(--rsr-text);margin-bottom:32px;">Enter your email address below and we'll remove you from all Season One Healthcare communications immediately. No questions, no follow-ups.</p>
+<!-- HERO -->
+<section class="rsr-hero" style="min-height:50vh;">
+  <div class="rsr-ph" data-caption="Photo 15 — Blog Hero"></div>
+  <div class="rsr-hero-overlay"></div>
+  <div class="rsr-hero-inner">
+    <h1>Blog</h1>
+  </div>
+</section>
 
-    <div class="rsr-form-success" id="unsub-success" style="text-align:left;">
-      <strong>You've been removed.</strong> Your email has been unsubscribed. You won't receive any further emails from Season One Healthcare. If you change your mind, you can always <a href="/subscribe.html" style="color:var(--rsr-blue-cta);">re-join the list</a>.
+<!-- POST GRID -->
+<section class="rsr-blog-section">
+  <div class="rsr-blog-section-inner">
+    <div class="rsr-post-grid">
+      <a class="rsr-post-card" href="/blog/verified-pa-contacts.html" style="color:inherit;">
+        <div class="rsr-ph" data-caption="Photo 4 — Blog Thumbnail 1"></div>
+        <div class="rsr-post-card-title">How to Source Verified PA Contacts Without Wasting Budget</div>
+        <div class="rsr-post-card-date">2026</div>
+        <div class="rsr-post-card-excerpt">Bounced emails don't just waste a credit — they damage your sender reputation. Here's what "verified" should actually mean before you spend outreach budget on a contact.</div>
+      </a>
+      <a class="rsr-post-card" href="/blog/hrsa-rural-grant-programs-guide.html" style="color:inherit;">
+        <div class="rsr-ph" data-caption="Photo 5 — Blog Thumbnail 2"></div>
+        <div class="rsr-post-card-title">A Recruiter's Guide to HRSA and Rural Health Grant Programs</div>
+        <div class="rsr-post-card-date">2026</div>
+        <div class="rsr-post-card-excerpt">A newly funded rural health center isn't just a headline — it's a facility with budget and a staffing mandate. Here's how to read HRSA and rural grant data as a sourcing signal.</div>
+      </a>
+      <a class="rsr-post-card" href="/blog/pa-job-market-outlook.html" style="color:inherit;">
+        <div class="rsr-ph" data-caption="Photo 6 — Blog Thumbnail 3"></div>
+        <div class="rsr-post-card-title">PA Job Growth Through 2034: What It Means for Recruiters</div>
+        <div class="rsr-post-card-date">2026</div>
+        <div class="rsr-post-card-excerpt">The PA workforce is projected to grow 20% through 2034. What that growth curve means for sourcing strategy today.</div>
+      </a>
     </div>
-
-    <div class="rsr-form-group" style="text-align:left;"><label>Email Address *</label><input type="email" id="unsub-email" placeholder="The email you subscribed with" /></div>
-    <button class="rsr-btn rsr-btn-blue" style="width:100%;" id="unsub-btn" onclick="submitUnsub()">Remove Me from the List</button>
-    <p style="font-size:12px;color:var(--rsr-text);margin-top:14px;">We'll process your request right away. You will not receive any further emails from us.</p>
   </div>
 </section>
 
@@ -113,16 +131,5 @@
 </footer>
 
 <script src="/assets/site.js"></script>
-<script>
-var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
-function submitUnsub(){
-  var email=document.getElementById('unsub-email').value.trim();
-  if(!email){alert('Please enter your email address.');return;}
-  var btn=document.getElementById('unsub-btn');btn.disabled=true;btn.textContent='Processing...';
-  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Unsubscribe Request — Season One Healthcare',from_name:'Season One Healthcare Unsubscribe Page',email:email,action:'UNSUBSCRIBE — Please remove this email from all lists'})})
-  .then(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';})
-  .catch(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';});
-}
-</script>
 </body>
 </html>

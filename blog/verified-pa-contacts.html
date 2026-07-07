@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unsubscribe from Season One Healthcare email communications." />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://seasononehealthcare.com/unsubscribe.html" />
+  <meta name="description" content="What 'verified' should actually mean before you spend outreach budget on a PA contact — and how to avoid the bounce rates that come with generic candidate databases." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/blog/verified-pa-contacts.html" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-  <title>Unsubscribe | Season One Healthcare</title>
+  <title>How to Source Verified PA Contacts Without Wasting Budget | Season One Healthcare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -17,7 +17,6 @@
 </head>
 <body class="rsr-page">
 
-<!-- NAV -->
 <nav class="rsr-nav">
   <div class="rsr-nav-inner">
     <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
@@ -65,23 +64,30 @@
   </div>
 </div>
 
-<!-- FORM -->
-<section class="rsr-form-section">
-  <div class="rsr-form-inner" style="text-align:center;">
-    <h1 class="rsr-h2">Unsubscribe</h1>
-    <p style="color:var(--rsr-text);margin-bottom:32px;">Enter your email address below and we'll remove you from all Season One Healthcare communications immediately. No questions, no follow-ups.</p>
+<article class="rsr-article">
+  <a href="/blog.html" class="rsr-article-back">&larr; Back to Blog</a>
+  <div class="rsr-article-date">2026</div>
+  <h1>How to Source Verified PA Contacts Without Wasting Budget</h1>
+  <div class="rsr-ph" data-caption="Photo 4 — Blog Post 1 Featured Image"></div>
 
-    <div class="rsr-form-success" id="unsub-success" style="text-align:left;">
-      <strong>You've been removed.</strong> Your email has been unsubscribed. You won't receive any further emails from Season One Healthcare. If you change your mind, you can always <a href="/subscribe.html" style="color:var(--rsr-blue-cta);">re-join the list</a>.
-    </div>
+  <p>Every recruiter has felt this: you spend an afternoon building an outreach list, send your first sequence, and half of it bounces. The list looked fine. It just wasn't verified — and now your sender reputation has taken a hit before your first real conversation even started.</p>
 
-    <div class="rsr-form-group" style="text-align:left;"><label>Email Address *</label><input type="email" id="unsub-email" placeholder="The email you subscribed with" /></div>
-    <button class="rsr-btn rsr-btn-blue" style="width:100%;" id="unsub-btn" onclick="submitUnsub()">Remove Me from the List</button>
-    <p style="font-size:12px;color:var(--rsr-text);margin-top:14px;">We'll process your request right away. You will not receive any further emails from us.</p>
-  </div>
-</section>
+  <p>For Physician Assistant recruiting specifically, this problem is worse than average. PAs move between practices, health systems consolidate, and general-purpose contact databases update on their own schedule, not yours. A record that was accurate six months ago can be dead today.</p>
 
-<!-- FOOTER -->
+  <h2>What "verified" should actually mean</h2>
+  <p>Not every database that claims to be verified means the same thing by it. At minimum, a contact should have been checked for:</p>
+  <ul>
+    <li><strong>Deliverability</strong> — has the mail server actually accepted mail for this address recently, not just "does it look like a valid email format."</li>
+    <li><strong>Recency</strong> — when was this contact last confirmed, and is the record refreshed on an ongoing basis?</li>
+    <li><strong>Professional vs. student status</strong> — are you reaching a practicing PA or a PA student, and is that clearly labeled before you spend a credit?</li>
+  </ul>
+
+  <h2>Why PA-specific data beats general databases</h2>
+  <p>General recruiting databases mix PA contacts in with millions of records across every profession. You end up filtering more than recruiting. A database built specifically around the PA workforce — sourced through professional channels and verified on an ongoing basis — gets you to a usable list faster, with fewer dead ends.</p>
+
+  <p>That's the model Our PA contact database is built on: every contact is run through third-party deliverability verification before it's ever revealed to a subscriber, and professional and student records are clearly labeled so you know exactly who you're reaching. <a href="https://app.seasononehealthcare.com/register?role=recruiter">Start a free trial</a> to see it against your own target list.</p>
+</article>
+
 <footer class="rsr-footer">
   <div class="rsr-footer-inner">
     <div class="rsr-footer-top">
@@ -113,16 +119,5 @@
 </footer>
 
 <script src="/assets/site.js"></script>
-<script>
-var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
-function submitUnsub(){
-  var email=document.getElementById('unsub-email').value.trim();
-  if(!email){alert('Please enter your email address.');return;}
-  var btn=document.getElementById('unsub-btn');btn.disabled=true;btn.textContent='Processing...';
-  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Unsubscribe Request — Season One Healthcare',from_name:'Season One Healthcare Unsubscribe Page',email:email,action:'UNSUBSCRIBE — Please remove this email from all lists'})})
-  .then(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';})
-  .catch(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';});
-}
-</script>
 </body>
 </html>

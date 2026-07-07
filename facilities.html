@@ -1,157 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>For Facilities | Season One Healthcare</title>
-<meta name="description" content="Partner with Season One Healthcare to find qualified Physician Assistants for permanent, locum, and contract positions. Submit your open role today."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--navy:#0f1923;--navy-footer:#080e16;--blue:#2563eb;--blue-dark:#1d4ed8;--blue-light:#eff6ff;--blue-border:#bfdbfe;--text-mid:#374151;--text-muted:#6b7280;--border:#e5e7eb;--surface:#f8faff;--white:#ffffff;}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;color:var(--navy);background:var(--white);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-h1,h2,h3{font-weight:800;letter-spacing:-0.04em;line-height:1.08}
-nav{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:1100px;margin:0 auto;padding:0 24px}
-.nav-brand{display:flex;flex-direction:column;line-height:1;cursor:pointer}
-.nav-brand-name{font-size:18px;font-weight:800;letter-spacing:-0.04em;color:var(--navy)}
-.nav-brand-name span{color:var(--blue)}
-.nav-brand-tag{font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
-.nav-back{font-size:13px;color:var(--text-muted);font-weight:600;transition:color .15s}
-.nav-back:hover{color:var(--blue)}
-/* PAGE WRAP - matches subscribe.html gradient */
-.page-wrap{background:linear-gradient(135deg,#f0f5ff 0%,#e8f0fe 40%,#f5f8ff 100%);min-height:calc(100vh - 68px);display:flex;align-items:center;position:relative;overflow:hidden}
-.page-wrap::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 70%);pointer-events:none}
-.page-inner{width:100%;max-width:1100px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:2}
-/* LEFT */
-.left-badge{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--blue-border);color:var(--blue-dark);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:24px}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
-.left h1{font-size:clamp(36px,5vw,52px);color:var(--navy);margin-bottom:16px}
-.left h1 em{color:var(--blue);font-style:normal}
-.left-sub{color:var(--text-muted);font-size:15px;line-height:1.8;margin-bottom:28px;max-width:420px}
-.benefit-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-.benefit-list li{display:flex;align-items:flex-start;gap:10px;color:var(--text-mid);font-size:14px;line-height:1.65}
-.benefit-list li svg{color:var(--blue);flex-shrink:0;margin-top:3px}
-/* FORM CARD */
-.form-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:40px 36px;box-shadow:0 8px 40px rgba(37,99,235,0.08)}
-.form-card h2{font-size:22px;color:var(--navy);margin-bottom:6px}
-.form-card .sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
-.fg{margin-bottom:13px}
-.fg label{display:block;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
-.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:var(--navy);background:var(--white);outline:none;transition:border .2s}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue)}
-.fg textarea{resize:vertical}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn-submit{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:9px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
-.btn-submit:hover{background:var(--blue-dark);transform:translateY(-1px)}
-.btn-submit:disabled{opacity:.6;cursor:not-allowed}
-.form-note{font-size:11px;color:var(--text-muted);text-align:center;margin-top:10px}
-.success-box{display:none;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;border-radius:8px;padding:20px;text-align:center;margin-top:16px}
-.success-box h3{font-size:18px;margin-bottom:6px;font-weight:700;letter-spacing:-0.02em}
-.success-box p{font-size:13px}
-footer{background:var(--navy-footer);padding:24px;text-align:center}
-footer p{color:rgba(255,255,255,.35);font-size:12px}
-footer a{color:rgba(255,255,255,.35);margin:0 10px}
-footer a:hover{color:rgba(255,255,255,.7)}
-@media(max-width:900px){.page-inner{grid-template-columns:1fr;gap:40px;padding:48px 20px}.form-card{padding:28px 22px}.form-row{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Partner with Season One Healthcare to find qualified Physician Assistants for permanent, locum, and contract positions. Submit your open role today." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/facilities.html" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
+  <title>For Facilities | Season One Healthcare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none">
-      <div class="nav-brand">
-        <div class="nav-brand-name">Season One Healthcare</div>
-        <div class="nav-brand-tag">We Find It. You Choose It.</div>
-      </div>
-    </a>
-    <div style="display:flex;align-items:center;gap:14px">
-      <a href="https://app.seasononehealthcare.com/login" class="nav-back">Sign In</a>
-      <a class="nav-back" href="index.html">&larr; Back to site</a>
-    </div>
+<body class="rsr-page">
+
+<!-- NAV -->
+<nav class="rsr-nav">
+  <div class="rsr-nav-inner">
+    <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
+    <button class="rsr-burger" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
-<div class="page-wrap">
-  <div class="page-inner">
-    <div class="left">
-      <div class="left-badge"><span class="badge-dot"></span>For Healthcare Facilities</div>
-      <h1>Find the Right PA<br/>for Your <em>Facility.</em></h1>
-      <p class="left-sub">Tell us about your open role and our team gets to work — identifying, screening, and presenting qualified Physician Assistants who are the right fit for your facility, your patients, and your community.</p>
-      <ul class="benefit-list">
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>We source qualified PA-Cs and PA candidates across the United States</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Permanent placement, locum tenens, and contract roles</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Candidates pre-screened for active licensure and clinical fit</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>We handle candidate outreach, screening, and presentation</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>One-time placement fee — paid only upon successful hire</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>We respond within one business day</li>
-      </ul>
-    </div>
-
-    <div class="form-card">
-      <h2>Submit Your Open Role</h2>
-      <p class="sub">Tell us what you need and our team will be in touch within one business day to discuss next steps. No commitment required.</p>
-
-      <div class="fg"><label>Facility Name *</label><input type="text" id="fac-name" placeholder="e.g. Valley Medical Center"/></div>
-      <div class="fg"><label>Facility Type</label>
-        <select id="fac-type">
-          <option>Hospital</option>
-          <option>Critical Access Hospital (CAH)</option>
-          <option>Federally Qualified Health Center (FQHC)</option>
-          <option>Rural Health Clinic (RHC)</option>
-          <option>Tribal Health Clinic</option>
-          <option>Independent or Specialty Clinic</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="fg"><label>Facility Location *</label><input type="text" id="fac-location" placeholder="City, State — e.g. Spokane, WA" required/></div>
-      <div class="form-row">
-        <div class="fg"><label>Your Name *</label><input type="text" id="fac-contact" placeholder="Your full name"/></div>
-        <div class="fg"><label>Your Title</label><input type="text" id="fac-title" placeholder="e.g. HR Director, CMO"/></div>
-      </div>
-      <div class="fg"><label>Email *</label><input type="email" id="fac-email" placeholder="you@facility.org"/></div>
-      <div class="fg"><label>Phone</label><input type="tel" id="fac-phone" placeholder="Your phone number"/></div>
-      <div class="fg"><label>Role(s) You Need to Fill</label><input type="text" id="fac-role" placeholder="e.g. PA-C, Family Medicine, Emergency, Surgery"/></div>
-      <div class="fg"><label>Position Type</label>
-        <select id="fac-pos-type">
-          <option>Permanent / Direct Hire</option>
-          <option>Locum Tenens / Temporary</option>
-          <option>Contract</option>
-          <option>Multiple — let's discuss</option>
-        </select>
-      </div>
-      <div class="fg"><label>Hiring Timeline</label>
-        <select id="fac-timeline">
-          <option>ASAP — urgent need</option>
-          <option>Within 30 days</option>
-          <option>1–3 months</option>
-          <option>Planning ahead (3+ months)</option>
-        </select>
-      </div>
-      <div class="fg"><label>Compensation Range (optional)</label><input type="text" id="fac-comp" placeholder="e.g. $140k–$160k, $120/hr, open to discuss"/></div>
-      <div class="fg"><label>Additional Notes</label><textarea rows="3" id="fac-notes" placeholder="Patient population, specialty requirements, setting details, or anything else we should know..."></textarea></div>
-
-      <button class="btn-submit" id="fac-btn" onclick="submitFacility()">Submit — We'll Be In Touch</button>
-      <p class="form-note">We respond within 1 business day. No commitment required. Your information is kept confidential.</p>
-      <div class="success-box" id="fac-success">
-        <h3>We've received your submission.</h3>
-        <p>Our team will be in touch within one business day to discuss your open role and next steps.</p>
+<div class="rsr-overlay">
+  <button class="rsr-overlay-close" aria-label="Close menu">&times;</button>
+  <div class="rsr-overlay-inner">
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">For PAs</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/index.html">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/why-it-pays.html">Why It Pays</a>
       </div>
     </div>
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">For Employers</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/facilities.html">For Facilities</a>
+        <a href="/for-recruiters.html">For Recruiters</a>
+        <a href="/for-agencies.html">For Staffing Agencies</a>
+      </div>
+    </div>
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">Company</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/blog.html">Blog</a>
+        <a href="/contact-us.html">Contact</a>
+      </div>
+    </div>
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">Resources</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/methodology.html">Data Methodology</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/opt-out.html">Data Removal Request</a>
+      </div>
+    </div>
+    <a href="https://app.seasononehealthcare.com/login" class="rsr-overlay-link">Sign In</a>
+    <a href="/subscribe.html" class="rsr-overlay-cta">Join Free</a>
   </div>
 </div>
 
-<footer>
-  <p>&copy; 2026 Season One Healthcare &nbsp;&middot;&nbsp;
-  <a href="index.html">Home</a>
-  <a href="subscribe.html">Join Free</a>
-  <a href="privacy.html">Privacy Policy</a>
-  <a href="terms.html">Terms of Service</a></p>
+<!-- HERO -->
+<section class="rsr-hero">
+  <div class="rsr-ph" data-caption="Photo 5 — For Facilities Hero"></div>
+  <div class="rsr-hero-overlay"></div>
+  <div class="rsr-hero-inner">
+    <h1>Find the Right PA for Your Facility.</h1>
+    <p class="rsr-hero-sub">Tell us about your open role and our team gets to work — identifying, screening, and presenting qualified Physician Assistants who fit your facility, your patients, and your community.</p>
+    <div class="rsr-hero-actions">
+      <a href="#submit-role" class="rsr-btn rsr-btn-green">Submit Your Open Role</a>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="rsr-benefits">
+  <div class="rsr-benefits-inner">
+    <h2 class="rsr-h2">How We Work With Facilities</h2>
+    <ul>
+      <li>We source qualified PA-Cs and PA candidates across the United States</li>
+      <li>Permanent placement, locum tenens, and contract roles</li>
+      <li>Candidates pre-screened for active licensure and clinical fit</li>
+      <li>We handle candidate outreach, screening, and presentation</li>
+      <li>One-time placement fee — paid only upon successful hire</li>
+      <li>We respond within one business day</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="rsr-form-section" id="submit-role">
+  <div class="rsr-form-inner">
+    <h2 class="rsr-h2" style="text-align:center;">Submit Your Open Role</h2>
+    <p style="text-align:center;color:var(--rsr-text);margin-bottom:32px;">Tell us what you need and our team will be in touch within one business day. No commitment required.</p>
+
+    <div class="rsr-form-success" id="fac-success">
+      <strong>We've received your submission.</strong> Our team will be in touch within one business day to discuss your open role and next steps.
+    </div>
+
+    <div class="rsr-form-group"><label>Facility Name *</label><input type="text" id="fac-name" placeholder="e.g. Valley Medical Center" /></div>
+    <div class="rsr-form-group">
+      <label>Facility Type</label>
+      <select id="fac-type" style="width:100%;padding:13px 14px;border:1px solid var(--rsr-border);border-radius:var(--rsr-radius);font-family:var(--rsr-font);font-size:14.5px;color:var(--rsr-text-dark);">
+        <option>Hospital</option>
+        <option>Critical Access Hospital (CAH)</option>
+        <option>Federally Qualified Health Center (FQHC)</option>
+        <option>Rural Health Clinic (RHC)</option>
+        <option>Tribal Health Clinic</option>
+        <option>Independent or Specialty Clinic</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="rsr-form-group"><label>Facility Location *</label><input type="text" id="fac-location" placeholder="City, State — e.g. Spokane, WA" required /></div>
+    <div class="rsr-form-row">
+      <div class="rsr-form-group"><label>Your Name *</label><input type="text" id="fac-contact" placeholder="Your full name" /></div>
+      <div class="rsr-form-group"><label>Your Title</label><input type="text" id="fac-title" placeholder="e.g. HR Director, CMO" /></div>
+    </div>
+    <div class="rsr-form-group"><label>Email *</label><input type="email" id="fac-email" placeholder="you@facility.org" /></div>
+    <div class="rsr-form-group"><label>Phone</label><input type="tel" id="fac-phone" placeholder="Your phone number" /></div>
+    <div class="rsr-form-group"><label>Role(s) You Need to Fill</label><input type="text" id="fac-role" placeholder="e.g. PA-C, Family Medicine, Emergency, Surgery" /></div>
+    <div class="rsr-form-group">
+      <label>Position Type</label>
+      <select id="fac-pos-type" style="width:100%;padding:13px 14px;border:1px solid var(--rsr-border);border-radius:var(--rsr-radius);font-family:var(--rsr-font);font-size:14.5px;color:var(--rsr-text-dark);">
+        <option>Permanent / Direct Hire</option>
+        <option>Locum Tenens / Temporary</option>
+        <option>Contract</option>
+        <option>Multiple — let's discuss</option>
+      </select>
+    </div>
+    <div class="rsr-form-group">
+      <label>Hiring Timeline</label>
+      <select id="fac-timeline" style="width:100%;padding:13px 14px;border:1px solid var(--rsr-border);border-radius:var(--rsr-radius);font-family:var(--rsr-font);font-size:14.5px;color:var(--rsr-text-dark);">
+        <option>ASAP — urgent need</option>
+        <option>Within 30 days</option>
+        <option>1–3 months</option>
+        <option>Planning ahead (3+ months)</option>
+      </select>
+    </div>
+    <div class="rsr-form-group"><label>Compensation Range (optional)</label><input type="text" id="fac-comp" placeholder="e.g. $140k–$160k, $120/hr, open to discuss" /></div>
+    <div class="rsr-form-group"><label>Additional Notes</label><textarea rows="3" id="fac-notes" placeholder="Patient population, specialty requirements, setting details, or anything else we should know..."></textarea></div>
+
+    <button class="rsr-btn rsr-btn-green" style="width:100%;" id="fac-btn" onclick="submitFacility()">Submit — We'll Be In Touch</button>
+    <p style="font-size:12px;color:var(--rsr-text);text-align:center;margin-top:12px;">We respond within 1 business day. No commitment required. Your information is kept confidential.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="rsr-footer">
+  <div class="rsr-footer-inner">
+    <div class="rsr-footer-top">
+      <div class="rsr-footer-col">
+        <h4>Season One Healthcare</h4>
+        <p>Veteran-owned, clinician-led. We find PA opportunities and connect healthcare recruiters with verified PA contacts — one company, two ways we help.</p>
+      </div>
+      <div class="rsr-footer-col">
+        <h4>For PAs &amp; Facilities</h4>
+        <ul>
+          <li><a href="/index.html">Find Opportunities</a></li>
+          <li><a href="/facilities.html">Submit a Role</a></li>
+          <li><a href="/why-it-pays.html">Why It Pays</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div>
+      <div class="rsr-footer-col">
+        <h4>For Recruiters</h4>
+        <ul>
+          <li><a href="/for-recruiters.html">For Recruiters</a></li>
+          <li><a href="/for-agencies.html">For Staffing Agencies</a></li>
+          <li><a href="/methodology.html">Data Methodology</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="mailto:support@seasononehealthcare.com">support@seasononehealthcare.com</a></div>
+  </div>
 </footer>
 
+<script src="/assets/site.js"></script>
 <script>
 var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
 function submitFacility(){
@@ -189,7 +219,6 @@ function submitFacility(){
   .catch(()=>{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
 }
 </script>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesFac" async defer></script>
 <script>
 function initPlacesFac() {

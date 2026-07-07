@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unsubscribe from Season One Healthcare email communications." />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://seasononehealthcare.com/unsubscribe.html" />
+  <meta name="description" content="The PA workforce is projected to grow 20% through 2034. What that growth curve means for recruiting and sourcing strategy today." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/blog/pa-job-market-outlook.html" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-  <title>Unsubscribe | Season One Healthcare</title>
+  <title>PA Job Growth Through 2034: What It Means for Recruiters | Season One Healthcare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -17,7 +17,6 @@
 </head>
 <body class="rsr-page">
 
-<!-- NAV -->
 <nav class="rsr-nav">
   <div class="rsr-nav-inner">
     <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
@@ -65,23 +64,23 @@
   </div>
 </div>
 
-<!-- FORM -->
-<section class="rsr-form-section">
-  <div class="rsr-form-inner" style="text-align:center;">
-    <h1 class="rsr-h2">Unsubscribe</h1>
-    <p style="color:var(--rsr-text);margin-bottom:32px;">Enter your email address below and we'll remove you from all Season One Healthcare communications immediately. No questions, no follow-ups.</p>
+<article class="rsr-article">
+  <a href="/blog.html" class="rsr-article-back">&larr; Back to Blog</a>
+  <div class="rsr-article-date">2026</div>
+  <h1>PA Job Growth Through 2034: What It Means for Recruiters</h1>
+  <div class="rsr-ph" data-caption="Photo 6 — Blog Post 3 Featured Image"></div>
 
-    <div class="rsr-form-success" id="unsub-success" style="text-align:left;">
-      <strong>You've been removed.</strong> Your email has been unsubscribed. You won't receive any further emails from Season One Healthcare. If you change your mind, you can always <a href="/subscribe.html" style="color:var(--rsr-blue-cta);">re-join the list</a>.
-    </div>
+  <p>The numbers on the Physician Assistant workforce are hard to ignore. As of December 2025, there are roughly 201,000 certified PAs in the United States, according to the NCCPA. The U.S. Bureau of Labor Statistics projects 20% job growth for PAs between 2024 and 2034 — one of the fastest growth rates of any healthcare occupation — with roughly 12,000 new PA openings projected per year through the decade. Median total PA compensation sits around $140,000, per the AAPA's 2026 Salary Report.</p>
 
-    <div class="rsr-form-group" style="text-align:left;"><label>Email Address *</label><input type="email" id="unsub-email" placeholder="The email you subscribed with" /></div>
-    <button class="rsr-btn rsr-btn-blue" style="width:100%;" id="unsub-btn" onclick="submitUnsub()">Remove Me from the List</button>
-    <p style="font-size:12px;color:var(--rsr-text);margin-top:14px;">We'll process your request right away. You will not receive any further emails from us.</p>
-  </div>
-</section>
+  <h2>What this means for sourcing, not just hiring</h2>
+  <p>Fast-growing occupations create a specific recruiting problem: demand outpaces the number of active job seekers. When a role is genuinely competitive, the PAs worth reaching are often not actively browsing job boards — they're employed, doing fine, and only move for the right opportunity presented directly to them.</p>
 
-<!-- FOOTER -->
+  <p>That shifts the job from "post and wait" to "identify and reach out." It means recruiters need two things a job board doesn't give you: a verified way to reach passive candidates directly, and a way to prioritize which opportunities are worth pursuing first.</p>
+
+  <h2>Positioning for a growing market</h2>
+  <p>A market growing at 20% doesn't reward recruiters who wait for candidates to come to them. It rewards recruiters with a direct line to verified contacts and a clear read on which facilities actually have the budget and mandate to hire right now — which is exactly what a PA-specific contact database paired with grant-funding data is built to provide. <a href="https://app.seasononehealthcare.com/register?role=recruiter">Start a free trial</a> to build your pipeline ahead of the demand curve.</p>
+</article>
+
 <footer class="rsr-footer">
   <div class="rsr-footer-inner">
     <div class="rsr-footer-top">
@@ -113,16 +112,5 @@
 </footer>
 
 <script src="/assets/site.js"></script>
-<script>
-var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
-function submitUnsub(){
-  var email=document.getElementById('unsub-email').value.trim();
-  if(!email){alert('Please enter your email address.');return;}
-  var btn=document.getElementById('unsub-btn');btn.disabled=true;btn.textContent='Processing...';
-  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Unsubscribe Request — Season One Healthcare',from_name:'Season One Healthcare Unsubscribe Page',email:email,action:'UNSUBSCRIBE — Please remove this email from all lists'})})
-  .then(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';})
-  .catch(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';});
-}
-</script>
 </body>
 </html>

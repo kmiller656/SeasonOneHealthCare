@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unsubscribe from Season One Healthcare email communications." />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://seasononehealthcare.com/unsubscribe.html" />
+  <meta name="description" content="A newly funded rural health center is a facility with budget and a staffing mandate. Here's how to read HRSA and rural grant data as a sourcing signal." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/blog/hrsa-rural-grant-programs-guide.html" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-  <title>Unsubscribe | Season One Healthcare</title>
+  <title>A Recruiter's Guide to HRSA and Rural Health Grant Programs | Season One Healthcare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -17,7 +17,6 @@
 </head>
 <body class="rsr-page">
 
-<!-- NAV -->
 <nav class="rsr-nav">
   <div class="rsr-nav-inner">
     <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
@@ -65,23 +64,26 @@
   </div>
 </div>
 
-<!-- FORM -->
-<section class="rsr-form-section">
-  <div class="rsr-form-inner" style="text-align:center;">
-    <h1 class="rsr-h2">Unsubscribe</h1>
-    <p style="color:var(--rsr-text);margin-bottom:32px;">Enter your email address below and we'll remove you from all Season One Healthcare communications immediately. No questions, no follow-ups.</p>
+<article class="rsr-article">
+  <a href="/blog.html" class="rsr-article-back">&larr; Back to Blog</a>
+  <div class="rsr-article-date">2026</div>
+  <h1>A Recruiter's Guide to HRSA and Rural Health Grant Programs</h1>
+  <div class="rsr-ph" data-caption="Photo 5 — Blog Post 2 Featured Image"></div>
 
-    <div class="rsr-form-success" id="unsub-success" style="text-align:left;">
-      <strong>You've been removed.</strong> Your email has been unsubscribed. You won't receive any further emails from Season One Healthcare. If you change your mind, you can always <a href="/subscribe.html" style="color:var(--rsr-blue-cta);">re-join the list</a>.
-    </div>
+  <p>Most recruiters watch job boards for signals. Fewer watch federal grant data — which is a missed opportunity, because a facility that just received new federal funding is telling you something a job posting can't: it has confirmed budget, and often a compliance-driven reason to hire.</p>
 
-    <div class="rsr-form-group" style="text-align:left;"><label>Email Address *</label><input type="email" id="unsub-email" placeholder="The email you subscribed with" /></div>
-    <button class="rsr-btn rsr-btn-blue" style="width:100%;" id="unsub-btn" onclick="submitUnsub()">Remove Me from the List</button>
-    <p style="font-size:12px;color:var(--rsr-text);margin-top:14px;">We'll process your request right away. You will not receive any further emails from us.</p>
-  </div>
-</section>
+  <h2>Why grant awards are a hiring signal</h2>
+  <p>Programs like HRSA's Health Center Program, HRSA's Rural Health Workforce grants, the Small Rural Hospital Improvement Program (SHIP), and IHS Workforce Development funding all direct money toward staffing rural and underserved facilities. When a facility receives or renews funding under one of these programs, it frequently comes with an obligation — or at least strong incentive — to expand clinical staff, including PAs.</p>
 
-<!-- FOOTER -->
+  <p>A job posting tells you a facility wants to hire. A recent grant award tells you a facility has the budget to actually do it, and often before the job posting goes live.</p>
+
+  <h2>Reading the data correctly</h2>
+  <p>Federal award data has a wrinkle worth knowing about: continuously renewed grants (common for community health centers) can carry an "originally awarded" date from decades ago, even when the facility is actively receiving new funding this year. The date that actually matters for sourcing purposes is when the award activity is genuinely recent — not when the underlying award ID was first created.</p>
+
+  <h2>How Our Grant Tracker helps</h2>
+  <p>Grant Tracker, built into your Season One Healthcare account, pulls live award data from USASpending.gov and open funding opportunities from Grants.gov for four programs relevant to rural and underserved facility staffing: HRSA Health Center Program, HRSA Rural Health Workforce, SHIP, and IHS Workforce Development. Filter by program and state to see which facilities near your target markets have recently received funding — then use the built-in map link to see exactly where they are. <a href="https://app.seasononehealthcare.com/recruiters/grants">Open Grant Tracker</a> if you already have a Season One Healthcare account, or <a href="https://app.seasononehealthcare.com/register?role=recruiter">start a free trial</a> to try it.</p>
+</article>
+
 <footer class="rsr-footer">
   <div class="rsr-footer-inner">
     <div class="rsr-footer-top">
@@ -113,16 +115,5 @@
 </footer>
 
 <script src="/assets/site.js"></script>
-<script>
-var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
-function submitUnsub(){
-  var email=document.getElementById('unsub-email').value.trim();
-  if(!email){alert('Please enter your email address.');return;}
-  var btn=document.getElementById('unsub-btn');btn.disabled=true;btn.textContent='Processing...';
-  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Unsubscribe Request — Season One Healthcare',from_name:'Season One Healthcare Unsubscribe Page',email:email,action:'UNSUBSCRIBE — Please remove this email from all lists'})})
-  .then(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';})
-  .catch(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';});
-}
-</script>
 </body>
 </html>

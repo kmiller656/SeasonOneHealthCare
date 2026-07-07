@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unsubscribe from Season One Healthcare email communications." />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://seasononehealthcare.com/unsubscribe.html" />
+  <meta name="description" content="Season One Healthcare gives independent PA recruiters direct access to a verified database of 60,000+ Physician Assistant contacts — no enterprise pricing, no seat minimums." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/for-recruiters.html" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-  <title>Unsubscribe | Season One Healthcare</title>
+  <title>For Recruiters | Season One Healthcare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -17,7 +17,6 @@
 </head>
 <body class="rsr-page">
 
-<!-- NAV -->
 <nav class="rsr-nav">
   <div class="rsr-nav-inner">
     <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
@@ -65,19 +64,54 @@
   </div>
 </div>
 
-<!-- FORM -->
-<section class="rsr-form-section">
-  <div class="rsr-form-inner" style="text-align:center;">
-    <h1 class="rsr-h2">Unsubscribe</h1>
-    <p style="color:var(--rsr-text);margin-bottom:32px;">Enter your email address below and we'll remove you from all Season One Healthcare communications immediately. No questions, no follow-ups.</p>
-
-    <div class="rsr-form-success" id="unsub-success" style="text-align:left;">
-      <strong>You've been removed.</strong> Your email has been unsubscribed. You won't receive any further emails from Season One Healthcare. If you change your mind, you can always <a href="/subscribe.html" style="color:var(--rsr-blue-cta);">re-join the list</a>.
+<!-- HERO -->
+<section class="rsr-hero">
+  <div class="rsr-ph" data-caption="Photo 7 — For Recruiters Hero"></div>
+  <div class="rsr-hero-overlay"></div>
+  <div class="rsr-hero-inner">
+    <h1>For Recruiters</h1>
+    <p class="rsr-hero-sub">Find verified PA contacts and get connected — fast.</p>
+    <div class="rsr-hero-actions">
+      <a href="https://app.seasononehealthcare.com/register?role=recruiter" class="rsr-btn rsr-btn-green">Get Started</a>
     </div>
+  </div>
+</section>
 
-    <div class="rsr-form-group" style="text-align:left;"><label>Email Address *</label><input type="email" id="unsub-email" placeholder="The email you subscribed with" /></div>
-    <button class="rsr-btn rsr-btn-blue" style="width:100%;" id="unsub-btn" onclick="submitUnsub()">Remove Me from the List</button>
-    <p style="font-size:12px;color:var(--rsr-text);margin-top:14px;">We'll process your request right away. You will not receive any further emails from us.</p>
+<!-- OUR DIFFERENCE -->
+<section class="rsr-value">
+  <div class="rsr-value-inner">
+    <h2 class="rsr-h2">Our Difference</h2>
+    <p>Our PA contact database is built for the independent recruiter, not just the enterprise team. You get direct, self-serve access to the full PA database — no seat minimums, no annual contracts, no sales calls required to start. Every contact is verified before you spend a credit revealing it, so your time goes toward outreach, not cleanup. Whether you're placing one PA a month or fifty, you get the same verified data and the same flat, transparent pricing.</p>
+  </div>
+</section>
+
+<!-- FEATURED FAQS SPLIT -->
+<section class="rsr-split">
+  <div class="rsr-split-photo rsr-ph" data-caption="Photo 8 — For Recruiters FAQ Split"></div>
+  <div class="rsr-split-box">
+    <h2>Featured FAQs</h2>
+    <ul>
+      <li>How do I get started?</li>
+      <li>How much does it cost?</li>
+      <li>Is there a free trial?</li>
+      <li>How do I export contacts to my ATS or CRM?</li>
+    </ul>
+    <a href="/contact-us.html" class="rsr-btn rsr-btn-green">Get the Answers</a>
+  </div>
+</section>
+
+<!-- RECRUITER BENEFITS -->
+<section class="rsr-benefits">
+  <div class="rsr-benefits-inner">
+    <h2 class="rsr-h2">Recruiter Benefits</h2>
+    <ul>
+      <li>No seat minimums or enterprise contracts</li>
+      <li>Free trial contacts — no credit card required</li>
+      <li>Every email verified before you reveal it</li>
+      <li>One-click CSV export to your ATS or CRM</li>
+      <li>Grant Tracker included — surface newly funded facilities with a staffing mandate</li>
+      <li>Cancel anytime, credits never expire</li>
+    </ul>
   </div>
 </section>
 
@@ -113,16 +147,5 @@
 </footer>
 
 <script src="/assets/site.js"></script>
-<script>
-var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
-function submitUnsub(){
-  var email=document.getElementById('unsub-email').value.trim();
-  if(!email){alert('Please enter your email address.');return;}
-  var btn=document.getElementById('unsub-btn');btn.disabled=true;btn.textContent='Processing...';
-  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Unsubscribe Request — Season One Healthcare',from_name:'Season One Healthcare Unsubscribe Page',email:email,action:'UNSUBSCRIBE — Please remove this email from all lists'})})
-  .then(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';})
-  .catch(()=>{document.getElementById('unsub-success').style.display='block';btn.style.display='none';});
-}
-</script>
 </body>
 </html>

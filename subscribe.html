@@ -1,105 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Join the PA List | Season One Healthcare</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--navy:#0f1923;--navy-footer:#080e16;--blue:#2563eb;--blue-dark:#1d4ed8;--blue-light:#eff6ff;--blue-border:#bfdbfe;--text-mid:#374151;--text-muted:#6b7280;--border:#e5e7eb;--surface:#f8faff;--white:#ffffff;}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;color:var(--navy);background:var(--white);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-h1,h2,h3{font-weight:800;letter-spacing:-0.04em;line-height:1.08}
-nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1100px;margin:0 auto;padding:0 24px}
-.nav-back{font-size:13px;color:var(--text-muted);font-weight:600;transition:color .15s}
-.nav-back:hover{color:var(--blue)}
-.page-wrap{background:linear-gradient(135deg,#f0f5ff 0%,#e8f0fe 40%,#f5f8ff 100%);min-height:calc(100vh - 64px);display:flex;align-items:center;position:relative;overflow:hidden}
-.page-wrap::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 70%);pointer-events:none}
-.page-inner{width:100%;max-width:1100px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:2}
-.left-badge{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--blue-border);color:var(--blue-dark);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:24px}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
-.left h1{font-size:clamp(36px,5vw,56px);color:var(--navy);margin-bottom:16px}
-.left h1 em{color:var(--blue);font-style:normal}
-.left-sub{color:var(--text-muted);font-size:15px;line-height:1.8;margin-bottom:28px;max-width:420px}
-.benefit-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-.benefit-list li{display:flex;align-items:flex-start;gap:10px;color:var(--text-mid);font-size:14px;line-height:1.65}
-.benefit-list li svg{color:var(--blue);flex-shrink:0;margin-top:3px}
-.form-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:40px 36px;box-shadow:0 8px 40px rgba(37,99,235,0.08)}
-.form-card h2{font-size:22px;color:var(--navy);margin-bottom:6px}
-.form-card .sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
-.fg{margin-bottom:13px}
-.fg label{display:block;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
-.fg input,.fg select{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:var(--navy);background:var(--white);outline:none;transition:border .2s}
-.fg input:focus,.fg select:focus{border-color:var(--blue)}
-.consent-row{display:flex;align-items:flex-start;gap:10px;margin:16px 0}
-.consent-row input[type="checkbox"]{margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--blue);cursor:pointer}
-.consent-row label{font-size:12px;color:var(--text-muted);line-height:1.6;cursor:pointer}
-.consent-row label a{color:var(--blue);text-decoration:underline}
-.btn-submit{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:9px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
-.btn-submit:hover{background:var(--blue-dark);transform:translateY(-1px)}
-.btn-submit:disabled{opacity:.6;cursor:not-allowed}
-.form-note{font-size:11px;color:var(--text-muted);text-align:center;margin-top:10px}
-.success-box{display:none;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;border-radius:8px;padding:20px;text-align:center;margin-top:16px}
-.success-box h3{font-size:18px;margin-bottom:6px;font-weight:700;letter-spacing:-0.02em}
-.success-box p{font-size:13px}
-footer{background:var(--navy-footer);padding:24px;text-align:center}
-footer p{color:rgba(255,255,255,.35);font-size:12px}
-footer a{color:rgba(255,255,255,.35);margin:0 10px}
-footer a:hover{color:rgba(255,255,255,.7)}
-@media(max-width:900px){.page-inner{grid-template-columns:1fr;gap:40px;padding:48px 20px}.form-card{padding:28px 22px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Join Season One Healthcare free — our team gets to work immediately sourcing high-paying PA contracts and direct hire opportunities across the United States." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://seasononehealthcare.com/subscribe.html" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
+  <title>Join the PA List | Season One Healthcare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" style="text-decoration:none"><div style="display:flex;flex-direction:column;line-height:1"><div style="font-size:18px;font-weight:800;letter-spacing:-0.04em;color:#0f1923">Season One Healthcare</div><div style="font-size:10px;font-weight:500;color:#6b7280;letter-spacing:.04em;text-transform:uppercase;margin-top:2px">We Find It. You Choose It.</div></div></a>
-    <div style="display:flex;align-items:center;gap:14px">
-      <a href="https://app.seasononehealthcare.com/login" style="font-size:13px;font-weight:600;color:#6b7280;text-decoration:none;transition:color .15s" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#6b7280'">Sign In</a>
-      <a class="nav-back" href="index.html">&larr; Back to site</a>
-    </div>
+<body class="rsr-page">
+
+<!-- NAV -->
+<nav class="rsr-nav">
+  <div class="rsr-nav-inner">
+    <a href="/index.html" class="rsr-logo">Season One<span> Healthcare</span></a>
+    <button class="rsr-burger" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<div class="page-wrap">
-  <div class="page-inner">
-    <div class="left">
-      <div class="left-badge"><span class="badge-dot"></span>Free for Active PAs &amp; PA Students — Nationwide</div>
-      <h1>We Find The<br/>Opportunities <em>For You</h1>
-      <p class="left-sub">Join free and our team immediately gets to work on your behalf — sourcing high-paying contracts and direct hire opportunities across the United States, so you can stop searching and start choosing.</p>
-      <ul class="benefit-list">
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>High-paying contracts and direct hire positions, sourced for you</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Our team works on your behalf — you never search a job board again</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Free for active PAs and PA students — our fee comes from the facility</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Opportunities sourced across the entire United States</li>
-        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Unsubscribe anytime. No pressure, no spam.</li>
-      </ul>
-    </div>
-    <div class="form-card">
-      <h2>Let's Get Started</h2>
-      <p class="sub">Tell us what you're looking for. Our agents get to work on your behalf immediately.</p>
-      <div class="fg"><label>First Name *</label><input type="text" id="sub-first" placeholder="Your first name"/></div>
-      <div class="fg"><label>Last Name *</label><input type="text" id="sub-last" placeholder="Your last name"/></div>
-      <div class="fg"><label>Email Address *</label><input type="email" id="sub-email" placeholder="you@email.com"/></div>
-      <div class="fg"><label>I am currently a</label>
-        <select id="sub-status"><option value="PA-C">PA-C — actively practicing</option><option value="PA Student">PA Student — still in school</option></select>
+
+<div class="rsr-overlay">
+  <button class="rsr-overlay-close" aria-label="Close menu">&times;</button>
+  <div class="rsr-overlay-inner">
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">For PAs</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/index.html">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/why-it-pays.html">Why It Pays</a>
       </div>
-      <div class="fg"><label>Current Location * <span style="font-size:11px;color:#6b7280;font-weight:400">(required)</span></label><input type="text" id="sub-location2" placeholder="City, State — e.g. Seattle, WA" required/></div>
-      <div class="fg"><label>Primary Specialty or Interest Area</label><input type="text" id="sub-specialty" placeholder="e.g. Family Medicine, Emergency, Surgery"/></div>
-      <div class="fg"><label>State or Region</label><input type="text" id="sub-location" placeholder="e.g. Southeast, Midwest, Open to relocation"/></div>
-      <div class="consent-row">
-        <input type="checkbox" id="sub-consent"/>
-        <label for="sub-consent">I agree to receive email updates, job listings, and announcements from Season One Healthcare. This is free and I can <a href="unsubscribe.html">unsubscribe at any time</a>. See our <a href="privacy.html">Privacy Policy</a>.</label>
-      </div>
-      <button class="btn-submit" id="sub-btn" onclick="submitSubscribe()">Let's Connect</button>
-      <p class="form-note">No commitment. No spam. Unsubscribe any time.</p>
-      <div class="success-box" id="sub-success"><h3>We are on it.</h3><p>Welcome to Season One. Our agents will be in touch shortly to start sourcing opportunities on your behalf.</p></div>
     </div>
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">For Employers</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/facilities.html">For Facilities</a>
+        <a href="/for-recruiters.html">For Recruiters</a>
+        <a href="/for-agencies.html">For Staffing Agencies</a>
+      </div>
+    </div>
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">Company</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/blog.html">Blog</a>
+        <a href="/contact-us.html">Contact</a>
+      </div>
+    </div>
+    <div class="rsr-acc-item">
+      <div class="rsr-acc-head"><span class="rsr-acc-label">Resources</span><span class="rsr-acc-chevron">+</span></div>
+      <div class="rsr-acc-body">
+        <a href="/methodology.html">Data Methodology</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/opt-out.html">Data Removal Request</a>
+      </div>
+    </div>
+    <a href="https://app.seasononehealthcare.com/login" class="rsr-overlay-link">Sign In</a>
+    <a href="/subscribe.html" class="rsr-overlay-cta">Join Free</a>
   </div>
 </div>
-<footer><p>&copy; 2026 Season One Healthcare &nbsp;&middot;&nbsp;<a href="privacy.html">Privacy Policy</a><a href="unsubscribe.html">Unsubscribe</a><a href="terms.html">Terms</a><a href="index.html">Home</a></p></footer>
+
+<!-- HERO -->
+<section class="rsr-hero">
+  <div class="rsr-ph" data-caption="Photo 6 — Join Free Hero"></div>
+  <div class="rsr-hero-overlay"></div>
+  <div class="rsr-hero-inner">
+    <h1>We Find The Opportunities For You.</h1>
+    <p class="rsr-hero-sub">Free for active PAs &amp; PA students, nationwide. Join and our team gets to work immediately.</p>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="rsr-benefits">
+  <div class="rsr-benefits-inner">
+    <ul>
+      <li>High-paying contracts and direct hire positions, sourced for you</li>
+      <li>Our team works on your behalf — you never search a job board again</li>
+      <li>Free for active PAs and PA students — our fee comes from the facility</li>
+      <li>Opportunities sourced across the entire United States</li>
+      <li>Unsubscribe anytime. No pressure, no spam.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="rsr-form-section">
+  <div class="rsr-form-inner">
+    <h2 class="rsr-h2" style="text-align:center;">Let's Get Started</h2>
+    <p style="text-align:center;color:var(--rsr-text);margin-bottom:32px;">Tell us what you're looking for. Our agents get to work on your behalf immediately.</p>
+
+    <div class="rsr-form-success" id="sub-success"><strong>We are on it.</strong> Welcome to Season One. Our agents will be in touch shortly to start sourcing opportunities on your behalf.</div>
+
+    <div class="rsr-form-row">
+      <div class="rsr-form-group"><label>First Name *</label><input type="text" id="sub-first" placeholder="Your first name" /></div>
+      <div class="rsr-form-group"><label>Last Name *</label><input type="text" id="sub-last" placeholder="Your last name" /></div>
+    </div>
+    <div class="rsr-form-group"><label>Email Address *</label><input type="email" id="sub-email" placeholder="you@email.com" /></div>
+    <div class="rsr-form-group">
+      <label>I am currently a</label>
+      <select id="sub-status" style="width:100%;padding:13px 14px;border:1px solid var(--rsr-border);border-radius:var(--rsr-radius);font-family:var(--rsr-font);font-size:14.5px;color:var(--rsr-text-dark);">
+        <option value="PA-C">PA-C — actively practicing</option>
+        <option value="PA Student">PA Student — still in school</option>
+      </select>
+    </div>
+    <div class="rsr-form-group"><label>Current Location *</label><input type="text" id="sub-location2" placeholder="City, State — e.g. Seattle, WA" required /></div>
+    <div class="rsr-form-group"><label>Primary Specialty or Interest Area</label><input type="text" id="sub-specialty" placeholder="e.g. Family Medicine, Emergency, Surgery" /></div>
+    <div class="rsr-form-group"><label>State or Region</label><input type="text" id="sub-location" placeholder="e.g. Southeast, Midwest, Open to relocation" /></div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin:16px 0;">
+      <input type="checkbox" id="sub-consent" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--rsr-navy);cursor:pointer;" />
+      <label for="sub-consent" style="font-size:12px;color:var(--rsr-text);line-height:1.6;cursor:pointer;">I agree to receive email updates, job listings, and announcements from Season One Healthcare. This is free and I can <a href="/unsubscribe.html" style="color:var(--rsr-blue-cta);">unsubscribe at any time</a>. See our <a href="/privacy.html" style="color:var(--rsr-blue-cta);">Privacy Policy</a>.</label>
+    </div>
+    <button class="rsr-btn rsr-btn-green" style="width:100%;" id="sub-btn" onclick="submitSubscribe()">Let's Connect</button>
+    <p style="font-size:12px;color:var(--rsr-text);text-align:center;margin-top:12px;">No commitment. No spam. Unsubscribe any time.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="rsr-footer">
+  <div class="rsr-footer-inner">
+    <div class="rsr-footer-top">
+      <div class="rsr-footer-col">
+        <h4>Season One Healthcare</h4>
+        <p>Veteran-owned, clinician-led. We find PA opportunities and connect healthcare recruiters with verified PA contacts — one company, two ways we help.</p>
+      </div>
+      <div class="rsr-footer-col">
+        <h4>For PAs &amp; Facilities</h4>
+        <ul>
+          <li><a href="/index.html">Find Opportunities</a></li>
+          <li><a href="/facilities.html">Submit a Role</a></li>
+          <li><a href="/why-it-pays.html">Why It Pays</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div>
+      <div class="rsr-footer-col">
+        <h4>For Recruiters</h4>
+        <ul>
+          <li><a href="/for-recruiters.html">For Recruiters</a></li>
+          <li><a href="/for-agencies.html">For Staffing Agencies</a></li>
+          <li><a href="/methodology.html">Data Methodology</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="mailto:support@seasononehealthcare.com">support@seasononehealthcare.com</a></div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
 <script>
 var W3F_KEY="29ab9da0-4cba-45a4-a0dc-57e0b49e7737";
 function submitSubscribe(){
@@ -112,7 +164,6 @@ function submitSubscribe(){
   .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent="Let's Connect";});
 }
 </script>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesSub" async defer></script>
 <script>
 function initPlacesSub() {
