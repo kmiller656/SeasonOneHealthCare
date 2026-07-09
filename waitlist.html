@@ -30,7 +30,7 @@
     .nav-back:hover { color: var(--white); }
 
     /* HERO */
-    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 32px 80px; }
+    .hero { min-height: auto; display: flex; align-items: center; justify-content: center; padding: 100px 32px 64px; }
     .hero-inner { max-width: 680px; width: 100%; text-align: center; }
     .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(26,107,204,0.15); border: 1px solid rgba(26,107,204,0.35); border-radius: 2px; padding: 5px 14px; color: #6aaeff; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; }
     .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #6aaeff; display: block; }
@@ -46,7 +46,7 @@
     .counter-label strong { display: block; color: var(--gray-300); font-weight: 600; }
 
     /* Form */
-    .form-card { background: var(--navy-mid); border: 1px solid rgba(255,255,255,0.08); padding: 40px; text-align: left; }
+    .form-card { background: var(--navy-mid); border: 1px solid rgba(255,255,255,0.08); padding: 32px; text-align: left; }
     .form-card h2 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 24px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
     .form-group label { font-size: 13px; font-weight: 600; color: var(--gray-300); }
@@ -64,7 +64,7 @@
     .error-box { display: none; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: #f87171; padding: 14px; font-size: 14px; margin-bottom: 16px; }
 
     /* What you get */
-    .what { background: var(--off-white); padding: 100px 32px; }
+    .what { background: var(--off-white); padding: 64px 32px; }
     .what-inner { max-width: 1100px; margin: 0 auto; }
     .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 16px; }
     .section-h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 800; letter-spacing: -1px; line-height: 1.1; color: var(--navy); margin-bottom: 48px; }
@@ -276,7 +276,7 @@
         </ul>
       </div>
     </div>
-    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="mailto:support@seasononehealthcare.com">support@seasononehealthcare.com</a></div>
+    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="/contact-us.html">Send a Message</a></div>
   </div>
 </footer>
 <script src="/assets/site.js"></script>
@@ -320,7 +320,7 @@
       document.getElementById('waitlistForm').style.display = 'none';
       document.getElementById('successBox').style.display = 'block';
     } catch(err) {
-      errorBox.textContent = 'Something went wrong. Please email support@seasononehealthcare.com to join the waitlist.';
+      errorBox.textContent = 'Something went wrong. Please try again or send us a message from our Contact page.';
       errorBox.style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'Join the Waitlist';

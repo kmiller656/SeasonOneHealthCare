@@ -83,7 +83,7 @@
     <ul>
       <li>High-paying contracts and direct hire positions, sourced for you</li>
       <li>Our team works on your behalf — you never search a job board again</li>
-      <li>Free for active PAs and PA students — our fee comes from the facility</li>
+      <li>Free for active PAs and PA students</li>
       <li>Opportunities sourced across the entire United States</li>
       <li>Unsubscribe anytime. No pressure, no spam.</li>
     </ul>
@@ -148,7 +148,7 @@
         </ul>
       </div>
     </div>
-    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="mailto:support@seasononehealthcare.com">support@seasononehealthcare.com</a></div>
+    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="/contact-us.html">Send a Message</a></div>
   </div>
 </footer>
 
@@ -161,7 +161,7 @@ function submitSubscribe(){
   if(!consent){alert('Please check the consent box to join the list.');return;}
   var btn=document.getElementById('sub-btn');btn.disabled=true;btn.textContent='Submitting...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'New PA List Subscriber — Season One Healthcare',from_name:'Season One Healthcare Subscribe Page',first_name:first,last_name:last,email:email,status:document.getElementById('sub-status').value,specialty:document.getElementById('sub-specialty').value,location:document.getElementById('sub-location').value,consent:'Yes — subscribed via subscribe.html'})})
-  .then(r=>r.json()).then(d=>{if(d.success){document.getElementById('sub-success').style.display='block';btn.style.display='none';['sub-first','sub-last','sub-email','sub-specialty','sub-location'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});}else{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent="Let's Connect";}})
+  .then(r=>r.json()).then(d=>{if(d.success){document.getElementById('sub-success').style.display='block';btn.style.display='none';['sub-first','sub-last','sub-email','sub-specialty','sub-location'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});}else{alert('Something went wrong. Please try again or send us a message from our Contact page.');btn.disabled=false;btn.textContent="Let's Connect";}})
   .catch(()=>{alert('Something went wrong.');btn.disabled=false;btn.textContent="Let's Connect";});
 }
 </script>

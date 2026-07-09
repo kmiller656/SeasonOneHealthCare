@@ -178,7 +178,7 @@
         </ul>
       </div>
     </div>
-    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="mailto:support@seasononehealthcare.com">support@seasononehealthcare.com</a></div>
+    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="/contact-us.html">Send a Message</a></div>
   </div>
 </footer>
 
@@ -215,9 +215,9 @@ function submitFacility(){
   .then(r=>r.json())
   .then(d=>{
     if(d.success){document.getElementById('fac-success').style.display='block';btn.style.display='none';}
-    else{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';}
+    else{alert('Something went wrong. Please try again or send us a message from our Contact page.');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';}
   })
-  .catch(()=>{alert('Something went wrong. Please email us at support@seasononehealthcare.com');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
+  .catch(()=>{alert('Something went wrong. Please try again or send us a message from our Contact page.');btn.disabled=false;btn.textContent='Submit — We\'ll Be In Touch';});
 }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesFac" async defer></script>
