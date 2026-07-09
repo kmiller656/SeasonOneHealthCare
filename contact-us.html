@@ -80,6 +80,7 @@
 <section class="rsr-form-section">
   <div class="rsr-form-inner">
     <h2 class="rsr-h2" style="text-align:center;">Send Us a Message</h2>
+    <p style="text-align:center;color:var(--rsr-text);margin-bottom:32px;">Use the form below, or email us directly at <a href="mailto:info@seasononehealthcare.com" style="color:var(--rsr-blue-cta);font-weight:600;">info@seasononehealthcare.com</a>.</p>
     <div class="rsr-form-success" id="contact-success">Message received. We'll be in touch within one business day.</div>
     <form id="contact-form">
       <div class="rsr-form-row">
@@ -119,7 +120,7 @@
         </ul>
       </div>
     </div>
-    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="/contact-us.html">Send a Message</a></div>
+    <div class="rsr-footer-bottom">&copy; 2026 Season One Healthcare &middot; All rights reserved &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/opt-out.html">Data Removal</a> &middot; <a href="mailto:info@seasononehealthcare.com">info@seasononehealthcare.com</a></div>
   </div>
 </footer>
 
@@ -149,9 +150,9 @@ document.getElementById('contact-form').addEventListener('submit', function(e){
   .then(r=>r.json())
   .then(d=>{
     if(d.success){document.getElementById('contact-success').style.display='block';btn.style.display='none';}
-    else{alert('Something went wrong. Please try again.');btn.disabled=false;btn.textContent='Send Message';}
+    else{alert('Something went wrong. Please try again or email info@seasononehealthcare.com.');btn.disabled=false;btn.textContent='Send Message';}
   })
-  .catch(()=>{alert('Something went wrong. Please try again.');btn.disabled=false;btn.textContent='Send Message';});
+  .catch(()=>{alert('Something went wrong. Please try again or email info@seasononehealthcare.com.');btn.disabled=false;btn.textContent='Send Message';});
 });
 </script>
 </body>
