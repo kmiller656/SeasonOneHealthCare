@@ -1,47 +1,70 @@
-/* RunStaffRun marketing site — shared behavior (nav overlay, accordions, testimonial carousel) */
+/* Season One Healthcare marketing site — shared behavior */
 document.addEventListener('DOMContentLoaded', function () {
 
-  // Hamburger overlay nav
-  var burger = document.querySelector('.rsr-burger');
-  var overlay = document.querySelector('.rsr-overlay');
-  var closeBtn = document.querySelector('.rsr-overlay-close');
+  // Scroll-reveal
+  var reveals = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    reveals.forEach(function (e) { e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function (e) { if (!e.classList.contains('in')) io.observe(e); });
+  }
+
+  // Mobile overlay nav
+  var menuBtn = document.querySelector('.menu-btn');
+  var overlay = document.querySelector('.mobile-overlay');
+  var closeBtn = document.querySelector('.mobile-overlay-close');
   function openOverlay() {
     overlay.classList.add('open');
-    burger.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('rsr-noscroll');
+    document.body.classList.add('no-scroll');
+    menuBtn.setAttribute('aria-expanded', 'true');
   }
   function closeOverlay() {
     overlay.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('rsr-noscroll');
+    document.body.classList.remove('no-scroll');
+    menuBtn.setAttribute('aria-expanded', 'false');
   }
-  if (burger && overlay) {
-    burger.addEventListener('click', function () {
-      overlay.classList.contains('open') ? closeOverlay() : openOverlay();
-    });
+  if (menuBtn && overlay) {
+    menuBtn.addEventListener('click', openOverlay);
+    if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+    overlay.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeOverlay); });
   }
-  if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
 
-  // Generic accordion (nav dropdowns + FAQ) — any .rsr-acc-item with a .rsr-acc-head
-  document.querySelectorAll('.rsr-acc-head').forEach(function (head) {
-    head.addEventListener('click', function () {
-      head.parentElement.classList.toggle('open');
-    });
+  // Newsletter consent checkbox enables its Join button
+  document.querySelectorAll('[data-consent]').forEach(function (cb) {
+    var btn = document.querySelector('[data-consent-target="' + cb.id + '"]');
+    if (btn) cb.addEventListener('change', function () { btn.disabled = !cb.checked; });
   });
 
-  // Testimonial carousels — supports multiple independent instances per page
-  document.querySelectorAll('.rsr-testi[data-carousel]').forEach(function (block) {
-    var slides = block.querySelectorAll('.rsr-testi-slide');
-    if (slides.length < 2) return;
-    var i = 0;
-    function show(n) {
-      slides.forEach(function (s, idx) { s.style.display = idx === n ? '' : 'none'; });
+  // Directory search + tag filtering (providers / resources / shop / jobs)
+  document.querySelectorAll('[data-filter-scope]').forEach(function (scope) {
+    var input = scope.querySelector('.filter-input');
+    var chips = scope.querySelectorAll('.filter-chip');
+    var cards = scope.querySelectorAll('.item-card');
+    var activeTag = '';
+    function apply() {
+      var q = (input && input.value || '').trim().toLowerCase();
+      cards.forEach(function (card) {
+        var text = (card.getAttribute('data-search') || card.textContent).toLowerCase();
+        var tags = (card.getAttribute('data-tags') || '').split(',');
+        var matchesText = !q || text.indexOf(q) !== -1;
+        var matchesTag = !activeTag || tags.indexOf(activeTag) !== -1;
+        card.style.display = (matchesText && matchesTag) ? '' : 'none';
+      });
     }
-    show(0);
-    var prev = block.querySelector('.rsr-testi-prev');
-    var next = block.querySelector('.rsr-testi-next');
-    if (prev) prev.addEventListener('click', function () { i = (i - 1 + slides.length) % slides.length; show(i); });
-    if (next) next.addEventListener('click', function () { i = (i + 1) % slides.length; show(i); });
+    if (input) input.addEventListener('input', apply);
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        activeTag = chip.getAttribute('data-tag') || '';
+        apply();
+      });
+    });
   });
 
   // Smooth in-page anchor scrolling
@@ -54,14 +77,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Generic client-side form success (matches existing site convention — no backend wired yet)
-  document.querySelectorAll('form[data-client-success]').forEach(function (form) {
+  // Generic Web3Forms submit handler — any <form data-web3forms> with a .form-success/.form-error box
+  document.querySelectorAll('form[data-web3forms]').forEach(function (form) {
+    var successEl = form.querySelector('.form-success');
+    var errorEl = form.querySelector('.form-error');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var successEl = form.querySelector('.rsr-form-success');
-      if (successEl) successEl.style.display = 'block';
       var btn = form.querySelector('button[type="submit"]');
-      if (btn) btn.style.display = 'none';
+      if (btn) btn.disabled = true;
+      if (errorEl) errorEl.style.display = 'none';
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.success) {
+            form.reset();
+            form.style.display = 'none';
+            if (successEl) successEl.style.display = 'block';
+          } else if (errorEl) {
+            errorEl.style.display = 'block';
+            if (btn) btn.disabled = false;
+          }
+        })
+        .catch(function () {
+          if (errorEl) errorEl.style.display = 'block';
+          if (btn) btn.disabled = false;
+        });
     });
   });
 });
