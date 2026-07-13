@@ -87,12 +87,34 @@
           <input type="file" name="headshot" accept="image/*">
           <span class="hint">Optional — a professional photo helps people trust your listing.</span>
         </div>
+        <div class="form-group">
+          <label>Provider type *</label>
+          <select name="provider_type" required>
+            <option value="" disabled selected>Select the option that fits best</option>
+            <option value="Individual Therapist / Counselor">Individual Therapist / Counselor</option>
+            <option value="Psychologist (PhD/PsyD)">Psychologist (PhD/PsyD)</option>
+            <option value="Psychiatrist (MD/DO)">Psychiatrist (MD/DO)</option>
+            <option value="Psychiatric Nurse Practitioner (PMHNP)">Psychiatric Nurse Practitioner (PMHNP)</option>
+            <option value="Licensed Clinical Social Worker (LCSW)">Licensed Clinical Social Worker (LCSW)</option>
+            <option value="Marriage &amp; Family Therapist (LMFT)">Marriage &amp; Family Therapist (LMFT)</option>
+            <option value="Licensed Professional Counselor (LPC)">Licensed Professional Counselor (LPC)</option>
+            <option value="Peer Support Specialist">Peer Support Specialist</option>
+            <option value="Substance Use / Addiction Counselor">Substance Use / Addiction Counselor</option>
+            <option value="Group Practice / Clinic">Group Practice / Clinic</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
         <div class="form-group"><label>Credentials</label><input type="text" name="credentials" placeholder="e.g. LCSW, PsyD, LMFT, PMHNP"></div>
         <div class="form-group"><label>Primary specialty</label><input type="text" name="specialty" placeholder="e.g. Anxiety &amp; Depression, Trauma, Couples &amp; Family"></div>
-        <div class="form-group"><label>Location *</label><input type="text" name="location" id="practice-location" placeholder="City, State" required></div>
+        <div class="form-group"><label>Location *</label><input type="text" name="location" placeholder="City, State" required></div>
+        <div class="form-group"><label>Website</label><input type="url" name="website" placeholder="https://"></div>
         <div class="form-row">
-          <div class="form-group"><label>Website</label><input type="url" name="website" placeholder="https://"></div>
-          <div class="form-group"><label>Social media</label><input type="text" name="social_media" placeholder="Instagram, Facebook, LinkedIn — paste links"></div>
+          <div class="form-group"><label>Instagram</label><input type="url" name="instagram" placeholder="https://instagram.com/yourhandle"></div>
+          <div class="form-group"><label>Facebook</label><input type="url" name="facebook" placeholder="https://facebook.com/yourpage"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>LinkedIn</label><input type="url" name="linkedin" placeholder="https://linkedin.com/company/yourpractice"></div>
+          <div class="form-group"><label>TikTok</label><input type="url" name="tiktok" placeholder="https://tiktok.com/@yourhandle"></div>
         </div>
         <div class="form-group"><label>Telehealth, in-person, or both?</label>
           <select name="format">
@@ -149,21 +171,5 @@
 </footer>
 
 <script src="/assets/site.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkL7MycPZkBSYqtUcwR1k6HDclL4FsBZ8&libraries=places&callback=initPlacesListPractice" async defer></script>
-<script>
-function initPlacesListPractice() {
-  var el = document.getElementById('practice-location');
-  if (!el) return;
-  var ac = new google.maps.places.Autocomplete(el, {
-    types: ['(cities)'],
-    componentRestrictions: { country: 'us' },
-    fields: ['formatted_address', 'name']
-  });
-  ac.addListener('place_changed', function() {
-    var place = ac.getPlace();
-    if (place.name) el.value = place.name + (place.formatted_address ? ', ' + place.formatted_address.split(',').slice(-2).join(',').trim() : '');
-  });
-}
-</script>
 </body>
 </html>
