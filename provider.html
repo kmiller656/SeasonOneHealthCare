@@ -142,7 +142,7 @@
 
       var metaLine = [p.provider_type, p.credentials].filter(Boolean).join(' · ');
 
-      var links = [
+      var socialLinks = [
         ['website', p.website, 'Website'],
         ['instagram', p.instagram, 'Instagram'],
         ['facebook', p.facebook, 'Facebook'],
@@ -154,18 +154,36 @@
             ' <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>';
         }).join('');
 
+      var externalIcon = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
+
+      var connectRows = [
+        p.website ? '<a class="connect-row" href="' + escapeHtml(p.website) + '" target="_blank" rel="noopener"><span class="connect-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></span><span class="connect-text">Website</span>' + externalIcon + '</a>' : '',
+        p.email ? '<a class="connect-row" href="mailto:' + escapeHtml(p.email) + '"><span class="connect-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span><span class="connect-text">' + escapeHtml(p.email) + '</span></a>' : '',
+        p.phone ? '<a class="connect-row" href="tel:' + escapeHtml(p.phone) + '"><span class="connect-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5c0 8.3 6.7 15 15 15l3-4-6-3-2 2c-2.5-1.2-4.8-3.5-6-6l2-2-3-6Z"/></svg></span><span class="connect-text">' + escapeHtml(p.phone) + '</span></a>' : ''
+      ].filter(Boolean).join('');
+
+      var glanceRows = [
+        p.location ? ['<circle cx="12" cy="10.5" r="3"/><path d="M12 21s7-6.2 7-11.5a7 7 0 1 0-14 0C5 14.8 12 21 12 21Z"/>', escapeHtml(p.location)] : null,
+        ['<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/>', escapeHtml(badgeText)],
+        p.specialty ? ['<path d="M12 3v18M3 12h18" stroke-linecap="round"/>', escapeHtml(p.specialty)] : null
+      ].filter(Boolean).map(function (r) {
+        return '<div class="glance-row"><span class="connect-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">' + r[0] + '</svg></span><span>' + r[1] + '</span></div>';
+      }).join('');
+
       root.innerHTML = backLink +
+        '<div class="profile-grid">' +
+        '<div class="profile-main">' +
         '<div class="profile-header">' + avatarHtml +
         '<div class="profile-title">' +
         '<h1>' + escapeHtml(p.practice_name) + '</h1>' +
         (metaLine ? '<div class="meta">' + escapeHtml(metaLine) + '</div>' : '') +
-        (p.location ? '<div class="meta">' + escapeHtml(p.location) + '</div>' : '') +
-        '<span class="tag ' + badgeCls + '">' + escapeHtml(badgeText) + '</span>' +
         '</div></div>' +
-        '<div class="profile-body">' +
-        '<p>' + escapeHtml(p.specialty || p.message || 'Behavioral health provider.') + '</p>' +
-        (p.specialty && p.message ? '<p>' + escapeHtml(p.message) + '</p>' : '') +
-        (links ? '<div class="profile-links">' + links + '</div>' : '') +
+        (socialLinks ? '<div class="profile-links">' + socialLinks + '</div>' : '') +
+        '</div>' +
+        '<div class="profile-side">' +
+        (connectRows ? '<div class="connect-card"><h3>Let’s Connect</h3>' + connectRows + '</div>' : '') +
+        '<div class="glance-card"><h3>Practice at a Glance</h3>' + glanceRows + '</div>' +
+        '</div>' +
         '</div>';
     })
     .catch(showNotFound);
