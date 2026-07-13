@@ -65,10 +65,110 @@
     </div>
 
     <div class="admin-panel active" id="providers-panel">
+      <button class="btn btn-navy btn-sm" id="new-provider-btn" style="margin-bottom:16px">+ Add provider</button>
+      <form class="story-form" id="provider-form" enctype="multipart/form-data">
+        <div class="form-row">
+          <div class="form-group"><label>Practice or provider name *</label><input type="text" id="provider-practice-name" required></div>
+          <div class="form-group"><label>Contact name *</label><input type="text" id="provider-contact-name" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email *</label><input type="email" id="provider-email" required></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="provider-phone"></div>
+        </div>
+        <div class="form-group">
+          <label>Headshot or practice photo</label>
+          <input type="file" id="provider-headshot" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label>Provider type</label>
+          <select id="provider-type">
+            <option value="">—</option>
+            <option value="Individual Therapist / Counselor">Individual Therapist / Counselor</option>
+            <option value="Psychologist (PhD/PsyD)">Psychologist (PhD/PsyD)</option>
+            <option value="Psychiatrist (MD/DO)">Psychiatrist (MD/DO)</option>
+            <option value="Psychiatric Nurse Practitioner (PMHNP)">Psychiatric Nurse Practitioner (PMHNP)</option>
+            <option value="Licensed Clinical Social Worker (LCSW)">Licensed Clinical Social Worker (LCSW)</option>
+            <option value="Marriage &amp; Family Therapist (LMFT)">Marriage &amp; Family Therapist (LMFT)</option>
+            <option value="Licensed Professional Counselor (LPC)">Licensed Professional Counselor (LPC)</option>
+            <option value="Peer Support Specialist">Peer Support Specialist</option>
+            <option value="Substance Use / Addiction Counselor">Substance Use / Addiction Counselor</option>
+            <option value="Group Practice / Clinic">Group Practice / Clinic</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Credentials</label><input type="text" id="provider-credentials" placeholder="e.g. LCSW, PsyD, LMFT, PMHNP"></div>
+        <div class="form-group"><label>Primary specialty</label><input type="text" id="provider-specialty"></div>
+        <div class="form-group"><label>Location</label><input type="text" id="provider-location" placeholder="City, State"></div>
+        <div class="form-group"><label>Website</label><input type="url" id="provider-website" placeholder="https://"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Instagram</label><input type="url" id="provider-instagram"></div>
+          <div class="form-group"><label>Facebook</label><input type="url" id="provider-facebook"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>LinkedIn</label><input type="url" id="provider-linkedin"></div>
+          <div class="form-group"><label>TikTok</label><input type="url" id="provider-tiktok"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Telehealth, in-person, or both?</label>
+            <select id="provider-format">
+              <option value="Both">Both telehealth and in-person</option>
+              <option value="Telehealth only">Telehealth only</option>
+              <option value="In-person only">In-person only</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Status</label>
+            <select id="provider-status">
+              <option value="approved">Approved (live now)</option>
+              <option value="pending">Pending (not visible yet)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Notes</label><textarea id="provider-message" rows="3"></textarea></div>
+        <div style="display:flex;gap:10px">
+          <button type="submit" class="btn btn-primary">Save provider</button>
+          <button type="button" class="btn btn-ghost" id="cancel-provider-btn">Cancel</button>
+        </div>
+      </form>
       <div id="providers-list"><p class="empty-note">Loading…</p></div>
     </div>
 
     <div class="admin-panel" id="jobs-panel">
+      <button class="btn btn-navy btn-sm" id="new-job-btn" style="margin-bottom:16px">+ Add job</button>
+      <form class="story-form" id="job-form">
+        <div class="form-row">
+          <div class="form-group"><label>Organization name *</label><input type="text" id="job-organization" required></div>
+          <div class="form-group"><label>Contact name *</label><input type="text" id="job-contact-name" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email *</label><input type="email" id="job-email" required></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="job-phone"></div>
+        </div>
+        <div class="form-group"><label>Organization type</label>
+          <select id="job-org-type">
+            <option value="Private practice">Private practice</option>
+            <option value="FQHC / Community health center">FQHC / Community health center</option>
+            <option value="Hospital or health system">Hospital or health system</option>
+            <option value="Staffing agency">Staffing agency</option>
+            <option value="Nonprofit">Nonprofit</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Role title *</label><input type="text" id="job-role-title" required></div>
+          <div class="form-group"><label>Location</label><input type="text" id="job-location" placeholder="City, State or Remote"></div>
+        </div>
+        <div class="form-group"><label>Role details</label><textarea id="job-role-details" rows="4"></textarea></div>
+        <div class="form-group"><label>Status</label>
+          <select id="job-status">
+            <option value="approved">Approved (live now)</option>
+            <option value="pending">Pending (not visible yet)</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="submit" class="btn btn-primary">Save job</button>
+          <button type="button" class="btn btn-ghost" id="cancel-job-btn">Cancel</button>
+        </div>
+      </form>
       <div id="jobs-list"><p class="empty-note">Loading…</p></div>
     </div>
 
@@ -264,6 +364,94 @@
       storyForm.classList.remove('open');
       storyForm.reset();
       loadStories();
+    });
+  });
+
+  // ─── Manually add a provider ────────────────────────────
+  var providerForm = document.getElementById('provider-form');
+  document.getElementById('new-provider-btn').addEventListener('click', function () {
+    providerForm.classList.add('open');
+  });
+  document.getElementById('cancel-provider-btn').addEventListener('click', function () {
+    providerForm.classList.remove('open');
+    providerForm.reset();
+  });
+  providerForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var saveBtn = providerForm.querySelector('button[type="submit"]');
+    saveBtn.disabled = true;
+
+    function insertProvider(headshotUrl) {
+      client.from('providers').insert({
+        practice_name: document.getElementById('provider-practice-name').value.trim(),
+        contact_name: document.getElementById('provider-contact-name').value.trim(),
+        email: document.getElementById('provider-email').value.trim(),
+        phone: document.getElementById('provider-phone').value.trim() || null,
+        provider_type: document.getElementById('provider-type').value || null,
+        credentials: document.getElementById('provider-credentials').value.trim() || null,
+        specialty: document.getElementById('provider-specialty').value.trim() || null,
+        location: document.getElementById('provider-location').value.trim() || null,
+        website: document.getElementById('provider-website').value.trim() || null,
+        instagram: document.getElementById('provider-instagram').value.trim() || null,
+        facebook: document.getElementById('provider-facebook').value.trim() || null,
+        linkedin: document.getElementById('provider-linkedin').value.trim() || null,
+        tiktok: document.getElementById('provider-tiktok').value.trim() || null,
+        format: document.getElementById('provider-format').value,
+        message: document.getElementById('provider-message').value.trim() || null,
+        headshot_url: headshotUrl,
+        status: document.getElementById('provider-status').value
+      }).then(function (res) {
+        saveBtn.disabled = false;
+        if (res.error) { alert('Could not save provider: ' + res.error.message); return; }
+        providerForm.classList.remove('open');
+        providerForm.reset();
+        loadProviders();
+      });
+    }
+
+    var file = document.getElementById('provider-headshot').files[0];
+    if (file) {
+      var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      var path = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+      client.storage.from('headshots').upload(path, file).then(function (res) {
+        if (res.error) { insertProvider(null); return; }
+        var pub = client.storage.from('headshots').getPublicUrl(path);
+        insertProvider(pub.data.publicUrl);
+      });
+    } else {
+      insertProvider(null);
+    }
+  });
+
+  // ─── Manually add a job ─────────────────────────────────
+  var jobForm = document.getElementById('job-form');
+  document.getElementById('new-job-btn').addEventListener('click', function () {
+    jobForm.classList.add('open');
+  });
+  document.getElementById('cancel-job-btn').addEventListener('click', function () {
+    jobForm.classList.remove('open');
+    jobForm.reset();
+  });
+  jobForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var saveBtn = jobForm.querySelector('button[type="submit"]');
+    saveBtn.disabled = true;
+    client.from('jobs').insert({
+      organization: document.getElementById('job-organization').value.trim(),
+      contact_name: document.getElementById('job-contact-name').value.trim(),
+      email: document.getElementById('job-email').value.trim(),
+      phone: document.getElementById('job-phone').value.trim() || null,
+      org_type: document.getElementById('job-org-type').value || null,
+      role_title: document.getElementById('job-role-title').value.trim(),
+      location: document.getElementById('job-location').value.trim() || null,
+      role_details: document.getElementById('job-role-details').value.trim() || null,
+      status: document.getElementById('job-status').value
+    }).then(function (res) {
+      saveBtn.disabled = false;
+      if (res.error) { alert('Could not save job: ' + res.error.message); return; }
+      jobForm.classList.remove('open');
+      jobForm.reset();
+      loadJobs();
     });
   });
 
