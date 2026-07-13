@@ -75,17 +75,9 @@
     </div>
 
     <div class="hero-right">
-      <div class="hero-panel reveal in">
+      <div class="hero-panel reveal in" id="featured-story-panel">
         <div class="panel-label">From the Good News page</div>
-        <a class="feat" href="/good-news-story.html" style="display:block">
-          <span class="tag">Peer Support</span>
-          <h3>"She reminded me I wasn't alone."</h3>
-          <p>How one peer specialist is quietly reshaping recovery for people in her community.</p>
-          <div class="by">
-            <span class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0" stroke-linecap="round"/></svg></span>
-            <span class="who">A Season One story<span>Recovery &amp; peer support</span></span>
-          </div>
-        </a>
+        <p class="loading-note" style="padding:20px 0">Loading…</p>
         <div class="panel-note">Real stories from people doing the work.</div>
       </div>
 
@@ -198,26 +190,7 @@
       <h2>Stories worth sharing.</h2>
       <p>The people lifting others up, and the moments that remind us the work matters.</p>
     </div>
-    <div class="wall">
-      <a class="news reveal" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sage">Recovery</span>
-        <h3>A hotline that never sleeps</h3>
-        <p>Meet the overnight crisis team answering calls when the rest of the world is asleep — and the difference they quietly make.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sky">First Responders</span>
-        <h3>The firehouse that talks about it</h3>
-        <p>How one station made mental-health check-ins part of every shift — and why other crews are starting to follow.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-peach">Access</span>
-        <h3>Care that reached a town with none</h3>
-        <p>A rural clinic brought behavioral health services to a community that had gone years without — and demand hasn't slowed since.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-    </div>
+    <div class="wall" id="home-wall"><p class="loading-note">Loading stories…</p></div>
     <div class="wall-foot reveal">
       <a href="/good-news.html" class="btn btn-ghost">Read more good news</a>
     </div>
@@ -264,6 +237,47 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  var tagColors = ['t-sage', 't-sky', 't-peach', 't-sun'];
+  function wallCardHtml(post, i) {
+    return '<a class="news reveal in" href="/good-news-story.html?slug=' + encodeURIComponent(post.slug) + '" style="display:flex">' +
+      '<span class="tag ' + tagColors[i % tagColors.length] + '">' + escapeHtml(post.tag || 'Good News') + '</span>' +
+      '<h3>' + escapeHtml(post.title) + '</h3>' +
+      '<p>' + escapeHtml(post.excerpt || '') + '</p>' +
+      '<span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+      '</a>';
+  }
+  var panel = document.getElementById('featured-story-panel');
+  var wall = document.getElementById('home-wall');
+  fetchApproved('good_news_posts', 'created_at', 4).then(function (rows) {
+    if (!rows.length) {
+      panel.querySelector('.loading-note').textContent = 'New stories coming soon.';
+      wall.innerHTML = '<p class="loading-note">No stories published yet — check back soon.</p>';
+      return;
+    }
+    var featured = rows[0];
+    panel.querySelector('.loading-note').outerHTML =
+      '<a class="feat" href="/good-news-story.html?slug=' + encodeURIComponent(featured.slug) + '" style="display:block">' +
+      '<span class="tag">' + escapeHtml(featured.tag || 'Good News') + '</span>' +
+      '<h3>' + escapeHtml(featured.title) + '</h3>' +
+      '<p>' + escapeHtml(featured.excerpt || '') + '</p>' +
+      '<div class="by">' +
+      '<span class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0" stroke-linecap="round"/></svg></span>' +
+      '<span class="who">' + escapeHtml(featured.byline || 'A Season One story') + '<span>' + escapeHtml(featured.tag || '') + '</span></span>' +
+      '</div></a>';
+
+    var wallPosts = rows.slice(1, 4);
+    wall.innerHTML = wallPosts.length
+      ? wallPosts.map(wallCardHtml).join('')
+      : '<p class="loading-note">More stories coming soon.</p>';
+  }).catch(function () {
+    panel.querySelector('.loading-note').textContent = 'Couldn\'t load right now.';
+    wall.innerHTML = '<p class="loading-note">Couldn\'t load stories right now — please refresh.</p>';
+  });
+})();
+</script>
 </body>
 </html>

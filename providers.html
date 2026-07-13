@@ -67,7 +67,6 @@
 
 <section class="band">
   <div class="wrap" data-filter-scope>
-    <div class="sample-note reveal in">These are sample listings to show how the directory works. Real provider listings will appear here as practices join — <a href="/list-practice.html" style="color:var(--sun-ink);font-weight:700">list yours</a>.</div>
     <div class="filter-bar reveal in">
       <input class="filter-input" type="search" placeholder="Search by name, specialty, or location…" aria-label="Search providers">
     </div>
@@ -80,50 +79,7 @@
       <button class="filter-chip" data-tag="teens">Teens &amp; Adolescents</button>
     </div>
 
-    <div class="grid-3">
-      <div class="item-card reveal in" data-tags="anxiety-depression,trauma" data-search="Dr. Amara Okafor licensed clinical psychologist seattle washington anxiety depression trauma">
-        <span class="tag t-sage">Accepting new clients</span>
-        <h3>Dr. Amara Okafor, PsyD</h3>
-        <div class="meta">Licensed Clinical Psychologist · Seattle, WA</div>
-        <p>Anxiety, depression, and trauma-focused care using CBT and EMDR. Telehealth available across Washington State.</p>
-        <span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="substance-use" data-search="James Whitfield LCSW substance use recovery counselor denver colorado">
-        <span class="tag t-sky">Telehealth</span>
-        <h3>James Whitfield, LCSW</h3>
-        <div class="meta">Licensed Clinical Social Worker · Denver, CO</div>
-        <p>Substance use and recovery counseling with a harm-reduction approach. Individual and group sessions.</p>
-        <span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="couples-family" data-search="Riverside Family Therapy couples family therapist austin texas">
-        <span class="tag t-peach">In-person</span>
-        <h3>Riverside Family Therapy</h3>
-        <div class="meta">Group Practice · Austin, TX</div>
-        <p>Couples and family therapy, including premarital counseling and co-parenting support after separation.</p>
-        <span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="teens" data-search="Priya Nair LMFT teen adolescent therapist chicago illinois">
-        <span class="tag t-sage">Accepting new clients</span>
-        <h3>Priya Nair, LMFT</h3>
-        <div class="meta">Marriage &amp; Family Therapist · Chicago, IL</div>
-        <p>Works with teens and adolescents navigating anxiety, school stress, and identity — plus parent coaching sessions.</p>
-        <span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="trauma" data-search="David Chen psychiatric nurse practitioner trauma PTSD first responders portland oregon">
-        <span class="tag t-sun">First responders</span>
-        <h3>David Chen, PMHNP</h3>
-        <div class="meta">Psychiatric Nurse Practitioner · Portland, OR</div>
-        <p>Trauma-informed medication management, with particular experience supporting first responders and veterans.</p>
-        <span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="anxiety-depression,couples-family" data-search="Lakeside Behavioral Health group practice anxiety depression couples atlanta georgia">
-        <span class="tag t-sky">Telehealth</span>
-        <h3>Lakeside Behavioral Health</h3>
-        <div class="meta">Group Practice · Atlanta, GA</div>
-        <p>A multidisciplinary team offering individual, couples, and group therapy for anxiety and mood-related concerns.</p>
-        <span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-    </div>
+    <div class="grid-3" id="providers-grid"><p class="loading-note">Loading providers…</p></div>
   </div>
 </section>
 
@@ -174,6 +130,54 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  function tagsFor(p) {
+    var s = ((p.specialty || '') + ' ' + (p.provider_type || '')).toLowerCase();
+    var tags = [];
+    if (/anxiety|depress/.test(s)) tags.push('anxiety-depression');
+    if (/trauma|ptsd/.test(s)) tags.push('trauma');
+    if (/substance|addiction/.test(s)) tags.push('substance-use');
+    if (/couple|family/.test(s)) tags.push('couples-family');
+    if (/teen|adolescent/.test(s)) tags.push('teens');
+    return tags.join(',');
+  }
+  function badgeFor(p) {
+    if (p.format === 'Telehealth only') return { text: 'Telehealth', cls: 't-sky' };
+    if (p.format === 'In-person only') return { text: 'In-person', cls: 't-peach' };
+    return { text: 'Accepting new clients', cls: 't-sage' };
+  }
+  function cardHtml(p) {
+    var badge = badgeFor(p);
+    var meta = [p.provider_type, p.location].filter(Boolean).join(' · ');
+    var search = [p.practice_name, p.specialty, p.location, p.credentials, p.provider_type].filter(Boolean).join(' ').toLowerCase();
+    var avatar = p.headshot_url ? '<img class="avatar" src="' + escapeHtml(p.headshot_url) + '" alt="">' : '';
+    var cta = p.website
+      ? '<a class="cta" href="' + escapeHtml(p.website) + '" target="_blank" rel="noopener">Visit website <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>'
+      : '<span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
+    return '<div class="item-card reveal in" data-tags="' + escapeHtml(tagsFor(p)) + '" data-search="' + escapeHtml(search) + '">' +
+      avatar +
+      '<span class="tag ' + badge.cls + '">' + escapeHtml(badge.text) + '</span>' +
+      '<h3>' + escapeHtml(p.practice_name) + '</h3>' +
+      '<div class="meta">' + escapeHtml(meta) + '</div>' +
+      '<p>' + escapeHtml(p.specialty || p.message || 'Behavioral health provider.') + '</p>' +
+      cta +
+      '</div>';
+  }
+  var grid = document.getElementById('providers-grid');
+  fetchApproved('providers', 'created_at').then(function (rows) {
+    if (!rows.length) {
+      grid.innerHTML = '<p class="loading-note">No providers listed yet — <a href="/list-practice.html" style="color:var(--sun-ink);font-weight:700">be the first</a>.</p>';
+      return;
+    }
+    grid.innerHTML = rows.map(cardHtml).join('');
+    initDirectoryFilters(grid.closest('[data-filter-scope]'));
+  }).catch(function () {
+    grid.innerHTML = '<p class="loading-note">Couldn\'t load providers right now — please refresh.</p>';
+  });
+})();
+</script>
 </body>
 </html>

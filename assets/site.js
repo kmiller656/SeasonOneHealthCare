@@ -1,4 +1,64 @@
 /* Season One Healthcare marketing site — shared behavior */
+
+// ─── Supabase client + data helpers (used by directory pages, forms, admin) ──
+var SUPABASE_URL = 'https://gvqfktkkqscgmxlahyyh.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWZrdGtrcXNjZ214bGFoeXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwOTQ2MDgsImV4cCI6MjA5NzY3MDYwOH0.KSVEzNo0MC9JQCTwN8mpo9UyngObbmA4F3hnORc8r9k';
+
+function getSupabaseClient() {
+  if (!window.sbClient && window.supabase) {
+    window.sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  return window.sbClient;
+}
+
+function fetchApproved(table, orderColumn, limit) {
+  var client = getSupabaseClient();
+  if (!client) return Promise.resolve([]);
+  var q = client.from(table).select('*').eq('status', 'approved').order(orderColumn || 'created_at', { ascending: false });
+  if (limit) q = q.limit(limit);
+  return q.then(function (res) { return res.error ? [] : res.data; });
+}
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Search + tag filtering for a directory grid. Safe to call more than once
+// (e.g. once automatically at load, again after async-rendered cards arrive) —
+// apply() always re-queries .item-card live, and a guard prevents double-binding.
+function initDirectoryFilters(scope) {
+  if (!scope || scope.dataset.filterInit) return;
+  scope.dataset.filterInit = '1';
+  var input = scope.querySelector('.filter-input');
+  var chips = scope.querySelectorAll('.filter-chip');
+  var activeTag = '';
+  function apply() {
+    var q = (input && input.value || '').trim().toLowerCase();
+    scope.querySelectorAll('.item-card').forEach(function (card) {
+      var text = (card.getAttribute('data-search') || card.textContent).toLowerCase();
+      var tags = (card.getAttribute('data-tags') || '').split(',');
+      var matchesText = !q || text.indexOf(q) !== -1;
+      var matchesTag = !activeTag || tags.indexOf(activeTag) !== -1;
+      card.style.display = (matchesText && matchesTag) ? '' : 'none';
+    });
+  }
+  if (input) input.addEventListener('input', apply);
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      activeTag = chip.getAttribute('data-tag') || '';
+      apply();
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
   // Scroll-reveal
@@ -40,32 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (btn) cb.addEventListener('change', function () { btn.disabled = !cb.checked; });
   });
 
-  // Directory search + tag filtering (providers / resources / shop / jobs)
-  document.querySelectorAll('[data-filter-scope]').forEach(function (scope) {
-    var input = scope.querySelector('.filter-input');
-    var chips = scope.querySelectorAll('.filter-chip');
-    var cards = scope.querySelectorAll('.item-card');
-    var activeTag = '';
-    function apply() {
-      var q = (input && input.value || '').trim().toLowerCase();
-      cards.forEach(function (card) {
-        var text = (card.getAttribute('data-search') || card.textContent).toLowerCase();
-        var tags = (card.getAttribute('data-tags') || '').split(',');
-        var matchesText = !q || text.indexOf(q) !== -1;
-        var matchesTag = !activeTag || tags.indexOf(activeTag) !== -1;
-        card.style.display = (matchesText && matchesTag) ? '' : 'none';
-      });
-    }
-    if (input) input.addEventListener('input', apply);
-    chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        chips.forEach(function (c) { c.classList.remove('active'); });
-        chip.classList.add('active');
-        activeTag = chip.getAttribute('data-tag') || '';
-        apply();
-      });
-    });
-  });
+  // Directory filters — binds immediately for static content (e.g. resources.html);
+  // pages that render cards asynchronously call initDirectoryFilters() again themselves.
+  document.querySelectorAll('[data-filter-scope]').forEach(initDirectoryFilters);
 
   // Smooth in-page anchor scrolling
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {

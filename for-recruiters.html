@@ -182,6 +182,30 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  var form = document.querySelector('form[data-web3forms]');
+  if (!form) return;
+  form.addEventListener('submit', function () {
+    var client = getSupabaseClient();
+    if (!client) return;
+    var fd = new FormData(form);
+    client.from('jobs').insert({
+      organization: fd.get('organization'),
+      contact_name: fd.get('contact_name'),
+      email: fd.get('email'),
+      phone: fd.get('phone') || null,
+      org_type: fd.get('org_type') || null,
+      role_title: fd.get('role_title'),
+      location: fd.get('location') || null,
+      role_details: fd.get('role_details') || null
+    }).then(function (res) {
+      if (res.error) console.error('Supabase insert error:', res.error);
+    });
+  });
+})();
+</script>
 </body>
 </html>

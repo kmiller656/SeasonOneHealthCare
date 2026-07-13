@@ -67,45 +67,7 @@
 
 <section class="band">
   <div class="wrap">
-    <div class="sample-note reveal in">These are sample stories built to show how the Good News wall works. Real stories will replace these as they're published.</div>
-    <div class="wall">
-      <a class="news reveal in" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sage">Recovery</span>
-        <h3>A hotline that never sleeps</h3>
-        <p>Meet the overnight crisis team answering calls when the rest of the world is asleep — and the difference they quietly make.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal in" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sky">First Responders</span>
-        <h3>The firehouse that talks about it</h3>
-        <p>How one station made mental-health check-ins part of every shift — and why other crews are starting to follow.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal in" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-peach">Access</span>
-        <h3>Care that reached a town with none</h3>
-        <p>A rural clinic brought behavioral health services to a community that had gone years without — and demand hasn't slowed since.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal in" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sage">Peer Support</span>
-        <h3>"She reminded me I wasn't alone."</h3>
-        <p>How one peer specialist is quietly reshaping recovery for people in her community, one conversation at a time.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal in" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sun">Workplace</span>
-        <h3>The clinic that gave its therapists therapy</h3>
-        <p>A small practice built paid clinical supervision and peer consultation into every week — and burnout dropped.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="news reveal in" href="/good-news-story.html" style="display:flex">
-        <span class="tag t-sky">Community</span>
-        <h3>A waiting room that doesn't feel like one</h3>
-        <p>How a redesign — and a few small policy changes — made one clinic's front door feel like a welcome instead of a hurdle.</p>
-        <span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-    </div>
+    <div class="wall" id="stories-wall"><p class="loading-note">Loading stories…</p></div>
   </div>
 </section>
 
@@ -156,6 +118,31 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  var tagColors = ['t-sage', 't-sky', 't-peach', 't-sun'];
+  function cardHtml(post, i) {
+    var cls = tagColors[i % tagColors.length];
+    return '<a class="news reveal in" href="/good-news-story.html?slug=' + encodeURIComponent(post.slug) + '" style="display:flex">' +
+      '<span class="tag ' + cls + '">' + escapeHtml(post.tag || 'Good News') + '</span>' +
+      '<h3>' + escapeHtml(post.title) + '</h3>' +
+      '<p>' + escapeHtml(post.excerpt || '') + '</p>' +
+      '<span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+      '</a>';
+  }
+  var wall = document.getElementById('stories-wall');
+  fetchApproved('good_news_posts', 'created_at').then(function (rows) {
+    if (!rows.length) {
+      wall.innerHTML = '<p class="loading-note">No stories published yet — check back soon.</p>';
+      return;
+    }
+    wall.innerHTML = rows.map(cardHtml).join('');
+  }).catch(function () {
+    wall.innerHTML = '<p class="loading-note">Couldn\'t load stories right now — please refresh.</p>';
+  });
+})();
+</script>
 </body>
 </html>

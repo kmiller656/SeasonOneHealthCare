@@ -170,6 +170,55 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  var form = document.querySelector('form[data-web3forms]');
+  if (!form) return;
+  form.addEventListener('submit', function () {
+    var client = getSupabaseClient();
+    if (!client) return;
+    var fd = new FormData(form);
+    var fileInput = form.querySelector('input[name="headshot"]');
+    var file = fileInput && fileInput.files && fileInput.files[0];
+
+    function insertRow(headshotUrl) {
+      client.from('providers').insert({
+        practice_name: fd.get('practice_name'),
+        contact_name: fd.get('contact_name'),
+        email: fd.get('email'),
+        phone: fd.get('phone') || null,
+        provider_type: fd.get('provider_type') || null,
+        credentials: fd.get('credentials') || null,
+        specialty: fd.get('specialty') || null,
+        location: fd.get('location') || null,
+        format: fd.get('format') || null,
+        website: fd.get('website') || null,
+        instagram: fd.get('instagram') || null,
+        facebook: fd.get('facebook') || null,
+        linkedin: fd.get('linkedin') || null,
+        tiktok: fd.get('tiktok') || null,
+        message: fd.get('message') || null,
+        headshot_url: headshotUrl
+      }).then(function (res) {
+        if (res.error) console.error('Supabase insert error:', res.error);
+      });
+    }
+
+    if (file) {
+      var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      var path = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+      client.storage.from('headshots').upload(path, file).then(function (res) {
+        if (res.error) { insertRow(null); return; }
+        var pub = client.storage.from('headshots').getPublicUrl(path);
+        insertRow(pub.data.publicUrl);
+      });
+    } else {
+      insertRow(null);
+    }
+  });
+})();
+</script>
 </body>
 </html>

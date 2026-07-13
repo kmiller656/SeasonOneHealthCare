@@ -239,6 +239,7 @@ section.band{padding:56px 0}
   transition:transform .18s ease, box-shadow .18s ease;
 }
 .item-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.item-card .avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;margin-bottom:14px}
 .item-card .tag{align-self:flex-start;font-weight:700;font-size:0.72rem;padding:5px 11px;border-radius:7px;letter-spacing:0.02em;margin-bottom:14px}
 .item-card h3{font-size:1.15rem;margin-bottom:6px}
 .item-card .meta{font-size:0.84rem;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
@@ -251,6 +252,7 @@ section.band{padding:56px 0}
   background:var(--sun);color:var(--sun-ink);border-radius:var(--r-sm);
   padding:14px 18px;font-size:0.88rem;font-weight:600;margin-bottom:30px;
 }
+.loading-note{grid-column:1/-1;text-align:center;color:var(--ink-soft);font-weight:600;font-size:0.98rem;padding:40px 0}
 
 /* ── Forms (contact, list-practice, for-recruiters, partner, unsubscribe) ─ */
 .form-section{padding:52px 0 80px}

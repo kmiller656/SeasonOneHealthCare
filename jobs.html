@@ -67,7 +67,6 @@
 
 <section class="band">
   <div class="wrap" data-filter-scope>
-    <div class="sample-note reveal in">These are sample listings to show how the jobs board works. Real openings will appear here as employers post — <a href="/for-recruiters.html" style="color:var(--sun-ink);font-weight:700">post a role</a>.</div>
     <div class="filter-bar reveal in">
       <input class="filter-input" type="search" placeholder="Search by title, location, or setting…" aria-label="Search jobs">
     </div>
@@ -79,50 +78,7 @@
       <button class="filter-chip" data-tag="remote">Remote</button>
     </div>
 
-    <div class="grid-3">
-      <div class="item-card reveal in" data-tags="clinical,remote" data-search="licensed therapist remote telehealth full time">
-        <span class="tag t-sky">Remote</span>
-        <h3>Licensed Therapist</h3>
-        <div class="meta">Evergreen Behavioral Health · Remote (US)</div>
-        <p>Full-time telehealth caseload with flexible scheduling and full benefits. LCSW, LMFT, or LPC welcome.</p>
-        <span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="peer-support" data-search="peer support specialist recovery community center">
-        <span class="tag t-sage">In-person</span>
-        <h3>Peer Support Specialist</h3>
-        <div class="meta">Harbor Recovery Center · Portland, OR</div>
-        <p>Support individuals in early recovery through lived-experience mentorship and community groups.</p>
-        <span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="leadership" data-search="clinical director group practice leadership role">
-        <span class="tag t-peach">Full-time</span>
-        <h3>Clinical Director</h3>
-        <div class="meta">Riverside Family Therapy · Austin, TX</div>
-        <p>Lead a team of eight clinicians, oversee clinical quality, and help shape the practice's growth.</p>
-        <span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="clinical" data-search="psychiatric nurse practitioner PMHNP hospital">
-        <span class="tag t-sun">Full-time</span>
-        <h3>Psychiatric Nurse Practitioner</h3>
-        <div class="meta">Cascade Community Health · Spokane, WA</div>
-        <p>Join an FQHC serving a medically underserved region, with med management and integrated primary care.</p>
-        <span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="clinical,remote" data-search="crisis counselor overnight hotline remote">
-        <span class="tag t-sky">Remote</span>
-        <h3>Overnight Crisis Counselor</h3>
-        <div class="meta">Lifeline Regional Network · Remote (US)</div>
-        <p>Join an overnight crisis response team taking calls and texts from people in acute distress.</p>
-        <span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-      <div class="item-card reveal in" data-tags="peer-support,leadership" data-search="program manager peer support services nonprofit">
-        <span class="tag t-sage">Full-time</span>
-        <h3>Peer Support Program Manager</h3>
-        <div class="meta">Open Door Wellness · Minneapolis, MN</div>
-        <p>Manage a growing peer-support program, including hiring, training, and community partnerships.</p>
-        <span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </div>
-    </div>
+    <div class="grid-3" id="jobs-grid"><p class="loading-note">Loading jobs…</p></div>
   </div>
 </section>
 
@@ -173,6 +129,46 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  function tagsFor(j) {
+    var loc = (j.location || '').toLowerCase();
+    var title = (j.role_title || '').toLowerCase();
+    var tags = [];
+    if (loc.indexOf('remote') !== -1) tags.push('remote');
+    if (/director|manager|lead/.test(title)) tags.push('leadership');
+    if (/peer/.test(title)) tags.push('peer-support');
+    if (/therap|counsel|psychiat|nurse|clinician|psycholog/.test(title)) tags.push('clinical');
+    return tags.join(',');
+  }
+  function cardHtml(j) {
+    var remote = (j.location || '').toLowerCase().indexOf('remote') !== -1;
+    var badgeText = remote ? 'Remote' : 'In-person';
+    var badgeCls = remote ? 't-sky' : 't-sage';
+    var meta = [j.organization, j.location].filter(Boolean).join(' · ');
+    var search = [j.role_title, j.organization, j.location, j.org_type].filter(Boolean).join(' ').toLowerCase();
+    return '<div class="item-card reveal in" data-tags="' + escapeHtml(tagsFor(j)) + '" data-search="' + escapeHtml(search) + '">' +
+      '<span class="tag ' + badgeCls + '">' + escapeHtml(badgeText) + '</span>' +
+      '<h3>' + escapeHtml(j.role_title) + '</h3>' +
+      '<div class="meta">' + escapeHtml(meta) + '</div>' +
+      '<p>' + escapeHtml(j.role_details || 'Open role in behavioral health.') + '</p>' +
+      '<span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
+      '</div>';
+  }
+  var grid = document.getElementById('jobs-grid');
+  fetchApproved('jobs', 'created_at').then(function (rows) {
+    if (!rows.length) {
+      grid.innerHTML = '<p class="loading-note">No open roles right now — <a href="/for-recruiters.html" style="color:var(--sun-ink);font-weight:700">post one</a>.</p>';
+      return;
+    }
+    grid.innerHTML = rows.map(cardHtml).join('');
+    initDirectoryFilters(grid.closest('[data-filter-scope]'));
+  }).catch(function () {
+    grid.innerHTML = '<p class="loading-note">Couldn\'t load jobs right now — please refresh.</p>';
+  });
+})();
+</script>
 </body>
 </html>
