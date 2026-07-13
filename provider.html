@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Good news from behavioral health — real stories about the people quietly doing this work well.">
+<meta name="description" id="page-description" content="A behavioral-health provider listed on Season One Healthcare.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://seasononehealthcare.com/good-news.html">
+<link rel="canonical" id="page-canonical" href="https://seasononehealthcare.com/providers.html">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
-<title>Good News | Season One Healthcare</title>
+<title id="page-title">Provider Profile | Season One Healthcare</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -59,25 +59,13 @@
   </div>
 </div>
 
-<section class="wrap page-head reveal in">
-  <span class="eyebrow">Good News</span>
-  <h1>Stories worth sharing.</h1>
-  <p>The people lifting others up, and the moments that remind us the work matters. New stories every week.</p>
-</section>
-
-<section class="band">
-  <div class="wrap">
-    <div class="wall" id="stories-wall"><p class="loading-note">Loading stories…</p></div>
-  </div>
-</section>
-
-<section class="band band-cream2">
-  <div class="wrap" style="text-align:center;max-width:600px">
-    <h2 class="reveal in" style="font-size:clamp(1.5rem,3vw,1.9rem);margin-bottom:14px">Know a good story?</h2>
-    <p class="reveal in" style="color:var(--ink-2);font-weight:500;font-size:1.02rem;margin-bottom:24px">Tell us about someone doing this work well — a provider, a program, a moment worth sharing.</p>
-    <a href="/share-a-story.html" class="btn btn-primary reveal in">Share a story</a>
-  </div>
-</section>
+<div class="profile reveal in" id="profile-root">
+  <a href="/providers.html" class="article-back">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    Back to Providers
+  </a>
+  <p class="loading-note" style="text-align:left;padding:20px 0">Loading profile…</p>
+</div>
 
 <footer>
   <div class="wrap">
@@ -122,26 +110,65 @@
 <script src="/assets/site.js"></script>
 <script>
 (function () {
-  var tagColors = ['t-sage', 't-sky', 't-peach', 't-sun'];
-  function cardHtml(post, i) {
-    var cls = tagColors[i % tagColors.length];
-    return '<a class="news reveal in" href="/good-news-story.html?slug=' + encodeURIComponent(post.slug) + '" style="display:flex">' +
-      '<span class="tag ' + cls + '">' + escapeHtml(post.tag || 'Good News') + '</span>' +
-      '<h3>' + escapeHtml(post.title) + '</h3>' +
-      '<p>' + escapeHtml(post.excerpt || '') + '</p>' +
-      '<span class="more">Read the story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>' +
-      '</a>';
+  var root = document.getElementById('profile-root');
+  var backLink = root.querySelector('.article-back').outerHTML;
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+
+  function showNotFound() {
+    root.innerHTML = backLink +
+      '<h1>Profile not found</h1><p>This listing may have been removed. <a href="/providers.html" style="color:var(--gold-deep);font-weight:700">See all providers</a>.</p>';
   }
-  var wall = document.getElementById('stories-wall');
-  fetchApproved('good_news_posts', 'created_at').then(function (rows) {
-    if (!rows.length) {
-      wall.innerHTML = '<p class="loading-note">No stories published yet — check back soon.</p>';
-      return;
-    }
-    wall.innerHTML = rows.map(cardHtml).join('');
-  }).catch(function () {
-    wall.innerHTML = '<p class="loading-note">Couldn\'t load stories right now — please refresh.</p>';
-  });
+
+  if (!id) { showNotFound(); return; }
+  var client = getSupabaseClient();
+  if (!client) { showNotFound(); return; }
+
+  client.from('providers').select('*').eq('status', 'approved').eq('id', id).maybeSingle()
+    .then(function (res) {
+      var p = res.data;
+      if (!p) { showNotFound(); return; }
+
+      document.getElementById('page-title').textContent = p.practice_name + ' | Season One Healthcare';
+      document.getElementById('page-description').setAttribute('content', (p.specialty || p.provider_type || 'A behavioral-health provider') + ' — ' + (p.location || 'Season One Healthcare'));
+      document.getElementById('page-canonical').setAttribute('href', 'https://seasononehealthcare.com/provider.html?id=' + encodeURIComponent(p.id));
+
+      var badgeText = p.format === 'Telehealth only' ? 'Telehealth' : (p.format === 'In-person only' ? 'In-person' : 'Accepting new clients');
+      var badgeCls = p.format === 'Telehealth only' ? 't-sky' : (p.format === 'In-person only' ? 't-peach' : 't-sage');
+
+      var avatarHtml = p.headshot_url
+        ? '<img class="profile-avatar" src="' + escapeHtml(p.headshot_url) + '" alt="">'
+        : '<span class="profile-avatar-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke-linecap="round"/></svg></span>';
+
+      var metaLine = [p.provider_type, p.credentials].filter(Boolean).join(' · ');
+
+      var links = [
+        ['website', p.website, 'Website'],
+        ['instagram', p.instagram, 'Instagram'],
+        ['facebook', p.facebook, 'Facebook'],
+        ['linkedin', p.linkedin, 'LinkedIn'],
+        ['tiktok', p.tiktok, 'TikTok']
+      ].filter(function (l) { return l[1]; })
+        .map(function (l) {
+          return '<a href="' + escapeHtml(l[1]) + '" target="_blank" rel="noopener">' + escapeHtml(l[2]) +
+            ' <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>';
+        }).join('');
+
+      root.innerHTML = backLink +
+        '<div class="profile-header">' + avatarHtml +
+        '<div class="profile-title">' +
+        '<h1>' + escapeHtml(p.practice_name) + '</h1>' +
+        (metaLine ? '<div class="meta">' + escapeHtml(metaLine) + '</div>' : '') +
+        (p.location ? '<div class="meta">' + escapeHtml(p.location) + '</div>' : '') +
+        '<span class="tag ' + badgeCls + '">' + escapeHtml(badgeText) + '</span>' +
+        '</div></div>' +
+        '<div class="profile-body">' +
+        '<p>' + escapeHtml(p.specialty || p.message || 'Behavioral health provider.') + '</p>' +
+        (p.specialty && p.message ? '<p>' + escapeHtml(p.message) + '</p>' : '') +
+        (links ? '<div class="profile-links">' + links + '</div>' : '') +
+        '</div>';
+    })
+    .catch(showNotFound);
 })();
 </script>
 </body>

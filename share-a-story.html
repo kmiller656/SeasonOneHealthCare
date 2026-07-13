@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Browse roles across behavioral health and connect with places that are hiring.">
+<meta name="description" content="Tell Season One Healthcare about someone doing behavioral-health work well — a provider, a program, a moment worth sharing.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://seasononehealthcare.com/jobs.html">
+<link rel="canonical" href="https://seasononehealthcare.com/share-a-story.html">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
-<title>Jobs | Season One Healthcare</title>
+<title>Share a Story | Season One Healthcare</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -60,33 +60,43 @@
 </div>
 
 <section class="wrap page-head reveal in">
-  <span class="eyebrow">Jobs</span>
-  <h1>Find your next role in behavioral health.</h1>
-  <p>Open positions from practices, clinics, and facilities across the country — updated as new roles are posted.</p>
+  <span class="eyebrow">Good News</span>
+  <h1>Share a story.</h1>
+  <p>Know someone doing this work well — a provider, a program, a moment worth sharing? Tell us about it. We read every submission and follow up before anything goes live.</p>
 </section>
 
-<section class="band">
-  <div class="wrap" data-filter-scope>
-    <div class="filter-bar reveal in">
-      <input class="filter-input" type="search" placeholder="Search by title, location, or setting…" aria-label="Search jobs">
+<section class="form-section">
+  <div class="wrap">
+    <div class="form-card wide reveal in">
+      <div class="form-success">Thanks for sharing! We'll review it and follow up if we'd like to feature it.</div>
+      <div class="form-error">Something went wrong. Please try again or email <a href="mailto:info@seasononehealthcare.com">info@seasononehealthcare.com</a>.</div>
+      <form data-web3forms>
+        <input type="hidden" name="access_key" value="29ab9da0-4cba-45a4-a0dc-57e0b49e7737">
+        <input type="hidden" name="subject" value="New Story Submission — Season One Healthcare">
+        <input type="hidden" name="from_name" value="Season One Healthcare — Share a Story">
+        <input type="hidden" name="review_note" value="Review and approve at https://seasononehealthcare.com/admin">
+        <div class="form-row">
+          <div class="form-group"><label>Your name *</label><input type="text" name="submitter_name" required></div>
+          <div class="form-group"><label>Your email *</label><input type="email" name="submitter_email" required></div>
+        </div>
+        <div class="form-group"><label>Story title *</label><input type="text" name="title" placeholder="A short, specific title" required></div>
+        <div class="form-group"><label>Category</label>
+          <select name="tag">
+            <option value="">—</option>
+            <option value="Recovery">Recovery</option>
+            <option value="First Responders">First Responders</option>
+            <option value="Access">Access</option>
+            <option value="Peer Support">Peer Support</option>
+            <option value="Workplace">Workplace</option>
+            <option value="Community">Community</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Short summary *</label><textarea name="excerpt" rows="2" placeholder="One or two sentences — this shows on the Good News wall" required></textarea></div>
+        <div class="form-group"><label>Tell us the story *</label><textarea name="body" rows="8" placeholder="Give us the details — who's involved, what happened, why it matters. Separate paragraphs with a blank line." required></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">Submit story</button>
+        <p class="form-note">We review every submission before it's published. There's no cost, and we may lightly edit for clarity.</p>
+      </form>
     </div>
-    <div class="filter-bar reveal in">
-      <button class="filter-chip active" data-tag="">All roles</button>
-      <button class="filter-chip" data-tag="clinical">Clinical</button>
-      <button class="filter-chip" data-tag="peer-support">Peer Support</button>
-      <button class="filter-chip" data-tag="leadership">Leadership</button>
-      <button class="filter-chip" data-tag="remote">Remote</button>
-    </div>
-
-    <div class="grid-3" id="jobs-grid"><p class="loading-note">Loading jobs…</p></div>
-  </div>
-</section>
-
-<section class="band band-cream2">
-  <div class="wrap" style="text-align:center;max-width:600px">
-    <h2 class="reveal in" style="font-size:clamp(1.5rem,3vw,1.9rem);margin-bottom:14px">Hiring in behavioral health?</h2>
-    <p class="reveal in" style="color:var(--ink-2);font-weight:500;font-size:1.02rem;margin-bottom:24px">Post your open roles to reach qualified people across the field.</p>
-    <a href="/for-recruiters.html" class="btn btn-navy reveal in">Post an open role</a>
   </div>
 </section>
 
@@ -133,43 +143,26 @@
 <script src="/assets/site.js"></script>
 <script>
 (function () {
-  function tagsFor(j) {
-    var loc = (j.location || '').toLowerCase();
-    var title = (j.role_title || '').toLowerCase();
-    var tags = [];
-    if (loc.indexOf('remote') !== -1) tags.push('remote');
-    if (/director|manager|lead/.test(title)) tags.push('leadership');
-    if (/peer/.test(title)) tags.push('peer-support');
-    if (/therap|counsel|psychiat|nurse|clinician|psycholog/.test(title)) tags.push('clinical');
-    return tags.join(',');
-  }
-  function cardHtml(j) {
-    var remote = (j.location || '').toLowerCase().indexOf('remote') !== -1;
-    var badgeText = remote ? 'Remote' : 'In-person';
-    var badgeCls = remote ? 't-sky' : 't-sage';
-    var meta = [j.organization, j.location].filter(Boolean).join(' · ');
-    var search = [j.role_title, j.organization, j.location, j.org_type].filter(Boolean).join(' ').toLowerCase();
-    var cta = j.apply_url
-      ? '<a class="cta" href="' + escapeHtml(j.apply_url) + '" target="_blank" rel="noopener">Apply now <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>'
-      : '<span class="cta">View role <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
-    return '<div class="item-card reveal in" data-tags="' + escapeHtml(tagsFor(j)) + '" data-search="' + escapeHtml(search) + '">' +
-      '<span class="tag ' + badgeCls + '">' + escapeHtml(badgeText) + '</span>' +
-      '<h3>' + escapeHtml(j.role_title) + '</h3>' +
-      '<div class="meta">' + escapeHtml(meta) + '</div>' +
-      '<p>' + escapeHtml(j.role_details || 'Open role in behavioral health.') + '</p>' +
-      cta +
-      '</div>';
-  }
-  var grid = document.getElementById('jobs-grid');
-  fetchApproved('jobs', 'created_at').then(function (rows) {
-    if (!rows.length) {
-      grid.innerHTML = '<p class="loading-note">No open roles right now — <a href="/for-recruiters.html" style="color:var(--sun-ink);font-weight:700">post one</a>.</p>';
-      return;
-    }
-    grid.innerHTML = rows.map(cardHtml).join('');
-    initDirectoryFilters(grid.closest('[data-filter-scope]'));
-  }).catch(function () {
-    grid.innerHTML = '<p class="loading-note">Couldn\'t load jobs right now — please refresh.</p>';
+  var form = document.querySelector('form[data-web3forms]');
+  if (!form) return;
+  form.addEventListener('submit', function () {
+    var client = getSupabaseClient();
+    if (!client) return;
+    var fd = new FormData(form);
+    var title = (fd.get('title') || '').trim();
+    var slug = title.toLowerCase().replace(/['"]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+      + '-' + Date.now().toString(36);
+    client.from('good_news_posts').insert({
+      status: 'pending',
+      slug: slug,
+      title: title,
+      tag: fd.get('tag') || null,
+      excerpt: fd.get('excerpt') || null,
+      body: fd.get('body') || null,
+      byline: 'Submitted by ' + (fd.get('submitter_name') || 'a reader')
+    }).then(function (res) {
+      if (res.error) console.error('Supabase insert error:', res.error);
+    });
   });
 })();
 </script>

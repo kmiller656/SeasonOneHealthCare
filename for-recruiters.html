@@ -113,6 +113,7 @@
         <input type="hidden" name="access_key" value="29ab9da0-4cba-45a4-a0dc-57e0b49e7737">
         <input type="hidden" name="subject" value="New Job Posting Request — Season One Healthcare">
         <input type="hidden" name="from_name" value="Season One Healthcare — For Recruiters">
+        <input type="hidden" name="review_note" value="Review and approve at https://seasononehealthcare.com/admin">
         <div class="form-row">
           <div class="form-group"><label>Organization name *</label><input type="text" name="organization" required></div>
           <div class="form-group"><label>Your name *</label><input type="text" name="contact_name" required></div>
@@ -136,6 +137,7 @@
           <div class="form-group"><label>Location</label><input type="text" name="location" placeholder="City, State or Remote"></div>
         </div>
         <div class="form-group"><label>Role details *</label><textarea name="role_details" rows="5" placeholder="Setting, schedule, compensation range, requirements, how to apply" required></textarea></div>
+        <div class="form-group"><label>Application URL</label><input type="url" name="apply_url" placeholder="https:// — where should applicants go to apply?"></div>
         <button type="submit" class="btn btn-navy btn-block">Submit role</button>
         <p class="form-note">We review every posting before it goes live. Roles typically post within a few business days.</p>
       </form>
@@ -200,7 +202,8 @@
       org_type: fd.get('org_type') || null,
       role_title: fd.get('role_title'),
       location: fd.get('location') || null,
-      role_details: fd.get('role_details') || null
+      role_details: fd.get('role_details') || null,
+      apply_url: fd.get('apply_url') || null
     }).then(function (res) {
       if (res.error) console.error('Supabase insert error:', res.error);
     });

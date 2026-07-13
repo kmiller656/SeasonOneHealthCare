@@ -239,7 +239,7 @@ section.band{padding:56px 0}
   transition:transform .18s ease, box-shadow .18s ease;
 }
 .item-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.item-card .avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;margin-bottom:14px}
+.item-card .avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;margin-bottom:16px}
 .item-card .tag{align-self:flex-start;font-weight:700;font-size:0.72rem;padding:5px 11px;border-radius:7px;letter-spacing:0.02em;margin-bottom:14px}
 .item-card h3{font-size:1.15rem;margin-bottom:6px}
 .item-card .meta{font-size:0.84rem;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
@@ -283,6 +283,21 @@ section.band{padding:56px 0}
 .article .byline{font-size:0.92rem;color:var(--ink-soft);font-weight:600;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
 .article p{font-size:1.08rem;line-height:1.85;color:var(--ink);margin-bottom:20px;font-weight:500}
 .article h2{font-size:1.4rem;margin:36px 0 14px}
+
+/* ── Provider profile page ─────────────────────────────────────────────── */
+.profile{max-width:720px;margin:0 auto;padding:52px 26px 90px}
+.profile-header{display:flex;gap:26px;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap}
+.profile-avatar{width:140px;height:140px;border-radius:50%;object-fit:cover;flex:none}
+.profile-avatar-placeholder{width:140px;height:140px;border-radius:50%;background:var(--sky);color:var(--sky-ink);display:grid;place-items:center;flex:none}
+.profile-avatar-placeholder svg{width:52px;height:52px}
+.profile-title h1{font-size:clamp(1.6rem,3.4vw,2.1rem);margin-bottom:10px}
+.profile-title .meta{font-size:1rem;color:var(--ink-soft);font-weight:600;margin-bottom:4px}
+.profile-title .tag{margin-top:8px}
+.profile-body{padding-top:8px;border-top:1px solid var(--line)}
+.profile-body p{font-size:1.05rem;line-height:1.8;color:var(--ink);font-weight:500;margin-bottom:24px}
+.profile-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.profile-links a{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid var(--line-2);padding:10px 16px;border-radius:20px;font-weight:700;font-size:0.9rem;color:var(--ink-2)}
+.profile-links a:hover{border-color:var(--gold-deep)}
 
 /* ── Legal pages (privacy / terms) ─────────────────────────────────────── */
 .legal{max-width:var(--max);margin:0 auto;padding:46px 26px 70px;display:grid;grid-template-columns:220px 1fr;gap:50px;align-items:start}

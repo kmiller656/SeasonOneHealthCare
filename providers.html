@@ -154,9 +154,7 @@
     var meta = [p.provider_type, p.location].filter(Boolean).join(' · ');
     var search = [p.practice_name, p.specialty, p.location, p.credentials, p.provider_type].filter(Boolean).join(' ').toLowerCase();
     var avatar = p.headshot_url ? '<img class="avatar" src="' + escapeHtml(p.headshot_url) + '" alt="">' : '';
-    var cta = p.website
-      ? '<a class="cta" href="' + escapeHtml(p.website) + '" target="_blank" rel="noopener">Visit website <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>'
-      : '<span class="cta">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
+    var cta = '<a class="cta" href="/provider.html?id=' + encodeURIComponent(p.id) + '">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
     return '<div class="item-card reveal in" data-tags="' + escapeHtml(tagsFor(p)) + '" data-search="' + escapeHtml(search) + '">' +
       avatar +
       '<span class="tag ' + badge.cls + '">' + escapeHtml(badge.text) + '</span>' +

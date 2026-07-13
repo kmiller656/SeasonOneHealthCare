@@ -67,6 +67,8 @@
     <div class="admin-panel active" id="providers-panel">
       <button class="btn btn-navy btn-sm" id="new-provider-btn" style="margin-bottom:16px">+ Add provider</button>
       <form class="story-form" id="provider-form" enctype="multipart/form-data">
+        <input type="hidden" id="provider-id">
+        <input type="hidden" id="provider-existing-headshot">
         <div class="form-row">
           <div class="form-group"><label>Practice or provider name *</label><input type="text" id="provider-practice-name" required></div>
           <div class="form-group"><label>Contact name *</label><input type="text" id="provider-contact-name" required></div>
@@ -78,6 +80,7 @@
         <div class="form-group">
           <label>Headshot or practice photo</label>
           <input type="file" id="provider-headshot" accept="image/*">
+          <span class="hint">When editing, leave this blank to keep the current photo.</span>
         </div>
         <div class="form-group">
           <label>Provider type</label>
@@ -135,6 +138,7 @@
     <div class="admin-panel" id="jobs-panel">
       <button class="btn btn-navy btn-sm" id="new-job-btn" style="margin-bottom:16px">+ Add job</button>
       <form class="story-form" id="job-form">
+        <input type="hidden" id="job-id">
         <div class="form-row">
           <div class="form-group"><label>Organization name *</label><input type="text" id="job-organization" required></div>
           <div class="form-group"><label>Contact name *</label><input type="text" id="job-contact-name" required></div>
@@ -158,6 +162,7 @@
           <div class="form-group"><label>Location</label><input type="text" id="job-location" placeholder="City, State or Remote"></div>
         </div>
         <div class="form-group"><label>Role details</label><textarea id="job-role-details" rows="4"></textarea></div>
+        <div class="form-group"><label>Application URL</label><input type="url" id="job-apply-url" placeholder="https://"></div>
         <div class="form-group"><label>Status</label>
           <select id="job-status">
             <option value="approved">Approved (live now)</option>
@@ -267,9 +272,16 @@
           '<div class="info"><h3>' + escapeHtml(p.practice_name) + '</h3><div class="meta">' + escapeHtml(meta) + '</div><p>' + escapeHtml(p.specialty || '') + '</p></div>' +
           '<div class="actions"><span class="status-badge ' + p.status + '">' + p.status + '</span>' +
           (p.status === 'pending' ? '<button class="btn btn-primary btn-sm approve-btn" data-table="providers" data-id="' + p.id + '">Approve</button>' : '') +
+          '<button class="btn btn-ghost btn-sm edit-provider-btn" data-id="' + p.id + '">Edit</button>' +
           '<button class="btn btn-danger btn-sm delete-btn" data-table="providers" data-id="' + p.id + '">Delete</button></div>' +
           '</div>';
       }).join('');
+      el.querySelectorAll('.edit-provider-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var row = rows.filter(function (r) { return r.id === btn.getAttribute('data-id'); })[0];
+          if (row) openProviderForm(row);
+        });
+      });
     });
   }
 
@@ -285,9 +297,16 @@
           '<div class="info"><h3>' + escapeHtml(j.role_title) + '</h3><div class="meta">' + escapeHtml(meta) + '</div><p>' + escapeHtml(j.role_details || '') + '</p></div>' +
           '<div class="actions"><span class="status-badge ' + j.status + '">' + j.status + '</span>' +
           (j.status === 'pending' ? '<button class="btn btn-primary btn-sm approve-btn" data-table="jobs" data-id="' + j.id + '">Approve</button>' : '') +
+          '<button class="btn btn-ghost btn-sm edit-job-btn" data-id="' + j.id + '">Edit</button>' +
           '<button class="btn btn-danger btn-sm delete-btn" data-table="jobs" data-id="' + j.id + '">Delete</button></div>' +
           '</div>';
       }).join('');
+      el.querySelectorAll('.edit-job-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var row = rows.filter(function (r) { return r.id === btn.getAttribute('data-id'); })[0];
+          if (row) openJobForm(row);
+        });
+      });
     });
   }
 
@@ -367,11 +386,31 @@
     });
   });
 
-  // ─── Manually add a provider ────────────────────────────
+  // ─── Add / edit a provider ───────────────────────────────
   var providerForm = document.getElementById('provider-form');
-  document.getElementById('new-provider-btn').addEventListener('click', function () {
+  function openProviderForm(row) {
+    document.getElementById('provider-id').value = row ? row.id : '';
+    document.getElementById('provider-existing-headshot').value = row ? (row.headshot_url || '') : '';
+    document.getElementById('provider-practice-name').value = row ? row.practice_name : '';
+    document.getElementById('provider-contact-name').value = row ? row.contact_name : '';
+    document.getElementById('provider-email').value = row ? row.email : '';
+    document.getElementById('provider-phone').value = row ? (row.phone || '') : '';
+    document.getElementById('provider-headshot').value = '';
+    document.getElementById('provider-type').value = row ? (row.provider_type || '') : '';
+    document.getElementById('provider-credentials').value = row ? (row.credentials || '') : '';
+    document.getElementById('provider-specialty').value = row ? (row.specialty || '') : '';
+    document.getElementById('provider-location').value = row ? (row.location || '') : '';
+    document.getElementById('provider-website').value = row ? (row.website || '') : '';
+    document.getElementById('provider-instagram').value = row ? (row.instagram || '') : '';
+    document.getElementById('provider-facebook').value = row ? (row.facebook || '') : '';
+    document.getElementById('provider-linkedin').value = row ? (row.linkedin || '') : '';
+    document.getElementById('provider-tiktok').value = row ? (row.tiktok || '') : '';
+    document.getElementById('provider-format').value = row ? (row.format || 'Both') : 'Both';
+    document.getElementById('provider-message').value = row ? (row.message || '') : '';
+    document.getElementById('provider-status').value = row ? row.status : 'approved';
     providerForm.classList.add('open');
-  });
+  }
+  document.getElementById('new-provider-btn').addEventListener('click', function () { openProviderForm(null); });
   document.getElementById('cancel-provider-btn').addEventListener('click', function () {
     providerForm.classList.remove('open');
     providerForm.reset();
@@ -380,9 +419,10 @@
     e.preventDefault();
     var saveBtn = providerForm.querySelector('button[type="submit"]');
     saveBtn.disabled = true;
+    var id = document.getElementById('provider-id').value;
 
-    function insertProvider(headshotUrl) {
-      client.from('providers').insert({
+    function saveProvider(headshotUrl) {
+      var payload = {
         practice_name: document.getElementById('provider-practice-name').value.trim(),
         contact_name: document.getElementById('provider-contact-name').value.trim(),
         email: document.getElementById('provider-email').value.trim(),
@@ -400,7 +440,9 @@
         message: document.getElementById('provider-message').value.trim() || null,
         headshot_url: headshotUrl,
         status: document.getElementById('provider-status').value
-      }).then(function (res) {
+      };
+      var query = id ? client.from('providers').update(payload).eq('id', id) : client.from('providers').insert(payload);
+      query.then(function (res) {
         saveBtn.disabled = false;
         if (res.error) { alert('Could not save provider: ' + res.error.message); return; }
         providerForm.classList.remove('open');
@@ -410,24 +452,37 @@
     }
 
     var file = document.getElementById('provider-headshot').files[0];
+    var existingHeadshot = document.getElementById('provider-existing-headshot').value || null;
     if (file) {
       var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
       var path = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
       client.storage.from('headshots').upload(path, file).then(function (res) {
-        if (res.error) { insertProvider(null); return; }
+        if (res.error) { saveProvider(existingHeadshot); return; }
         var pub = client.storage.from('headshots').getPublicUrl(path);
-        insertProvider(pub.data.publicUrl);
+        saveProvider(pub.data.publicUrl);
       });
     } else {
-      insertProvider(null);
+      saveProvider(existingHeadshot);
     }
   });
 
-  // ─── Manually add a job ─────────────────────────────────
+  // ─── Add / edit a job ────────────────────────────────────
   var jobForm = document.getElementById('job-form');
-  document.getElementById('new-job-btn').addEventListener('click', function () {
+  function openJobForm(row) {
+    document.getElementById('job-id').value = row ? row.id : '';
+    document.getElementById('job-organization').value = row ? row.organization : '';
+    document.getElementById('job-contact-name').value = row ? row.contact_name : '';
+    document.getElementById('job-email').value = row ? row.email : '';
+    document.getElementById('job-phone').value = row ? (row.phone || '') : '';
+    document.getElementById('job-org-type').value = row ? (row.org_type || 'Private practice') : 'Private practice';
+    document.getElementById('job-role-title').value = row ? row.role_title : '';
+    document.getElementById('job-location').value = row ? (row.location || '') : '';
+    document.getElementById('job-role-details').value = row ? (row.role_details || '') : '';
+    document.getElementById('job-apply-url').value = row ? (row.apply_url || '') : '';
+    document.getElementById('job-status').value = row ? row.status : 'approved';
     jobForm.classList.add('open');
-  });
+  }
+  document.getElementById('new-job-btn').addEventListener('click', function () { openJobForm(null); });
   document.getElementById('cancel-job-btn').addEventListener('click', function () {
     jobForm.classList.remove('open');
     jobForm.reset();
@@ -436,7 +491,8 @@
     e.preventDefault();
     var saveBtn = jobForm.querySelector('button[type="submit"]');
     saveBtn.disabled = true;
-    client.from('jobs').insert({
+    var id = document.getElementById('job-id').value;
+    var payload = {
       organization: document.getElementById('job-organization').value.trim(),
       contact_name: document.getElementById('job-contact-name').value.trim(),
       email: document.getElementById('job-email').value.trim(),
@@ -445,8 +501,11 @@
       role_title: document.getElementById('job-role-title').value.trim(),
       location: document.getElementById('job-location').value.trim() || null,
       role_details: document.getElementById('job-role-details').value.trim() || null,
+      apply_url: document.getElementById('job-apply-url').value.trim() || null,
       status: document.getElementById('job-status').value
-    }).then(function (res) {
+    };
+    var query = id ? client.from('jobs').update(payload).eq('id', id) : client.from('jobs').insert(payload);
+    query.then(function (res) {
       saveBtn.disabled = false;
       if (res.error) { alert('Could not save job: ' + res.error.message); return; }
       jobForm.classList.remove('open');
