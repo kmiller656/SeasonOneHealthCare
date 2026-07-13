@@ -114,14 +114,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Generic Web3Forms submit handler — any <form data-web3forms> with a .form-success/.form-error box
+  // Generic Web3Forms submit handler — any <form data-web3forms> with a .form-success/.form-error
+  // box nearby (either inside the form, or as a sibling within the surrounding .form-card).
   document.querySelectorAll('form[data-web3forms]').forEach(function (form) {
-    var successEl = form.querySelector('.form-success');
-    var errorEl = form.querySelector('.form-error');
+    var container = form.closest('.form-card') || form.parentElement || form;
+    var successEl = container.querySelector('.form-success');
+    var errorEl = container.querySelector('.form-error');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
-      if (btn) btn.disabled = true;
+      var originalText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
       if (errorEl) errorEl.style.display = 'none';
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -136,12 +139,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (successEl) successEl.style.display = 'block';
           } else if (errorEl) {
             errorEl.style.display = 'block';
-            if (btn) btn.disabled = false;
+            if (btn) { btn.disabled = false; btn.textContent = originalText; }
           }
         })
         .catch(function () {
           if (errorEl) errorEl.style.display = 'block';
-          if (btn) btn.disabled = false;
+          if (btn) { btn.disabled = false; btn.textContent = originalText; }
         });
     });
   });

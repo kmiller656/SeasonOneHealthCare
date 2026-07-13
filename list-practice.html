@@ -70,7 +70,7 @@
     <div class="form-card wide reveal in">
       <div class="form-success">Thanks! We've received your practice details and will be in touch before your listing goes live.</div>
       <div class="form-error">Something went wrong. Please try again or email <a href="mailto:info@seasononehealthcare.com">info@seasononehealthcare.com</a>.</div>
-      <form data-web3forms enctype="multipart/form-data">
+      <form id="practice-form" enctype="multipart/form-data">
         <input type="hidden" name="access_key" value="29ab9da0-4cba-45a4-a0dc-57e0b49e7737">
         <input type="hidden" name="subject" value="New Practice Listing Request — Season One Healthcare">
         <input type="hidden" name="from_name" value="Season One Healthcare — List Your Practice">
@@ -175,16 +175,54 @@
 <script src="/assets/site.js"></script>
 <script>
 (function () {
-  var form = document.querySelector('form[data-web3forms]');
+  var form = document.getElementById('practice-form');
   if (!form) return;
-  form.addEventListener('submit', function () {
+  var card = form.closest('.form-card');
+  var successEl = card.querySelector('.form-success');
+  var errorEl = card.querySelector('.form-error');
+  var btn = form.querySelector('button[type="submit"]');
+  var originalText = btn.textContent;
+
+  function notifyByEmail(fd) {
+    // Best-effort notification email — text only, no file attachment (the
+    // photo already lives in Supabase Storage; attaching it too just slows
+    // this down for no benefit). Never blocks or affects the UI.
+    var emailFd = new FormData();
+    Array.from(fd.entries()).forEach(function (entry) {
+      if (!(entry[1] instanceof File)) emailFd.append(entry[0], entry[1]);
+    });
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { Accept: 'application/json' }, body: emailFd
+    }).catch(function () { /* notification is best-effort only */ });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
     var client = getSupabaseClient();
-    if (!client) return;
     var fd = new FormData(form);
     var fileInput = form.querySelector('input[name="headshot"]');
     var file = fileInput && fileInput.files && fileInput.files[0];
 
+    errorEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = file ? 'Uploading photo…' : 'Submitting…';
+
+    function finish(ok) {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      if (ok) {
+        notifyByEmail(fd);
+        form.reset();
+        form.style.display = 'none';
+        successEl.style.display = 'block';
+      } else {
+        errorEl.style.display = 'block';
+      }
+    }
+
     function insertRow(headshotUrl) {
+      if (!client) { finish(false); return; }
+      btn.textContent = 'Submitting…';
       client.from('providers').insert({
         practice_name: fd.get('practice_name'),
         contact_name: fd.get('contact_name'),
@@ -204,10 +242,11 @@
         headshot_url: headshotUrl
       }).then(function (res) {
         if (res.error) console.error('Supabase insert error:', res.error);
+        finish(!res.error);
       });
     }
 
-    if (file) {
+    if (file && client) {
       var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
       var path = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
       client.storage.from('headshots').upload(path, file).then(function (res) {

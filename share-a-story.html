@@ -70,7 +70,7 @@
     <div class="form-card wide reveal in">
       <div class="form-success">Thanks for sharing! We'll review it and follow up if we'd like to feature it.</div>
       <div class="form-error">Something went wrong. Please try again or email <a href="mailto:info@seasononehealthcare.com">info@seasononehealthcare.com</a>.</div>
-      <form data-web3forms>
+      <form id="story-submit-form">
         <input type="hidden" name="access_key" value="29ab9da0-4cba-45a4-a0dc-57e0b49e7737">
         <input type="hidden" name="subject" value="New Story Submission — Season One Healthcare">
         <input type="hidden" name="from_name" value="Season One Healthcare — Share a Story">
@@ -143,15 +143,39 @@
 <script src="/assets/site.js"></script>
 <script>
 (function () {
-  var form = document.querySelector('form[data-web3forms]');
+  var form = document.getElementById('story-submit-form');
   if (!form) return;
-  form.addEventListener('submit', function () {
+  var card = form.closest('.form-card');
+  var successEl = card.querySelector('.form-success');
+  var errorEl = card.querySelector('.form-error');
+  var btn = form.querySelector('button[type="submit"]');
+  var originalText = btn.textContent;
+
+  function notifyByEmail(fd) {
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { Accept: 'application/json' }, body: fd
+    }).catch(function () { /* notification is best-effort only */ });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
     var client = getSupabaseClient();
-    if (!client) return;
     var fd = new FormData(form);
     var title = (fd.get('title') || '').trim();
     var slug = title.toLowerCase().replace(/['"]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
       + '-' + Date.now().toString(36);
+
+    errorEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    if (!client) {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      errorEl.style.display = 'block';
+      return;
+    }
+
     client.from('good_news_posts').insert({
       status: 'pending',
       slug: slug,
@@ -161,7 +185,17 @@
       body: fd.get('body') || null,
       byline: 'Submitted by ' + (fd.get('submitter_name') || 'a reader')
     }).then(function (res) {
-      if (res.error) console.error('Supabase insert error:', res.error);
+      btn.disabled = false;
+      btn.textContent = originalText;
+      if (res.error) {
+        console.error('Supabase insert error:', res.error);
+        errorEl.style.display = 'block';
+        return;
+      }
+      notifyByEmail(fd);
+      form.reset();
+      form.style.display = 'none';
+      successEl.style.display = 'block';
     });
   });
 })();
