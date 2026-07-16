@@ -28,8 +28,6 @@
         <a href="/good-news.html">Good News</a>
         <a href="/providers.html">Providers</a>
         <a href="/resources.html">Resources</a>
-        <a href="/jobs.html">Jobs</a>
-        <a href="/for-recruiters.html">For Recruiters</a>
       </nav>
       <div class="nav-cta">
         <a href="/list-practice.html" class="btn btn-navy">List your practice</a>
@@ -47,8 +45,6 @@
       <a href="/good-news.html">Good News</a>
       <a href="/providers.html">Providers</a>
       <a href="/resources.html">Resources</a>
-      <a href="/jobs.html">Jobs</a>
-      <a href="/for-recruiters.html">For Recruiters</a>
       <a href="/about.html">About</a>
       <a href="/contact-us.html">Contact</a>
     </div>
@@ -107,12 +103,10 @@
         <a href="/good-news.html">Good News</a>
         <a href="/providers.html">Providers</a>
         <a href="/resources.html">Resources</a>
-        <a href="/jobs.html">Jobs</a>
       </div>
       <div class="foot-col">
         <h5>Get involved</h5>
         <a href="/list-practice.html">List your practice</a>
-        <a href="/for-recruiters.html">For recruiters</a>
         <a href="/partner.html">Partner with us</a>
         <a href="/contact-us.html">Contact</a>
       </div>
@@ -149,11 +143,37 @@
     if (p.format === 'In-person only') return { text: 'In-person', cls: 't-peach' };
     return { text: 'Accepting new clients', cls: 't-sage' };
   }
+  var AVATAR_PALETTE = [
+    { bg: 'DDEAF5', ink: '1F5077' },
+    { bg: 'DEE9DA', ink: '3B6340' },
+    { bg: 'F7E1D4', ink: '9E4E29' },
+    { bg: 'F8ECCC', ink: '87610F' }
+  ];
+  function initialsFor(name) {
+    var parts = (name || '').trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return '?';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  function placeholderAvatar(name) {
+    var hash = 0;
+    for (var i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+    var c = AVATAR_PALETTE[hash % AVATAR_PALETTE.length];
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">' +
+      '<rect width="88" height="88" rx="44" fill="#' + c.bg + '"/>' +
+      '<text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle" font-family="Mulish, Arial, sans-serif" font-weight="700" font-size="30" fill="#' + c.ink + '">' + initialsFor(name) + '</text>' +
+      '</svg>';
+    return 'data:image/svg+xml,' + encodeURIComponent(svg);
+  }
+  function avatarFor(p) {
+    var src = p.headshot_url || placeholderAvatar(p.practice_name || '');
+    return '<img class="avatar" src="' + escapeHtml(src) + '" alt="">';
+  }
   function cardHtml(p) {
     var badge = badgeFor(p);
     var meta = [p.provider_type, p.location].filter(Boolean).join(' · ');
     var search = [p.practice_name, p.specialty, p.location, p.credentials, p.provider_type].filter(Boolean).join(' ').toLowerCase();
-    var avatar = p.headshot_url ? '<img class="avatar" src="' + escapeHtml(p.headshot_url) + '" alt="">' : '';
+    var avatar = avatarFor(p);
     var cta = '<a class="cta" href="/provider.html?id=' + encodeURIComponent(p.id) + '">View profile <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
     return '<div class="item-card reveal in" data-tags="' + escapeHtml(tagsFor(p)) + '" data-search="' + escapeHtml(search) + '">' +
       avatar +
