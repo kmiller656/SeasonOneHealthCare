@@ -243,8 +243,17 @@ deploy needs explicit confirmation), nothing has been pushed to `origin/main` �
 Pages is still serving the old behavioral-health site. Get Kenneth's go-ahead before
 `git push origin main` (and `git push origin pre-app-rebuild` for the tag).
 
-**Still open:** WP3 (real screenshots — waiting on the app UI to settle), WP7 (deploy, needs
-explicit confirmation).
+**WP7 DONE (2026-08-08, Sonnet 5) — Kenneth confirmed "push live."** Pushed the `pre-app-rebuild`
+tag and `main` to `origin`. Cloudflare Pages picked it up in well under 15 seconds. Verified live:
+`seasononehealthcare.com` serves the new title/homepage, `legal.html` serves the combined
+Privacy & Terms page (redirects to `/legal`, expected Pages clean-URL behavior), all `_headers`
+security policies present on the live response (HSTS, X-Frame-Options, nosniff,
+permissions-policy). **Noted, not a blocker:** deleted URLs like `/about.html` return `200` with
+the new homepage rather than a hard `404` — a Cloudflare Pages platform default (no custom
+`404.html` in this repo, pre-existing behavior, not introduced by this rebuild). Harmless for
+visitors; a minor SEO nit only if it matters later.
+
+**Still open:** WP3 (real screenshots — waiting on the app UI to settle).
 
 ## 5. Executor prompt
 
