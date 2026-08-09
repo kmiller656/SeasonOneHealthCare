@@ -201,6 +201,51 @@ production, not just locally.
 
 ---
 
+## 6. Progress log
+
+**D2 answered by Kenneth (2026-08-08): one combined legal page** (not three), behavioral-health
+content confirmed retiring for now, and "connect" = a single general contact form ("reach out
+via email for anything"). This supersedes the §2 recommendation of three separate legal pages.
+
+**WP1 DONE (2026-08-08, Sonnet 5, local only — not pushed).** `SITE_REBUILD_PLAN.md` committed;
+local git tag `pre-app-rebuild` created at that commit (push held — see note below). Full
+working copy archived to sibling `Website Code (Behavioral Health Archive)/` (`.git` stripped),
+matching the existing archive-folder convention.
+
+**WP2 DONE.** Deleted: `about, admin, contact-us, for-recruiters, good-news, good-news-story,
+jobs, list-practice, partner, provider, providers, resources, share-a-story` — plus `privacy`,
+`terms`, `unsubscribe` (consolidated per the D2 answer above, see WP6). `assets/site.js`: removed
+the Supabase client, `fetchApproved`, `escapeHtml`, and `initDirectoryFilters` (all now-orphaned
+directory/story-wall helpers) and their one remaining call site — kept the Web3Forms submit
+handler untouched. Confirmed by grep that nothing outside `site.js` itself referenced any of the
+removed functions before deleting them.
+
+**WP4 + WP6 DONE together** (natural to do once D2 resolved rather than leave `index.html` in a
+broken intermediate state referencing deleted pages). New `index.html`: hero → features (6-card
+grid) → screenshots (placeholder section, id="screenshots" — **real screenshots are WP3, not yet
+captured**, see the standing note about waiting for the app UI to settle) → coming-soon/signup →
+connect (contact form) → footer. New single `legal.html` replacing the three old pages, rewritten
+for the app context (dropped all directory/listing/staffing language), keeps the "draft, not
+attorney-reviewed" notice, includes the NCCPA disclaimer, adds a "The app itself" section
+clarifying the on-device privacy story is separate from the website's. Re-read against every §2
+copy constraint before finishing — no pass-rate claims, no comparative claims, no
+"clinician-verified" claim, independent-resource framing throughout.
+
+**WP2/WP4/WP6 gates verified**: served locally (`python3 -m http.server`), checked with the
+in-app browser — zero console errors on either page, all network requests 200 (site.css,
+site.js, logo-nav.png; **zero Supabase requests**, confirmed gone), zero dead links (grepped
+every `href="/*.html"` across both pages — only self-references to `/index.html` and
+`/legal.html` remain).
+
+**⚠️ Not pushed to GitHub / not deployed.** WP1's tag and all of WP2/WP4/WP6's commits are
+**local only**. Per this plan's own WP7 gate and the standing rule for this repo (production
+deploy needs explicit confirmation), nothing has been pushed to `origin/main` — Cloudflare
+Pages is still serving the old behavioral-health site. Get Kenneth's go-ahead before
+`git push origin main` (and `git push origin pre-app-rebuild` for the tag).
+
+**Still open:** WP3 (real screenshots — waiting on the app UI to settle), WP7 (deploy, needs
+explicit confirmation).
+
 ## 5. Executor prompt
 
 > Read `Website Code/SITE_REBUILD_PLAN.md` in full first. §0 contains findings verified
