@@ -381,15 +381,20 @@ footer{background:var(--ink);color:#B9D6D8;padding:52px 0 30px}
 .stat b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em}
 .stat span{font-size:12.5px;color:var(--ink-soft);font-weight:600}
 
-.hero-shot{position:relative;display:grid;place-items:center}
-.hero-shot img{width:min(300px,78%);border-radius:26px;border:1px solid var(--line-2);
-  box-shadow:0 30px 60px -30px rgba(18,84,90,.55);position:relative;z-index:1}
-.hero-shot::before{content:"";position:absolute;inset:12% 8% 8%;border-radius:30px;
-  background:linear-gradient(150deg,rgba(124,162,62,.20),rgba(29,110,116,.16));filter:blur(28px)}
+.hero-shot{position:relative;display:grid;place-items:center;padding:8px 0}
+.hero-shot::before{content:"";position:absolute;inset:10% 6% 6%;border-radius:34px;
+  background:linear-gradient(150deg,rgba(124,162,62,.22),rgba(29,110,116,.18));filter:blur(30px)}
+/* Phone bezel so a raw screenshot reads as a device, not a pasted image. */
+.device{position:relative;z-index:1;width:min(268px,100%);padding:9px;border-radius:36px;
+  background:linear-gradient(160deg,#12545A,#0C3B40);
+  box-shadow:0 26px 54px -26px rgba(18,84,90,.62), 0 0 0 1px rgba(18,84,90,.28)}
+.device img{width:100%;border-radius:27px;display:block;background:#fff}
+.device::after{content:"";position:absolute;top:17px;left:50%;transform:translateX(-50%);
+  width:74px;height:19px;border-radius:11px;background:#0C3B40}
+.shot .device,.spot .device{width:100%}
 
-.shots{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.shots{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 .shot figure{margin:0}
-.shot img{border-radius:20px;border:1px solid var(--line-2);box-shadow:var(--shadow);background:#fff}
 .shot figcaption{margin-top:14px;font-size:14px;color:var(--ink-soft);font-weight:600;text-align:center}
 .shot figcaption b{display:block;color:var(--ink);font-weight:800;font-size:15px;margin-bottom:2px}
 
@@ -398,7 +403,6 @@ footer{background:var(--ink);color:#B9D6D8;padding:52px 0 30px}
 @media(min-width:860px){.spot{grid-template-columns:1fr 300px}}
 .spot h2{font-size:clamp(24px,3vw,32px);margin-bottom:14px}
 .spot p{color:var(--ink-soft);margin-bottom:14px}
-.spot img{border-radius:18px;border:1px solid var(--line-2);box-shadow:var(--shadow)}
 .ticks{list-style:none;display:grid;gap:10px;margin-top:18px}
 .ticks li{display:flex;gap:11px;font-size:15px;font-weight:600}
 .ticks .dot{flex:0 0 auto;width:21px;height:21px;border-radius:50%;background:var(--gold);color:#fff;
