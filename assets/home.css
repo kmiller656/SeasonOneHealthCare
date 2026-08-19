@@ -57,11 +57,11 @@ a{color:inherit;text-decoration:none}
 /* ── Nav ────────────────────────────────────────────────────────────────── */
 .nav{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:22px;
-  padding:14px 28px;max-width:var(--max);margin:0 auto}
-.brand{display:flex;align-items:center;gap:11px}
-.brand .mark{width:40px;height:40px;border-radius:11px;object-fit:contain}
-.brand .name{font-weight:800;font-size:15px;line-height:1.2}
-.brand .name small{display:block;font-weight:600;font-size:12px;color:var(--ink-soft)}
+  padding:22px 28px;max-width:var(--max);margin:0 auto}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .mark{width:58px;height:58px;border-radius:14px;object-fit:contain}
+.brand .name{font-weight:800;font-size:18px;line-height:1.2}
+.brand .name small{display:block;font-weight:600;font-size:13px;color:var(--ink-soft)}
 .nav-right{display:flex;align-items:center;gap:24px}
 .nav-links{display:none;gap:26px;font-weight:700;font-size:14.5px}
 @media(min-width:940px){.nav-links{display:flex}}
@@ -235,3 +235,19 @@ footer .tagline{font-size:12.5px;color:rgba(255,255,255,.48);margin-top:10px;max
   .reveal{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
+
+
+/* Consent moved up from the removed beta section — the hero form is now the only place
+   an email is collected, so the acknowledgement has to live beside it. */
+.hero-consent{display:flex;align-items:flex-start;gap:9px;margin:14px 0 4px;
+  font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.82);max-width:34rem}
+.hero-consent a{color:#fff}
+.hero-consent input{margin-top:2px;flex:none;width:16px;height:16px;accent-color:var(--gold-deep)}
+.hero-consent a{text-decoration:underline}
+
+
+/* The hero phones sit on a page that no longer describes the app's features anywhere
+   else — which made them the only remaining place those features were named. Softened so
+   the shot still reads as a real product on a real device without the screen doubling as
+   a feature list (Kenneth, 2026-08-19). Remove this rule to show them sharp again. */
+.hero-phones .screen img{filter:blur(3.2px) saturate(1.05)}
