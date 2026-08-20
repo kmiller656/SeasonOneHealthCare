@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Season One — site styles.
+   Visual language derived from the original Season One badge: purple ground,
+   hard edges, no blur, a six-colour edge strip, monospace as the utility voice.
+   Two pages only. Nothing here needs to scroll far.
+   ========================================================================== */
+
+:root{
+  --void:#0B0512;
+  --void-2:#150A24;
+  --grape:#5C2E90;
+  --grape-lo:#3B1A66;
+  --grape-hi:#7B45B8;
+  --ice:#BEDEF7;
+  --ice-dim:#8FB6D6;
+  --gum:#F0A9E0;
+  --acid:#3FD647;
+  --ember:#F5A623;
+  --siren:#E8342C;
+  --cobalt:#2B4FE0;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--ice);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
+}
+
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* -- the six-colour edge strip, taken off the badge ------------------------ */
+.strip{display:flex;height:7px;width:100%;flex:none}
+.strip i{flex:1;display:block}
+.strip .s1{background:var(--siren)}
+.strip .s2{background:var(--ember)}
+.strip .s3{background:var(--acid)}
+.strip .s4{background:var(--cobalt)}
+.strip .s5{background:var(--gum)}
+.strip .s6{background:var(--grape-hi)}
+
+/* -- nav: the logo appears here and nowhere else --------------------------- */
+nav.top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;padding:22px 0;flex:none;
+}
+nav.top .logo{display:block;line-height:0}
+nav.top .logo img{
+  display:block;height:52px;width:auto;
+  image-rendering:pixelated;image-rendering:-moz-crisp-edges;
+}
+nav.top .links{
+  display:flex;gap:26px;font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.11em;text-transform:uppercase;
+}
+nav.top a{color:var(--ice-dim);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent}
+nav.top a:hover{color:var(--gum);border-bottom-color:var(--gum)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--acid);outline-offset:3px}
+@media(max-width:560px){nav.top .logo img{height:40px}}
+
+/* -- page body ------------------------------------------------------------- */
+main{flex:1 0 auto;position:relative}
+main::before{
+  content:"";position:absolute;inset:-30% -20% 20% -20%;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at 28% 32%,rgba(92,46,144,.40) 0%,transparent 62%);
+}
+
+.hero{padding:44px 0 84px;max-width:44rem}
+h1{
+  font-weight:800;font-size:clamp(32px,5.4vw,54px);line-height:1.06;
+  letter-spacing:-.03em;margin:0;color:#fff;text-wrap:balance;
+}
+h1 em{font-style:normal;color:var(--gum)}
+.lede{margin:26px 0 0;font-size:18.5px;line-height:1.62;color:var(--ice);max-width:54ch}
+.lede b{color:#fff;font-weight:700}
+
+.app-line{
+  margin-top:30px;display:flex;flex-wrap:wrap;gap:9px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+}
+.app-line span{border:1.5px solid rgba(190,222,247,.3);color:var(--ice-dim);padding:5px 10px}
+.app-line span.on{border-color:var(--acid);color:var(--acid)}
+
+/* -- beta form ------------------------------------------------------------- */
+.beta{
+  margin-top:44px;border:3px solid #000;background:var(--grape-lo);
+  box-shadow:9px 9px 0 rgba(0,0,0,.6);max-width:36rem;
+}
+.beta-head{
+  padding:16px 22px;background:var(--grape);border-bottom:3px solid #000;
+  font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#fff;
+}
+.beta-body{padding:22px}
+.beta-row{display:flex;gap:10px;flex-wrap:wrap}
+.beta-row input[type=email]{
+  flex:1 1 15rem;min-width:0;font-family:var(--sans);font-size:16px;
+  padding:13px 14px;background:var(--void);color:var(--ice);
+  border:2px solid rgba(190,222,247,.35);
+}
+.beta-row input[type=email]::placeholder{color:#6C8CA8}
+.beta-row input[type=email]:focus{border-color:var(--gum);outline:none}
+.btn{
+  font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;padding:13px 22px;border:2px solid #000;cursor:pointer;
+  background:var(--acid);color:#06200A;box-shadow:4px 4px 0 #000;
+  text-decoration:none;display:inline-block;
+}
+.btn:hover:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.consent{
+  display:flex;gap:10px;align-items:flex-start;margin-top:16px;
+  font-size:13.5px;line-height:1.5;color:var(--ice-dim);
+}
+.consent input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--acid)}
+.consent a{color:var(--gum)}
+.beta-note{margin:14px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ice-dim)}
+.form-success,.form-error{display:none;font-size:15px;padding:16px 0 0}
+.form-success{color:var(--acid)}
+.form-error{color:var(--gum)}
+
+/* -- about page ------------------------------------------------------------ */
+.page{padding:36px 0 88px;max-width:40rem}
+.page h1{font-size:clamp(28px,4.4vw,42px)}
+.page h2{
+  font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gum);margin:44px 0 14px;font-weight:700;
+}
+.page p{font-size:16.5px;line-height:1.72;color:var(--ice);margin:0 0 16px;max-width:60ch}
+.page p b{color:#fff}
+.page a{color:var(--gum)}
+
+/* -- footer ---------------------------------------------------------------- */
+footer{flex:none;background:var(--void-2);padding:32px 0 30px;margin-top:auto}
+.foot-in{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:baseline;justify-content:space-between}
+.foot-links{display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase}
+.foot-links a{color:var(--ice-dim);text-decoration:none}
+.foot-links a:hover{color:var(--gum)}
+.foot-legal{font-family:var(--mono);font-size:11.5px;color:#6C8CA8;line-height:1.85;width:100%;padding-top:18px;border-top:1px solid rgba(190,222,247,.14)}
+
+@media (prefers-reduced-motion:no-preference){
+  .btn{transition:transform .1s steps(2),box-shadow .1s steps(2)}
+  nav.top a,.foot-links a{transition:color .13s,border-color .13s}
+}
