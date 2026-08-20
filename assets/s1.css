@@ -103,10 +103,11 @@ h1 em{font-style:normal;color:var(--gum)}
 .app-line span{border:1.5px solid rgba(190,222,247,.32);color:var(--ice-dim);padding:7px 13px}
 
 /* -- beta form ------------------------------------------------------------- */
+/* Right column of the hero: signup, then the store card beneath it. */
+.hero-side{display:flex;flex-direction:column;gap:26px;position:sticky;top:32px}
 .beta{
   border:3px solid #000;background:var(--grape-lo);
   box-shadow:11px 11px 0 rgba(0,0,0,.6);
-  position:sticky;top:32px;
 }
 .beta-head{
   padding:18px 26px;background:var(--grape);border-bottom:3px solid #000;
@@ -140,9 +141,29 @@ h1 em{font-style:normal;color:var(--gum)}
 .form-success{color:var(--acid)}
 .form-error{color:var(--gum)}
 
+/* -- coming soon to the stores -------------------------------------------- */
+.soon{border:3px solid #000;background:var(--void-2);box-shadow:11px 11px 0 rgba(0,0,0,.55)}
+.soon-head{
+  padding:14px 26px;border-bottom:3px solid #000;background:var(--grape-lo);
+  font-family:var(--mono);font-size:12px;letter-spacing:.19em;text-transform:uppercase;color:var(--gum);
+}
+.soon-body{padding:22px 26px 24px;display:flex;flex-direction:column;gap:14px}
+.store{
+  display:flex;align-items:center;gap:15px;text-decoration:none;
+  border:2px solid rgba(190,222,247,.22);padding:13px 16px;
+  color:var(--ice);cursor:default;
+}
+.store-ico{width:26px;height:26px;flex:none}
+.store-txt{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--ice-dim);line-height:1.3}
+.store-txt b{
+  font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ice);
+}
+.soon-note{margin:4px 0 0;font-family:var(--mono);font-size:11.5px;color:#6C8CA8}
+
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;gap:48px}
-  .beta{position:static;max-width:38rem}
+  .hero-side{position:static;max-width:38rem}
 }
 
 /* -- about page ------------------------------------------------------------ */
