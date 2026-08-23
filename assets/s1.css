@@ -192,6 +192,29 @@ h1 em{font-style:normal;color:var(--gum)}
   .page .page-lede{max-width:46ch}
 }
 
+/* -- legal page ------------------------------------------------------------
+   One column, not the two the About page runs in: a policy is read in order,
+   and a fourteen-section document split into two tall columns is read twice.  */
+.legal-updated{
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ice-dim);margin:20px 0 0;
+}
+.legal-toc{
+  margin:clamp(34px,4vw,54px) 0 0;padding:22px clamp(20px,2.4vw,28px);
+  background:var(--void-2);border:1px solid rgba(190,222,247,.14);max-width:80ch;
+}
+.legal-toc h2{margin:0 0 12px}
+.legal-toc ol{
+  margin:0;padding:0;list-style:none;columns:2;column-gap:clamp(24px,3vw,48px);
+  font-family:var(--mono);font-size:12.5px;line-height:2.05;
+}
+.legal-toc a{color:var(--ice-dim);text-decoration:none}
+.legal-toc a:hover{color:var(--gum)}
+.legal-body{margin-top:clamp(40px,5vw,72px);max-width:80ch}
+.legal-body section{margin:0 0 38px;scroll-margin-top:28px}
+.legal-body section:last-child{margin-bottom:0}
+@media(max-width:880px){.legal-toc ol{columns:1}}
+
 /* -- footer ---------------------------------------------------------------- */
 footer{flex:none;background:var(--void-2);padding:clamp(32px,4vw,52px) 0;margin-top:auto}
 .foot-in{
