@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Email confirmation for the Season One PA Exam Prep app.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<title>Email confirmed | Season One</title>
+<link rel="stylesheet" href="/assets/s1.css?v=20260823c">
+</head>
+<body>
+
+<div class="strip"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i><i class="s5"></i><i class="s6"></i></div>
+
+<div class="wrap">
+  <nav class="top">
+    <a class="logo" href="/" aria-label="Season One home">
+      <img src="/logo-mark.png" alt="Season One">
+    </a>
+    <div class="links">
+      <a href="/">Home</a>
+    </div>
+  </nav>
+</div>
+
+<main>
+  <div class="wrap">
+    <article class="page auth">
+      <h1 id="head">Confirming…</h1>
+      <p class="page-lede" id="lede">One moment.</p>
+      <div class="page-body one-col">
+        <section id="detail"></section>
+      </div>
+
+<script>
+// Supabase sends the outcome back in the URL fragment, not the query string, so it
+// never reaches a server log. Read it, say plainly what happened, and get out of the
+// way — the next step is in the app, not here.
+(function () {
+  var p = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var q = new URLSearchParams(location.search);
+  var err = p.get('error_description') || p.get('error') || q.get('error_description') || q.get('error');
+  var head = document.getElementById('head');
+  var lede = document.getElementById('lede');
+  var detail = document.getElementById('detail');
+
+  if (err) {
+    head.textContent = 'That link didn\u2019t work';
+    lede.textContent = decodeURIComponent(err).replace(/\+/g, ' ');
+    detail.innerHTML = '<h2>What to do</h2>' +
+      '<p>Confirmation links expire. Open the Season One app, sign up again with the same ' +
+      'email, and use <b>Resend the link</b> on the screen that appears.</p>' +
+      '<p>Still stuck? Email <a href="mailto:info@seasononehealthcare.com">info@seasononehealthcare.com</a>.</p>';
+    return;
+  }
+
+  head.textContent = 'Email confirmed';
+  lede.textContent = 'Your Season One account is ready.';
+  detail.innerHTML = '<h2>Next step</h2>' +
+    '<p><b>Open the Season One app and sign in.</b> You can close this page \u2014 nothing else ' +
+    'happens here.</p>' +
+    '<p>Your study progress syncs through your own iCloud account, so it follows you between ' +
+    'your Apple devices without anything being stored on our servers.</p>';
+
+  // The fragment carries a live session for this browser, which nothing on this page
+  // needs. Drop it from the address bar so it isn't left in history or pasted anywhere.
+  if (location.hash) history.replaceState(null, '', location.pathname);
+})();
+</script>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/legal">Privacy &amp; Terms</a>
+      <a href="mailto:info@seasononehealthcare.com">Contact</a>
+    </div>
+    <div class="foot-legal">
+      &copy; 2026 Season One LLC. All rights reserved.
+    </div>
+  </div>
+</footer>
+</body>
+</html>

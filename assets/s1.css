@@ -218,6 +218,26 @@ h1 em{font-style:normal;color:var(--gum)}
 .legal-body section:last-child{margin-bottom:0}
 @media(max-width:880px){.legal-toc ol{columns:1}}
 
+/* -- auth pages (confirmed / reset) ---------------------------------------- */
+.auth .page-body{margin-top:clamp(32px,4vw,52px)}
+.auth-label{
+  display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ice-dim);margin:18px 0 7px;
+}
+.auth-input{
+  display:block;width:100%;max-width:26rem;padding:13px 14px;
+  background:var(--void-2);color:#fff;font-family:var(--sans);font-size:16px;
+  border:1px solid rgba(190,222,247,.22);border-radius:0;
+}
+.auth-input:focus{outline:none;border-color:var(--gum)}
+.auth-hint{font-size:13px;color:var(--ice-dim);margin:14px 0 0;max-width:26rem}
+.auth-error{
+  font-size:14px;color:#fff;background:rgba(232,52,44,.16);
+  border-left:3px solid var(--siren);padding:10px 12px;margin:16px 0 0;max-width:26rem;
+}
+.auth .btn{margin-top:22px}
+.auth .btn:disabled{opacity:.55;cursor:default}
+
 /* -- footer ---------------------------------------------------------------- */
 footer{flex:none;background:var(--void-2);padding:clamp(32px,4vw,52px) 0;margin-top:auto}
 .foot-in{

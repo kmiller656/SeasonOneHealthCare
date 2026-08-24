@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Set a new password for your Season One account.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<title>New password | Season One</title>
+<link rel="stylesheet" href="/assets/s1.css?v=20260823c">
+</head>
+<body>
+
+<div class="strip"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i><i class="s5"></i><i class="s6"></i></div>
+
+<div class="wrap">
+  <nav class="top">
+    <a class="logo" href="/" aria-label="Season One home">
+      <img src="/logo-mark.png" alt="Season One">
+    </a>
+    <div class="links">
+      <a href="/">Home</a>
+    </div>
+  </nav>
+</div>
+
+<main>
+  <div class="wrap">
+    <article class="page auth">
+      <h1 id="head">Set a new password</h1>
+      <p class="page-lede" id="lede">Choose something you'll remember.</p>
+
+      <div class="page-body one-col">
+        <section>
+          <form id="form" hidden autocomplete="on">
+            <!-- Hidden username field: password managers need an identity to file the new
+                 credential under, and without one they save it to the wrong entry or not
+                 at all. Populated from the token's email when we have it. -->
+            <input type="email" id="who" name="username" autocomplete="username"
+                   hidden aria-hidden="true" tabindex="-1">
+
+            <label class="auth-label" for="pw">New password</label>
+            <input class="auth-input" type="password" id="pw" name="new-password"
+                   autocomplete="new-password" required minlength="8"
+                   placeholder="At least 8 characters">
+
+            <label class="auth-label" for="pw2">Confirm it</label>
+            <input class="auth-input" type="password" id="pw2" name="confirm-password"
+                   autocomplete="new-password" required minlength="8"
+                   placeholder="Type it again">
+
+            <p class="auth-hint">At least 8 characters, including a letter and a number.</p>
+            <p class="auth-error" id="err" hidden></p>
+
+            <button class="btn" type="submit" id="go">Change my password</button>
+          </form>
+
+          <div id="done" hidden>
+            <h2>Password changed</h2>
+            <p><b>Open the Season One app and sign in with your new password.</b> You can close
+            this page.</p>
+          </div>
+
+          <div id="bad" hidden>
+            <h2>This link has expired</h2>
+            <p>Reset links are single-use and time-limited. Open the Season One app, tap
+            <b>Forgot password?</b> on the sign-in screen, and we'll send a fresh one.</p>
+            <p>Still stuck? Email <a href="mailto:info@seasononehealthcare.com">info@seasononehealthcare.com</a>.</p>
+          </div>
+        </section>
+      </div>
+
+<script>
+// Supabase verifies the emailed link on its side and bounces the browser here with a
+// short-lived session in the URL fragment. That token is the only thing authorising the
+// change, which is why this page can talk to Supabase directly with the public anon key:
+// the key identifies the project, the token identifies the person.
+(function () {
+  var SUPABASE_URL = 'https://gvqfktkkqscgmxlahyyh.supabase.co';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWZrdGtrcXNjZ214bGFoeXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwOTQ2MDgsImV4cCI6MjA5NzY3MDYwOH0.KSVEzNo0MC9JQCTwN8mpo9UyngObbmA4F3hnORc8r9k';
+
+  var params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var token = params.get('access_token');
+  var form = document.getElementById('form');
+  var done = document.getElementById('done');
+  var bad = document.getElementById('bad');
+  var err = document.getElementById('err');
+  var go = document.getElementById('go');
+
+  if (!token) {
+    document.getElementById('head').textContent = 'That link didn\u2019t work';
+    document.getElementById('lede').textContent = 'It may have expired or already been used.';
+    bad.hidden = false;
+    return;
+  }
+
+  // Fill the hidden username so password managers file this under the right account.
+  try {
+    var claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+    if (claims && claims.email) document.getElementById('who').value = claims.email;
+  } catch (e) { /* cosmetic only */ }
+
+  // Out of the address bar before anything else — a live token should not sit in
+  // browser history or get pasted along with the URL.
+  history.replaceState(null, '', location.pathname);
+  form.hidden = false;
+
+  function fail(message) {
+    err.textContent = message;
+    err.hidden = false;
+    go.disabled = false;
+    go.textContent = 'Change my password';
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    err.hidden = true;
+
+    var pw = document.getElementById('pw').value;
+    var pw2 = document.getElementById('pw2').value;
+
+    // Same rule the app enforces, so a password accepted here is one you can sign in with.
+    if (pw.length < 8 || !/[A-Za-z]/.test(pw) || !/[0-9]/.test(pw)) {
+      return fail('Use at least 8 characters, including a letter and a number.');
+    }
+    if (pw !== pw2) return fail('Those two don\u2019t match.');
+
+    go.disabled = true;
+    go.textContent = 'Changing\u2026';
+
+    fetch(SUPABASE_URL + '/auth/v1/user', {
+      method: 'PUT',
+      headers: {
+        'apikey': ANON_KEY,
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ password: pw })
+    }).then(function (response) {
+      if (response.ok) {
+        form.hidden = true;
+        document.getElementById('head').textContent = 'All set';
+        document.getElementById('lede').textContent = 'Your password has been changed.';
+        done.hidden = false;
+        return;
+      }
+      return response.json().catch(function () { return {}; }).then(function (payload) {
+        var message = payload.msg || payload.error_description || payload.message || '';
+        // An expired or reused link fails here rather than on load, so it needs its own
+        // ending — resubmitting the form would never work.
+        if (response.status === 401 || response.status === 403 || /expired|invalid/i.test(message)) {
+          form.hidden = true;
+          bad.hidden = false;
+          document.getElementById('head').textContent = 'That link didn\u2019t work';
+          document.getElementById('lede').textContent = 'It may have expired or already been used.';
+          return;
+        }
+        fail(message || 'Something went wrong. Try again in a moment.');
+      });
+    }).catch(function () {
+      fail('Couldn\u2019t reach the server. Check your connection and try again.');
+    });
+  });
+})();
+</script>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/legal">Privacy &amp; Terms</a>
+      <a href="mailto:info@seasononehealthcare.com">Contact</a>
+    </div>
+    <div class="foot-legal">
+      &copy; 2026 Season One LLC. All rights reserved.
+    </div>
+  </div>
+</footer>
+</body>
+</html>
