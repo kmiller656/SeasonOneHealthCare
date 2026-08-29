@@ -295,3 +295,135 @@ footer{flex:none;background:var(--void-2);padding:clamp(32px,4vw,52px) 0;margin-
   .iphone .screen{border-radius:21px}
   .shots figcaption{font-size:12px;margin-top:10px}
 }
+
+/* ============================================================================
+   Blueprint coverage table (blueprint.html), the stage strip and the sample
+   question card (index.html).  Added 2026-08-29.
+
+   The table is the whole point of the blueprint page: a student should be able
+   to see, on one line, how much of an exam a task area is worth and exactly how
+   much of it we have written.  The `.bp-depth` bar is deliberately quiet - it
+   reads as a proportion at a glance without pretending to be a score.
+   ========================================================================== */
+
+.bp-rot{margin-top:44px;min-width:0}
+.bp-rot h2{margin-bottom:4px}
+.bp-sum{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
+  color:var(--ice-dim);margin:0 0 14px;
+}
+
+/* Wide tables scroll inside their own box rather than pushing the page sideways.
+   `min-width:0` is load-bearing: .bp-scroll sits inside a grid/flex parent, whose
+   items default to min-width:auto and would otherwise refuse to shrink below the
+   table's natural width - the wrapper stretches and the whole page scrolls instead. */
+.bp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;min-width:0;max-width:100%}
+
+table.bp{
+  width:100%;border-collapse:collapse;min-width:460px;
+  font-size:.92rem;
+}
+table.bp th{
+  text-align:left;font-family:var(--mono);font-weight:500;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ice-dim);padding:0 10px 8px 0;
+  border-bottom:1px solid rgba(190,222,247,.16);
+}
+table.bp td{
+  padding:9px 10px 9px 0;
+  border-bottom:1px solid rgba(190,222,247,.07);
+  vertical-align:baseline;
+}
+table.bp tr:last-child td{border-bottom:0}
+
+.bp-w{
+  font-family:var(--mono);color:var(--gum);white-space:nowrap;
+  font-variant-numeric:tabular-nums;width:1%;
+}
+.bp-s{color:var(--ice)}
+.bp-n{
+  font-family:var(--mono);font-variant-numeric:tabular-nums;
+  color:var(--ice-dim);text-align:right;width:1%;white-space:nowrap;
+}
+.bp-d{width:1%;white-space:nowrap;text-align:right}
+.bp-depth{
+  display:inline-block;vertical-align:middle;
+  width:54px;height:5px;border-radius:3px;
+  background:rgba(190,222,247,.14);overflow:hidden;margin-right:8px;
+}
+.bp-depth i{display:block;height:100%;background:var(--acid);border-radius:3px}
+.bp-dn{
+  font-family:var(--mono);font-variant-numeric:tabular-nums;
+  color:var(--ice-dim);display:inline-block;min-width:2ch;text-align:right;
+}
+
+/* --- Stage strip: didactic -> rotations -> boards ------------------------- */
+
+.stages{margin:0}
+.stage-row{
+  display:grid;gap:18px;margin-top:18px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+@media (max-width:720px){.stage-row{grid-template-columns:1fr}}
+.stage{
+  border:1px solid rgba(190,222,247,.14);border-radius:14px;
+  padding:18px 18px 20px;background:rgba(190,222,247,.03);
+}
+.stage-k{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gum);margin:0 0 6px;
+}
+.stage h3{margin:0 0 8px;font-size:1.02rem;line-height:1.3}
+.stage p{margin:0;font-size:.92rem;color:var(--ice-dim);line-height:1.55}
+
+/* --- Sample question card ------------------------------------------------ */
+
+.qdemo{
+  border:1px solid rgba(190,222,247,.16);border-radius:16px;
+  padding:clamp(18px,3vw,28px);margin-top:20px;
+  background:rgba(11,5,18,.5);
+}
+.qdemo-k{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ice-dim);margin:0 0 12px;
+}
+.qdemo-stem{margin:0 0 14px;line-height:1.6}
+.qdemo-ask{margin:0 0 14px;font-weight:600;color:var(--ice)}
+.qdemo-choices{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
+.qdemo-choices li{
+  border:1px solid rgba(190,222,247,.14);border-radius:10px;
+  padding:10px 14px;font-size:.94rem;color:var(--ice-dim);
+}
+.qdemo-choices li.is-right{
+  border-color:rgba(63,214,71,.5);color:var(--ice);
+  background:rgba(63,214,71,.07);
+}
+.qdemo-choices .tick{
+  font-family:var(--mono);color:var(--acid);margin-right:8px;
+}
+.qdemo-why{
+  border-top:1px solid rgba(190,222,247,.14);padding-top:16px;margin-top:4px;
+}
+.qdemo-why h4{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gum);margin:0 0 8px;font-weight:500;
+}
+.qdemo-why p{margin:0;line-height:1.6}
+
+.hy{margin-top:22px;border-top:1px solid rgba(190,222,247,.14);padding-top:18px}
+.hy h4{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gum);margin:0 0 4px;font-weight:500;
+}
+.hy-note{font-size:.86rem;color:var(--ice-dim);margin:0 0 14px}
+.hy-list{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.hy-list li{display:grid;gap:4px}
+.hy-lab{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ember);
+}
+.hy-fact{margin:0;line-height:1.55;font-size:.94rem}
+.hy-cue{
+  margin:0;font-size:.88rem;color:var(--ice-dim);
+  border-left:2px solid rgba(240,169,224,.4);padding-left:10px;font-style:italic;
+}
