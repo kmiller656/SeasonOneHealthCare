@@ -219,19 +219,24 @@ h1 em{font-style:normal;color:var(--accent)}
   .page .page-lede{max-width:46ch}
 }
 
-/* Full-bleed variant of `.page`, for a page whose body is data rather than prose
-   (Kenneth, 2026-09-02: "the words for this page is only taking up the left 50% of
-   the window, it should take up 100%").
+/* Full-bleed variant of `.page` (Kenneth, 2026-09-02: "only taking up the left 50%
+   of the window, it should take up 100%" — first for the blueprint page, then for
+   About and Coverage).
 
-   The measures above are right for About and Legal, which are read like an article:
-   62ch is roughly the line length past which the eye loses its place returning to the
-   next line. The blueprint page is not that. It is twenty full-width tables with a
-   paragraph of orientation over each, and on a wide window the caps left every
-   sentence stopping halfway across while the table under it ran the full width — the
-   prose read as a narrow left column bolted onto a wide page.
+   The measures it clears — 16ch on the h1, 34ch on the lede, 80ch on the body and
+   62ch on a paragraph — are the classic reading measure, and they are why those
+   pages sat in a column on the left of a wide window. Blueprint wanted this most
+   obviously: twenty full-width tables with a paragraph of orientation over each,
+   where every sentence stopped halfway across while the table under it ran the whole
+   width. About and Coverage are prose and get it because Kenneth asked for it; the
+   trade is a long line on a very wide display, and `.wrap`'s 1560px cap is what keeps
+   that from running away entirely.
 
-   Applied on the article, so nothing else that uses `.page` moves. The mobile rules
-   below still apply; there is nothing to widen at those sizes anyway. */
+   Legal is deliberately left out. It is a policy read in order and cross-referenced
+   by section number, and it has its own `.legal-body` measure besides.
+
+   Applied on the article, so nothing that does not opt in moves. The mobile rules
+   above still apply; there is nothing to widen at those sizes anyway. */
 .page-wide h1,
 .page-wide .page-lede,
 .page-wide .page-body.one-col,
