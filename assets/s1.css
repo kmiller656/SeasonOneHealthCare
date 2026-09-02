@@ -6,18 +6,41 @@
    ========================================================================== */
 
 :root{
-  --void:#0B0512;
-  --void-2:#150A24;
+  /* Light ground (Kenneth, 2026-09-02: "change the background of the website to
+     white... the background needs to provide better contrast for the words").
+
+     The site was near-black purple with pale blue text. What changed is the ground
+     and the ink; what did not is the identity — the six-colour edge strip, the grape
+     signup card, the black borders and hard offset shadows are all still here, and
+     now read as blocks of colour on white rather than as glows on black.
+
+     Two colours could not simply be inverted, because they are brand marks that also
+     did duty as text colours:
+
+     * `--gum`, the badge pink, is 1.6:1 on white. It stays exactly as it is in the
+       strip and on the dark grape card, and `--accent` (the badge purple, 8.6:1 on
+       white) takes over every link, small-caps heading and hover it used to own.
+     * `--acid`, the badge green, is 1.9:1 on white. It keeps the button, where it is
+       a filled block behind near-black text, and `--leaf` takes the two places it was
+       used as ink or as a thin bar. */
+  --paper:#FFFFFF;
+  --paper-2:#F5F2F9;
   --grape:#5C2E90;
   --grape-lo:#3B1A66;
   --grape-hi:#7B45B8;
-  --ice:#BEDEF7;
-  --ice-dim:#8FB6D6;
+  --ink:#1A1226;
+  --ink-dim:#5B5270;
+  --ink-strong:#0D0715;
+  --accent:#6A2C9E;
   --gum:#F0A9E0;
   --acid:#3FD647;
+  --leaf:#1E8F2A;
   --ember:#F5A623;
   --siren:#E8342C;
   --cobalt:#2B4FE0;
+  /* Hairlines, as ink over paper rather than the old pale-blue-over-black. */
+  --rule:rgba(26,18,38,.18);
+  --rule-soft:rgba(26,18,38,.09);
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --gutter:clamp(24px,4.5vw,72px);
@@ -28,8 +51,9 @@
 html,body{height:100%}
 body{
   margin:0;
-  background:var(--void);
-  color:var(--ice);
+  color-scheme:light;
+  background:var(--paper);
+  color:var(--ink);
   font-family:var(--sans);
   font-size:16px;
   line-height:1.6;
@@ -68,16 +92,16 @@ nav.top .links{
   display:flex;gap:32px;font-family:var(--mono);font-size:13px;
   letter-spacing:.13em;text-transform:uppercase;
 }
-nav.top a{color:var(--ice-dim);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent}
-nav.top a:hover{color:var(--gum);border-bottom-color:var(--gum)}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--acid);outline-offset:3px}
+nav.top a{color:var(--ink-dim);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent}
+nav.top a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
 @media(max-width:560px){nav.top .logo img{height:42px}}
 
 /* -- page body ------------------------------------------------------------- */
 main{flex:1 0 auto;position:relative}
 main::before{
   content:"";position:absolute;inset:-30% -10% 15% -10%;z-index:-1;pointer-events:none;
-  background:radial-gradient(ellipse at 32% 30%,rgba(92,46,144,.42) 0%,transparent 64%);
+  background:radial-gradient(ellipse at 32% 30%,rgba(92,46,144,.07) 0%,transparent 64%);
 }
 
 /* Hero spans the full width: statement on the left, signup on the right. */
@@ -90,24 +114,24 @@ main::before{
 }
 h1{
   font-weight:800;font-size:clamp(38px,5.4vw,72px);line-height:1.03;
-  letter-spacing:-.032em;margin:0;color:#fff;text-wrap:balance;
+  letter-spacing:-.032em;margin:0;color:var(--ink-strong);text-wrap:balance;
 }
-h1 em{font-style:normal;color:var(--gum)}
-.lede{margin:32px 0 0;font-size:clamp(17px,1.35vw,21px);line-height:1.6;color:var(--ice);max-width:52ch}
-.lede b{color:#fff;font-weight:700}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{margin:32px 0 0;font-size:clamp(17px,1.35vw,21px);line-height:1.6;color:var(--ink);max-width:52ch}
+.lede b{color:var(--ink-strong);font-weight:700}
 
 .app-line{
   margin-top:36px;display:flex;flex-wrap:wrap;gap:10px;
   font-family:var(--mono);font-size:12px;letter-spacing:.11em;text-transform:uppercase;
 }
-.app-line span{border:1.5px solid rgba(190,222,247,.32);color:var(--ice-dim);padding:7px 13px}
+.app-line span{border:1.5px solid rgba(26,18,38,.3);color:var(--ink-dim);padding:7px 13px}
 
 /* -- beta form ------------------------------------------------------------- */
 /* Right column of the hero: signup, then the store card beneath it. */
 .hero-side{display:flex;flex-direction:column;gap:26px;position:sticky;top:32px}
 .beta{
   border:3px solid #000;background:var(--grape-lo);
-  box-shadow:11px 11px 0 rgba(0,0,0,.6);
+  box-shadow:11px 11px 0 rgba(0,0,0,.32);
 }
 .beta-head{
   padding:18px 26px;background:var(--grape);border-bottom:3px solid #000;
@@ -117,10 +141,10 @@ h1 em{font-style:normal;color:var(--gum)}
 .beta-row{display:flex;gap:11px;flex-wrap:wrap}
 .beta-row input[type=email]{
   flex:1 1 14rem;min-width:0;font-family:var(--sans);font-size:16px;
-  padding:14px 15px;background:var(--void);color:var(--ice);
-  border:2px solid rgba(190,222,247,.35);
+  padding:14px 15px;background:#fff;color:var(--ink);
+  border:2px solid rgba(255,255,255,.5);
 }
-.beta-row input[type=email]::placeholder{color:#6C8CA8}
+.beta-row input[type=email]::placeholder{color:#6E6588}
 .beta-row input[type=email]:focus{border-color:var(--gum);outline:none}
 .btn{
   font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.09em;
@@ -132,17 +156,17 @@ h1 em{font-style:normal;color:var(--gum)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 .consent{
   display:flex;gap:11px;align-items:flex-start;margin-top:18px;
-  font-size:13.5px;line-height:1.55;color:var(--ice-dim);
+  font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.84);
 }
 .consent input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--acid)}
 .consent a{color:var(--gum)}
-.beta-note{margin:16px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ice-dim)}
+.beta-note{margin:16px 0 0;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.7)}
 .form-success,.form-error{display:none;font-size:15px;padding:16px 0 0}
 .form-success{color:var(--acid)}
 .form-error{color:var(--gum)}
 
 /* -- coming soon to the stores -------------------------------------------- */
-.soon{border:3px solid #000;background:var(--void-2);box-shadow:11px 11px 0 rgba(0,0,0,.55)}
+.soon{border:3px solid #000;background:var(--paper-2);box-shadow:11px 11px 0 rgba(0,0,0,.28)}
 .soon-head{
   padding:14px 26px;border-bottom:3px solid #000;background:var(--grape-lo);
   font-family:var(--mono);font-size:12px;letter-spacing:.19em;text-transform:uppercase;color:var(--gum);
@@ -150,16 +174,16 @@ h1 em{font-style:normal;color:var(--gum)}
 .soon-body{padding:22px 26px 24px;display:flex;flex-direction:column;gap:14px}
 .store{
   display:flex;align-items:center;gap:15px;text-decoration:none;
-  border:2px solid rgba(190,222,247,.22);padding:13px 16px;
-  color:var(--ice);cursor:default;
+  border:2px solid var(--rule);padding:13px 16px;
+  color:var(--ink);cursor:default;
 }
 .store-ico{width:26px;height:26px;flex:none}
-.store-txt{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--ice-dim);line-height:1.3}
+.store-txt{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--ink-dim);line-height:1.3}
 .store-txt b{
   font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--ice);
+  text-transform:uppercase;color:var(--ink);
 }
-.soon-note{margin:4px 0 0;font-family:var(--mono);font-size:11.5px;color:#6C8CA8}
+.soon-note{margin:4px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;gap:48px}
@@ -171,7 +195,7 @@ h1 em{font-style:normal;color:var(--gum)}
 .page h1{font-size:clamp(34px,4.6vw,58px);max-width:16ch}
 .page .page-lede{
   margin:30px 0 0;font-size:clamp(18px,1.6vw,24px);line-height:1.5;
-  color:#fff;max-width:34ch;font-weight:600;
+  color:var(--ink-strong);max-width:34ch;font-weight:600;
 }
 /* Body sections run in two columns on wide screens so the page fills the width. */
 .page-body{
@@ -184,35 +208,53 @@ h1 em{font-style:normal;color:var(--gum)}
 .page-body.one-col{columns:1;max-width:80ch}
 .page h2{
   font-family:var(--mono);font-size:12px;letter-spacing:.19em;text-transform:uppercase;
-  color:var(--gum);margin:0 0 14px;font-weight:700;
+  color:var(--accent);margin:0 0 14px;font-weight:700;
 }
-.page p{font-size:16.5px;line-height:1.72;color:var(--ice);margin:0 0 16px;max-width:62ch}
+.page p{font-size:16.5px;line-height:1.72;color:var(--ink);margin:0 0 16px;max-width:62ch}
 .page p:last-child{margin-bottom:0}
-.page p b{color:#fff}
-.page a{color:var(--gum)}
+.page p b{color:var(--ink-strong)}
+.page a{color:var(--accent)}
 @media(max-width:880px){
   .page-body{columns:1}
   .page .page-lede{max-width:46ch}
 }
+
+/* Full-bleed variant of `.page`, for a page whose body is data rather than prose
+   (Kenneth, 2026-09-02: "the words for this page is only taking up the left 50% of
+   the window, it should take up 100%").
+
+   The measures above are right for About and Legal, which are read like an article:
+   62ch is roughly the line length past which the eye loses its place returning to the
+   next line. The blueprint page is not that. It is twenty full-width tables with a
+   paragraph of orientation over each, and on a wide window the caps left every
+   sentence stopping halfway across while the table under it ran the full width — the
+   prose read as a narrow left column bolted onto a wide page.
+
+   Applied on the article, so nothing else that uses `.page` moves. The mobile rules
+   below still apply; there is nothing to widen at those sizes anyway. */
+.page-wide h1,
+.page-wide .page-lede,
+.page-wide .page-body.one-col,
+.page-wide p{max-width:none}
 
 /* -- legal page ------------------------------------------------------------
    One column, not the two the About page runs in: a policy is read in order,
    and a fourteen-section document split into two tall columns is read twice.  */
 .legal-updated{
   font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ice-dim);margin:20px 0 0;
+  color:var(--ink-dim);margin:20px 0 0;
 }
 .legal-toc{
   margin:clamp(34px,4vw,54px) 0 0;padding:22px clamp(20px,2.4vw,28px);
-  background:var(--void-2);border:1px solid rgba(190,222,247,.14);max-width:80ch;
+  background:var(--paper-2);border:1px solid var(--rule-soft);max-width:80ch;
 }
 .legal-toc h2{margin:0 0 12px}
 .legal-toc ol{
   margin:0;padding:0;list-style:none;columns:2;column-gap:clamp(24px,3vw,48px);
   font-family:var(--mono);font-size:12.5px;line-height:2.05;
 }
-.legal-toc a{color:var(--ice-dim);text-decoration:none}
-.legal-toc a:hover{color:var(--gum)}
+.legal-toc a{color:var(--ink-dim);text-decoration:none}
+.legal-toc a:hover{color:var(--accent)}
 .legal-body{margin-top:clamp(40px,5vw,72px);max-width:80ch}
 .legal-body section{margin:0 0 38px;scroll-margin-top:28px}
 .legal-body section:last-child{margin-bottom:0}
@@ -222,35 +264,35 @@ h1 em{font-style:normal;color:var(--gum)}
 .auth .page-body{margin-top:clamp(32px,4vw,52px)}
 .auth-label{
   display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ice-dim);margin:18px 0 7px;
+  text-transform:uppercase;color:var(--ink-dim);margin:18px 0 7px;
 }
 .auth-input{
   display:block;width:100%;max-width:26rem;padding:13px 14px;
-  background:var(--void-2);color:#fff;font-family:var(--sans);font-size:16px;
-  border:1px solid rgba(190,222,247,.22);border-radius:0;
+  background:#fff;color:var(--ink);font-family:var(--sans);font-size:16px;
+  border:1px solid var(--rule);border-radius:0;
 }
-.auth-input:focus{outline:none;border-color:var(--gum)}
-.auth-hint{font-size:13px;color:var(--ice-dim);margin:14px 0 0;max-width:26rem}
+.auth-input:focus{outline:none;border-color:var(--accent)}
+.auth-hint{font-size:13px;color:var(--ink-dim);margin:14px 0 0;max-width:26rem}
 .auth-error{
-  font-size:14px;color:#fff;background:rgba(232,52,44,.16);
+  font-size:14px;color:var(--ink);background:rgba(232,52,44,.1);
   border-left:3px solid var(--siren);padding:10px 12px;margin:16px 0 0;max-width:26rem;
 }
 .auth .btn{margin-top:22px}
 .auth .btn:disabled{opacity:.55;cursor:default}
 
 /* -- footer ---------------------------------------------------------------- */
-footer{flex:none;background:var(--void-2);padding:clamp(32px,4vw,52px) 0;margin-top:auto}
+footer{flex:none;background:var(--paper-2);padding:clamp(32px,4vw,52px) 0;margin-top:auto}
 .foot-in{
   display:grid;grid-template-columns:1fr auto;gap:26px 48px;align-items:start;
 }
 .foot-links{display:flex;flex-wrap:wrap;gap:30px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
-.foot-links a{color:var(--ice-dim);text-decoration:none}
-.foot-links a:hover{color:var(--gum)}
+.foot-links a{color:var(--ink-dim);text-decoration:none}
+.foot-links a:hover{color:var(--accent)}
 .foot-legal{
-  grid-column:1/-1;font-family:var(--mono);font-size:11.5px;color:#6C8CA8;
-  line-height:1.9;padding-top:22px;border-top:1px solid rgba(190,222,247,.14);max-width:110ch;
+  grid-column:1/-1;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);
+  line-height:1.9;padding-top:22px;border-top:1px solid var(--rule-soft);max-width:110ch;
 }
-.foot-mark{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#6C8CA8}
+.foot-mark{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
 @media(max-width:640px){.foot-in{grid-template-columns:1fr}}
 
 @media (prefers-reduced-motion:no-preference){
@@ -273,13 +315,15 @@ footer{flex:none;background:var(--void-2);padding:clamp(32px,4vw,52px) 0;margin-
 
 .iphone{position:relative;width:100%;aspect-ratio:9/19.5;border-radius:34px;padding:8px;
   background:linear-gradient(155deg,#2B3336,#12181A 55%,#242B2E);
-  /* An outer hairline as well as the inner one: this site's background is near-black,
-     and without it a dark bezel on a dark page disappears and the screenshots read as
-     floating rectangles rather than as phones. */
+  /* An outer hairline as well as the inner one. It used to be white, because the
+     page was near-black and a dark bezel on a dark page vanished. On the white
+     ground (2026-09-02) the bezel separates itself and the hairline goes the other
+     way, and the drop shadow lightens with it — a black-on-black shadow tuned for a
+     near-black page reads as mud on paper. */
   box-shadow:0 0 0 2px rgba(255,255,255,.10) inset,
-             0 0 0 1px rgba(255,255,255,.14),
-             0 30px 54px -30px rgba(0,0,0,.85),
-             0 6px 18px -8px rgba(0,0,0,.5)}
+             0 0 0 1px rgba(26,18,38,.18),
+             0 26px 44px -28px rgba(26,18,38,.45),
+             0 5px 14px -8px rgba(26,18,38,.22)}
 .iphone .screen{position:relative;width:100%;height:100%;border-radius:27px;overflow:hidden;background:#fff}
 .iphone .screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
 .iphone::before{content:"";position:absolute;left:-3px;top:21%;width:3px;height:8%;
@@ -310,7 +354,7 @@ footer{flex:none;background:var(--void-2);padding:clamp(32px,4vw,52px) 0;margin-
 .bp-rot h2{margin-bottom:4px}
 .bp-sum{
   font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
-  color:var(--ice-dim);margin:0 0 14px;
+  color:var(--ink-dim);margin:0 0 14px;
 }
 
 /* Wide tables scroll inside their own box rather than pushing the page sideways.
@@ -326,104 +370,54 @@ table.bp{
 table.bp th{
   text-align:left;font-family:var(--mono);font-weight:500;
   font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;
-  color:var(--ice-dim);padding:0 10px 8px 0;
-  border-bottom:1px solid rgba(190,222,247,.16);
+  color:var(--ink-dim);padding:0 10px 8px 0;
+  border-bottom:1px solid var(--rule);
 }
 table.bp td{
   padding:9px 10px 9px 0;
-  border-bottom:1px solid rgba(190,222,247,.07);
+  border-bottom:1px solid var(--rule-soft);
   vertical-align:baseline;
 }
 table.bp tr:last-child td{border-bottom:0}
 
 .bp-w{
-  font-family:var(--mono);color:var(--gum);white-space:nowrap;
+  font-family:var(--mono);color:var(--accent);white-space:nowrap;
   font-variant-numeric:tabular-nums;width:1%;
 }
-.bp-s{color:var(--ice)}
+.bp-s{color:var(--ink)}
 .bp-n{
   font-family:var(--mono);font-variant-numeric:tabular-nums;
-  color:var(--ice-dim);text-align:right;width:1%;white-space:nowrap;
+  color:var(--ink-dim);text-align:right;width:1%;white-space:nowrap;
 }
 .bp-d{width:1%;white-space:nowrap;text-align:right}
 .bp-depth{
   display:inline-block;vertical-align:middle;
   width:54px;height:5px;border-radius:3px;
-  background:rgba(190,222,247,.14);overflow:hidden;margin-right:8px;
+  background:rgba(26,18,38,.11);overflow:hidden;margin-right:8px;
 }
-.bp-depth i{display:block;height:100%;background:var(--acid);border-radius:3px}
+.bp-depth i{display:block;height:100%;background:var(--leaf);border-radius:3px}
 .bp-dn{
   font-family:var(--mono);font-variant-numeric:tabular-nums;
-  color:var(--ice-dim);display:inline-block;min-width:2ch;text-align:right;
+  color:var(--ink-dim);display:inline-block;min-width:2ch;text-align:right;
 }
 
 /* --- Stage strip: didactic -> rotations -> boards ------------------------- */
 
-.stages{margin:0}
+/* The last section on the homepage since the sample-question block was removed
+   (2026-09-02), so it carries the bottom gap that block's closing line used to. */
+.stages{margin:0;padding-top:40px;padding-bottom:44px}
 .stage-row{
   display:grid;gap:18px;margin-top:18px;
   grid-template-columns:repeat(3,minmax(0,1fr));
 }
 @media (max-width:720px){.stage-row{grid-template-columns:1fr}}
 .stage{
-  border:1px solid rgba(190,222,247,.14);border-radius:14px;
-  padding:18px 18px 20px;background:rgba(190,222,247,.03);
+  border:1px solid var(--rule-soft);border-radius:14px;
+  padding:18px 18px 20px;background:var(--paper-2);
 }
 .stage-k{
   font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--gum);margin:0 0 6px;
+  text-transform:uppercase;color:var(--accent);margin:0 0 6px;
 }
 .stage h3{margin:0 0 8px;font-size:1.02rem;line-height:1.3}
-.stage p{margin:0;font-size:.92rem;color:var(--ice-dim);line-height:1.55}
-
-/* --- Sample question card ------------------------------------------------ */
-
-.qdemo{
-  border:1px solid rgba(190,222,247,.16);border-radius:16px;
-  padding:clamp(18px,3vw,28px);margin-top:20px;
-  background:rgba(11,5,18,.5);
-}
-.qdemo-k{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ice-dim);margin:0 0 12px;
-}
-.qdemo-stem{margin:0 0 14px;line-height:1.6}
-.qdemo-ask{margin:0 0 14px;font-weight:600;color:var(--ice)}
-.qdemo-choices{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
-.qdemo-choices li{
-  border:1px solid rgba(190,222,247,.14);border-radius:10px;
-  padding:10px 14px;font-size:.94rem;color:var(--ice-dim);
-}
-.qdemo-choices li.is-right{
-  border-color:rgba(63,214,71,.5);color:var(--ice);
-  background:rgba(63,214,71,.07);
-}
-.qdemo-choices .tick{
-  font-family:var(--mono);color:var(--acid);margin-right:8px;
-}
-.qdemo-why{
-  border-top:1px solid rgba(190,222,247,.14);padding-top:16px;margin-top:4px;
-}
-.qdemo-why h4{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--gum);margin:0 0 8px;font-weight:500;
-}
-.qdemo-why p{margin:0;line-height:1.6}
-
-.hy{margin-top:22px;border-top:1px solid rgba(190,222,247,.14);padding-top:18px}
-.hy h4{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--gum);margin:0 0 4px;font-weight:500;
-}
-.hy-note{font-size:.86rem;color:var(--ice-dim);margin:0 0 14px}
-.hy-list{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-.hy-list li{display:grid;gap:4px}
-.hy-lab{
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ember);
-}
-.hy-fact{margin:0;line-height:1.55;font-size:.94rem}
-.hy-cue{
-  margin:0;font-size:.88rem;color:var(--ice-dim);
-  border-left:2px solid rgba(240,169,224,.4);padding-left:10px;font-style:italic;
-}
+.stage p{margin:0;font-size:.92rem;color:var(--ink-dim);line-height:1.55}
