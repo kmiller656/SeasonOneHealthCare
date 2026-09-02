@@ -232,15 +232,22 @@ h1 em{font-style:normal;color:var(--accent)}
    trade is a long line on a very wide display, and `.wrap`'s 1560px cap is what keeps
    that from running away entirely.
 
-   Legal is deliberately left out. It is a policy read in order and cross-referenced
-   by section number, and it has its own `.legal-body` measure besides.
-
    Applied on the article, so nothing that does not opt in moves. The mobile rules
    above still apply; there is nothing to widen at those sizes anyway. */
 .page-wide h1,
 .page-wide .page-lede,
 .page-wide .page-body.one-col,
 .page-wide p{max-width:none}
+
+/* Legal opted in last (Kenneth, 2026-09-02: "do the legal page too"), and it carries
+   two measures of its own that the rules above do not reach. */
+.page-wide .legal-toc,
+.page-wide .legal-body{max-width:none}
+/* Fourteen links in a fixed two columns across a full-width panel leaves a canyon
+   down the middle. A column *width* instead of a column count fills the panel with as
+   many columns as actually fit, at any width — including collapsing to one on a
+   phone, which is what the `max-width:880px` rule above was hand-doing. */
+.page-wide .legal-toc ol{columns:17rem}
 
 /* -- legal page ------------------------------------------------------------
    One column, not the two the About page runs in: a policy is read in order,
