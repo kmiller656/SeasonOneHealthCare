@@ -335,6 +335,90 @@ h1 em{font-style:normal;color:var(--accent)}
 .auth .btn{margin-top:22px}
 .auth .btn:disabled{opacity:.55;cursor:default}
 
+/* -- institutions page ------------------------------------------------------
+   The program-facing page (2026-09-03), linked from the printed marketing
+   one-sheet. Two things live only here: the four-up value grid, and the
+   inquiry form.
+
+   The form deliberately does NOT reuse the `.beta` chrome from the hero. That
+   card is deep teal with white text, which is right for a two-field signup and
+   wrong for a ten-field form — a long form on a dark ground is harder to read
+   and reads as heavier work than it is. This one keeps the same language (3px
+   black rule, hard offset shadow, mono small-caps header) on paper. */
+.pillars{
+  display:grid;gap:20px;margin:24px 0 0;
+  /* `min(...,100%)` rather than a bare `17rem` floor: on a 320px phone the
+     column box is narrower than the floor, and a bare minmax would let the
+     track overflow its own container. */
+  grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr));
+}
+.pillar{border:2px solid var(--rule);background:var(--paper-2);padding:20px 22px 22px}
+.pillar-head{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 10px;
+}
+.pillar p{font-size:15.5px;line-height:1.68;margin:0;color:var(--ink);max-width:none}
+
+.inq{
+  border:3px solid #000;background:var(--paper-2);
+  box-shadow:11px 11px 0 rgba(0,0,0,.28);margin:26px 0 0;max-width:68rem;
+}
+.inq-head{
+  padding:16px 26px;border-bottom:3px solid #000;background:var(--brand);color:#fff;
+  font-family:var(--mono);font-size:13px;letter-spacing:.17em;text-transform:uppercase;
+}
+.inq-body{padding:clamp(20px,3vw,30px)}
+.inq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-dim);
+}
+.field input[type=text],.field input[type=email],.field select,.field textarea{
+  font-family:var(--sans);font-size:16px;line-height:1.4;
+  padding:13px 14px;background:#fff;color:var(--ink);
+  border:2px solid var(--rule);width:100%;border-radius:0;-webkit-appearance:none;appearance:none;
+}
+.field select{
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%23586360' d='M0 0h12L6 8z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;
+}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none}
+.field ::placeholder{color:#8A9694}
+
+/* Interest checkboxes. Two columns so six options are a block rather than a
+   scroll, collapsing to one on a phone. */
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(15rem,100%),1fr));gap:10px 20px}
+.check{
+  display:flex;gap:10px;align-items:flex-start;
+  font-family:var(--sans);font-size:15px;line-height:1.45;color:var(--ink);
+  letter-spacing:normal;text-transform:none;cursor:pointer;
+}
+.check input{margin-top:2px;flex:none;width:17px;height:17px;accent-color:var(--brand)}
+
+/* The consent row is `.consent`, which is written for white-on-teal in the hero.
+   Re-ink it for paper rather than forking the markup. */
+.inq-consent{color:var(--ink);font-size:14px}
+.inq-consent a{color:var(--accent)}
+.inq-consent input{accent-color:var(--brand)}
+.inq-btn{margin-top:22px}
+.inq-note{margin:16px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+
+/* Web3Forms honeypot: bots fill hidden fields, people never see it. Not
+   `display:none`, which some bots detect and skip. */
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+
+.inq .form-success,.inq .form-error{font-size:15.5px}
+.inq .form-success{color:var(--leaf)}
+.inq .form-error{color:var(--siren)}
+
+@media(max-width:640px){
+  .inq-grid{grid-template-columns:1fr}
+  .inq{box-shadow:7px 7px 0 rgba(0,0,0,.28)}
+}
+
 /* -- footer ---------------------------------------------------------------- */
 footer{flex:none;background:var(--paper-2);padding:clamp(32px,4vw,52px) 0;margin-top:auto}
 /* The badge's home, as of 2026-09-03 (Kenneth: "the Season One brand logo can
