@@ -104,24 +104,41 @@ body{
 .strip .s5{background:var(--rot-psych)}
 .strip .s6{background:var(--rot-wh)}
 
-/* -- nav: the logo appears here and nowhere else --------------------------- */
+/* -- nav: a wordmark, not the badge ---------------------------------------
+   Kenneth, 2026-09-03: "remove the season one logo and where the season one logo
+   is, put Season One Healthcare in the same font as the font that is on the right
+   side of the screen (blueprint, coverage, about), but make this font larger more
+   to be the header."
+
+   So the wordmark is literally the `.links` rule scaled up: the same `--mono`
+   family, the same uppercase, the same letterspacing — sized to read as the page's
+   masthead and inked in `--ink` rather than `--ink-dim`, which is what separates a
+   title from the navigation beside it. Nothing else about the nav moved; the badge
+   now lives in the footer (see `.foot-brand`), which is where Kenneth asked for it.
+
+   `clamp` because this is the widest element on the bar: at 320px the wordmark and
+   three nav links have to coexist, and a fixed 26px pushed the links onto a second
+   row. */
 nav.top{
   display:flex;align-items:center;justify-content:space-between;
-  gap:24px;padding:26px 0;flex:none;
+  gap:24px;padding:26px 0;flex:none;flex-wrap:wrap;
 }
-nav.top .logo{display:block;line-height:0}
-nav.top .logo img{
-  display:block;height:58px;width:auto;
-  image-rendering:pixelated;image-rendering:-moz-crisp-edges;
+nav.top .logo{display:block;text-decoration:none}
+nav.top .wordmark{
+  display:block;font-family:var(--mono);
+  font-size:clamp(16px,2.6vw,26px);font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink);line-height:1.15;
 }
+nav.top .logo:hover .wordmark{color:var(--accent-deep)}
 nav.top .links{
   display:flex;gap:32px;font-family:var(--mono);font-size:13px;
   letter-spacing:.13em;text-transform:uppercase;
 }
-nav.top a{color:var(--ink-dim);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent}
-nav.top a:hover{color:var(--accent-deep);border-bottom-color:var(--accent-deep)}
+nav.top .links a{color:var(--ink-dim);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent}
+nav.top .links a:hover{color:var(--accent-deep);border-bottom-color:var(--accent-deep)}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
-@media(max-width:560px){nav.top .logo img{height:42px}}
+@media(max-width:560px){nav.top{gap:14px}nav.top .links{gap:22px;font-size:12px}}
 
 /* -- page body ------------------------------------------------------------- */
 main{flex:1 0 auto;position:relative}
@@ -320,6 +337,15 @@ h1 em{font-style:normal;color:var(--accent)}
 
 /* -- footer ---------------------------------------------------------------- */
 footer{flex:none;background:var(--paper-2);padding:clamp(32px,4vw,52px) 0;margin-top:auto}
+/* The badge's home, as of 2026-09-03 (Kenneth: "the Season One brand logo can
+   officially go at the bottom of pages where the Season One LLC and other
+   information is located, but place it in the open space to the right of that
+   information").
+
+   The grid is what does it. The links and the legal paragraph both sit in column
+   one and stack; the mark takes column two and spans both rows, so it fills the
+   space the legal text was already leaving empty on its right rather than adding a
+   row of its own. `align-self:center` puts it against the middle of that block. */
 .foot-in{
   display:grid;grid-template-columns:1fr auto;gap:26px 48px;align-items:start;
 }
@@ -327,11 +353,29 @@ footer{flex:none;background:var(--paper-2);padding:clamp(32px,4vw,52px) 0;margin
 .foot-links a{color:var(--ink-dim);text-decoration:none}
 .foot-links a:hover{color:var(--accent-deep)}
 .foot-legal{
-  grid-column:1/-1;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);
+  grid-column:1;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);
   line-height:1.9;padding-top:22px;border-top:1px solid var(--rule-soft);max-width:110ch;
 }
+.foot-brand{
+  grid-column:2;grid-row:1/span 2;align-self:center;justify-self:end;line-height:0;
+}
+/* The mark is 567x156, so it is set by height and left to find its own width.
+   No `image-rendering:pixelated` here, unlike the old nav rule: that existed because
+   the badge was being drawn at 58px from the same file and the hard edges mattered
+   more than the smoothing. At footer size it is being downscaled by roughly half,
+   and nearest-neighbour on a downscale is what makes an image look broken. */
+.foot-brand img{
+  display:block;height:clamp(62px,7.5vw,88px);width:auto;
+}
 .foot-mark{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
-@media(max-width:640px){.foot-in{grid-template-columns:1fr}}
+/* Stacked: the mark leads the footer rather than being wedged under the legal text,
+   which is the only place it reads as a sign-off rather than as an orphan. */
+@media(max-width:640px){
+  .foot-in{grid-template-columns:1fr}
+  .foot-legal{grid-column:1}
+  .foot-brand{grid-column:1;grid-row:auto;justify-self:start;order:-1}
+  .foot-brand img{height:72px}
+}
 
 @media (prefers-reduced-motion:no-preference){
   .btn{transition:transform .1s steps(2),box-shadow .1s steps(2)}
