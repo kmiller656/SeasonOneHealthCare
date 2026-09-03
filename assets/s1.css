@@ -23,24 +23,50 @@
      * `--acid`, the badge green, is 1.9:1 on white. It keeps the button, where it is
        a filled block behind near-black text, and `--leaf` takes the two places it was
        used as ink or as a thin bar. */
+  /* ---- Palette, taken from the app (Kenneth, 2026-09-02) -------------------
+     Every value below is lifted from PANCEPrep/Theme.swift rather than picked
+     here, so the site and the app cannot drift apart. The site had been grape
+     purple and badge pink; the app has always been deep teal with an amber
+     accent, and the app is the product.
+
+     Contrast was the constraint on which app colour could take which job:
+       brand      #0E7C6B  5.10:1 on white — passes AA, so it carries links,
+                                             small-caps headings and hovers
+       brandDeep  #0A5B4F  8.01:1 on white — hover, and the signup card body
+       accentAmber#EE9A1C  2.26:1 on white — fails as text, so it is only ever
+                                             a fill with near-black on top
+       correct    #12875A  4.53:1 — the depth bars
+       warn       #DB5247  3.95:1 — large text and rules only
+     The three `-lite` values are the same app colours raised in HSL lightness,
+     hue and saturation untouched, for legibility on the deep-teal card. They
+     are derived, not invented. */
   --paper:#FFFFFF;
-  --paper-2:#F5F2F9;
-  --grape:#5C2E90;
-  --grape-lo:#3B1A66;
-  --grape-hi:#7B45B8;
-  --ink:#1A1226;
-  --ink-dim:#5B5270;
-  --ink-strong:#0D0715;
-  --accent:#6A2C9E;
-  --gum:#F0A9E0;
-  --acid:#3FD647;
-  --leaf:#1E8F2A;
-  --ember:#F5A623;
-  --siren:#E8342C;
-  --cobalt:#2B4FE0;
-  /* Hairlines, as ink over paper rather than the old pale-blue-over-black. */
-  --rule:rgba(26,18,38,.18);
-  --rule-soft:rgba(26,18,38,.09);
+  --paper-2:#F1F6F5;
+  --ink:#121716;
+  --ink-dim:#586360;
+  --ink-strong:#080B0A;
+
+  --brand:#0E7C6B;        /* Theme.brand */
+  --brand-deep:#0A5B4F;   /* Theme.brandDeep */
+  --accent:#0E7C6B;
+  --accent-deep:#0A5B4F;
+  --amber:#EE9A1C;        /* Theme.accentAmber */
+  --amber-lite:#F4BB67;
+  --leaf:#12875A;         /* Theme.correct */
+  --leaf-lite:#54E8AF;
+  --siren:#DB5247;        /* Theme.warn */
+  --siren-lite:#F2B8B3;
+  --violet:#6B5CE6;       /* Theme.generated */
+  --cobalt:#3D78F2;       /* Theme.rotationColors, Internal Medicine */
+
+  /* The edge strip is now the six colours the app uses to tell rotations
+     apart — Theme.rotationColors — rather than six colours chosen for the
+     badge alone. Same rainbow, every hue now one the product actually uses. */
+  --rot-em:#E34A4A; --rot-peds:#F59E1A; --rot-fm:#0D9487;
+  --rot-im:#3D78F2; --rot-psych:#C94CA3; --rot-wh:#E6598C;
+
+  --rule:rgba(18,23,22,.18);
+  --rule-soft:rgba(18,23,22,.09);
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --gutter:clamp(24px,4.5vw,72px);
@@ -71,12 +97,12 @@ body{
 /* -- the six-colour edge strip, taken off the badge ------------------------ */
 .strip{display:flex;height:7px;width:100%;flex:none}
 .strip i{flex:1;display:block}
-.strip .s1{background:var(--siren)}
-.strip .s2{background:var(--ember)}
-.strip .s3{background:var(--acid)}
-.strip .s4{background:var(--cobalt)}
-.strip .s5{background:var(--gum)}
-.strip .s6{background:var(--grape-hi)}
+.strip .s1{background:var(--rot-em)}
+.strip .s2{background:var(--rot-peds)}
+.strip .s3{background:var(--rot-fm)}
+.strip .s4{background:var(--rot-im)}
+.strip .s5{background:var(--rot-psych)}
+.strip .s6{background:var(--rot-wh)}
 
 /* -- nav: the logo appears here and nowhere else --------------------------- */
 nav.top{
@@ -93,7 +119,7 @@ nav.top .links{
   letter-spacing:.13em;text-transform:uppercase;
 }
 nav.top a{color:var(--ink-dim);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent}
-nav.top a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+nav.top a:hover{color:var(--accent-deep);border-bottom-color:var(--accent-deep)}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
 @media(max-width:560px){nav.top .logo img{height:42px}}
 
@@ -101,7 +127,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 main{flex:1 0 auto;position:relative}
 main::before{
   content:"";position:absolute;inset:-30% -10% 15% -10%;z-index:-1;pointer-events:none;
-  background:radial-gradient(ellipse at 32% 30%,rgba(92,46,144,.07) 0%,transparent 64%);
+  background:radial-gradient(ellipse at 32% 30%,rgba(14,124,107,.07) 0%,transparent 64%);
 }
 
 /* Hero spans the full width: statement on the left, signup on the right. */
@@ -130,11 +156,11 @@ h1 em{font-style:normal;color:var(--accent)}
 /* Right column of the hero: signup, then the store card beneath it. */
 .hero-side{display:flex;flex-direction:column;gap:26px;position:sticky;top:32px}
 .beta{
-  border:3px solid #000;background:var(--grape-lo);
+  border:3px solid #000;background:var(--brand-deep);
   box-shadow:11px 11px 0 rgba(0,0,0,.32);
 }
 .beta-head{
-  padding:18px 26px;background:var(--grape);border-bottom:3px solid #000;
+  padding:18px 26px;background:var(--brand);border-bottom:3px solid #000;
   font-family:var(--mono);font-size:13px;letter-spacing:.17em;text-transform:uppercase;color:#fff;
 }
 .beta-body{padding:26px}
@@ -145,11 +171,11 @@ h1 em{font-style:normal;color:var(--accent)}
   border:2px solid rgba(255,255,255,.5);
 }
 .beta-row input[type=email]::placeholder{color:#6E6588}
-.beta-row input[type=email]:focus{border-color:var(--gum);outline:none}
+.beta-row input[type=email]:focus{border-color:var(--amber);outline:none}
 .btn{
   font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.09em;
   text-transform:uppercase;padding:14px 24px;border:2px solid #000;cursor:pointer;
-  background:var(--acid);color:#06200A;box-shadow:4px 4px 0 #000;
+  background:var(--amber);color:var(--ink-strong);box-shadow:4px 4px 0 #000;
   text-decoration:none;display:inline-block;
 }
 .btn:hover:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
@@ -158,18 +184,18 @@ h1 em{font-style:normal;color:var(--accent)}
   display:flex;gap:11px;align-items:flex-start;margin-top:18px;
   font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.84);
 }
-.consent input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--acid)}
-.consent a{color:var(--gum)}
+.consent input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--amber)}
+.consent a{color:var(--amber-lite)}
 .beta-note{margin:16px 0 0;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.7)}
 .form-success,.form-error{display:none;font-size:15px;padding:16px 0 0}
-.form-success{color:var(--acid)}
-.form-error{color:var(--gum)}
+.form-success{color:var(--leaf-lite)}
+.form-error{color:var(--siren-lite)}
 
 /* -- coming soon to the stores -------------------------------------------- */
 .soon{border:3px solid #000;background:var(--paper-2);box-shadow:11px 11px 0 rgba(0,0,0,.28)}
 .soon-head{
-  padding:14px 26px;border-bottom:3px solid #000;background:var(--grape-lo);
-  font-family:var(--mono);font-size:12px;letter-spacing:.19em;text-transform:uppercase;color:var(--gum);
+  padding:14px 26px;border-bottom:3px solid #000;background:var(--brand-deep);
+  font-family:var(--mono);font-size:12px;letter-spacing:.19em;text-transform:uppercase;color:var(--amber-lite);
 }
 .soon-body{padding:22px 26px 24px;display:flex;flex-direction:column;gap:14px}
 .store{
@@ -266,7 +292,7 @@ h1 em{font-style:normal;color:var(--accent)}
   font-family:var(--mono);font-size:12.5px;line-height:2.05;
 }
 .legal-toc a{color:var(--ink-dim);text-decoration:none}
-.legal-toc a:hover{color:var(--accent)}
+.legal-toc a:hover{color:var(--accent-deep)}
 .legal-body{margin-top:clamp(40px,5vw,72px);max-width:80ch}
 .legal-body section{margin:0 0 38px;scroll-margin-top:28px}
 .legal-body section:last-child{margin-bottom:0}
@@ -286,7 +312,7 @@ h1 em{font-style:normal;color:var(--accent)}
 .auth-input:focus{outline:none;border-color:var(--accent)}
 .auth-hint{font-size:13px;color:var(--ink-dim);margin:14px 0 0;max-width:26rem}
 .auth-error{
-  font-size:14px;color:var(--ink);background:rgba(232,52,44,.1);
+  font-size:14px;color:var(--ink-strong);background:rgba(219,82,71,.12);
   border-left:3px solid var(--siren);padding:10px 12px;margin:16px 0 0;max-width:26rem;
 }
 .auth .btn{margin-top:22px}
@@ -299,7 +325,7 @@ footer{flex:none;background:var(--paper-2);padding:clamp(32px,4vw,52px) 0;margin
 }
 .foot-links{display:flex;flex-wrap:wrap;gap:30px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
 .foot-links a{color:var(--ink-dim);text-decoration:none}
-.foot-links a:hover{color:var(--accent)}
+.foot-links a:hover{color:var(--accent-deep)}
 .foot-legal{
   grid-column:1/-1;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);
   line-height:1.9;padding-top:22px;border-top:1px solid var(--rule-soft);max-width:110ch;
