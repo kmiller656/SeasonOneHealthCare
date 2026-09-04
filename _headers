@@ -5,3 +5,11 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
+
+# Apple requires the association file to be served as application/json, with no
+# redirect and no extension. Cloudflare Pages guesses text/plain for an extensionless
+# file, and iOS silently ignores it when the type is wrong — the symptom is an app that
+# simply never appears in the password manager, with nothing logged anywhere obvious.
+/.well-known/apple-app-site-association
+  Content-Type: application/json
+  X-Content-Type-Options: nosniff
