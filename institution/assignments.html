@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Lesson plans | Season One for Programs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="portal.css?v=2">
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-head">
+          <h2>Lesson plans</h2><span class="hint">What you have assigned</span>
+          <span class="spacer"></span>
+          <button class="btn sm" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">New lesson plan</button>
+        </div>
+        <div class="card-body flush tbl-wrap">
+          <table>
+            <thead><tr><th>Title</th><th>Cohort</th><th>Due</th><th style="text-align:right">Items</th><th>Progress</th><th>Built</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" id="builder">
+        <div class="card-head">
+          <h2>Build a lesson plan</h2>
+          <span class="hint">From a syllabus, or by hand</span>
+        </div>
+        <div class="card-body">
+          <div class="grid g-2">
+            <div>
+              <div class="sect-title">1 &middot; What it is</div>
+              <div class="field"><label>Title</label><input type="text" placeholder="Cardiology block — required conditions"></div>
+              <div class="row-2">
+                <div class="field"><label>Assign to</label><select id="who">
+                  <option>Whole cohort — Class of 2028</option>
+                  <option>Whole cohort — Class of 2027</option>
+                  <option>One student…</option>
+                </select></div>
+                <div class="field"><label>Due</label><input type="date" value="2026-09-18"></div>
+              </div>
+
+              <div class="sect-title">2 &middot; The material</div>
+              <div class="drop">
+                <b>Drop a syllabus or lecture PDF</b>
+                Bubby reads it and works out which of the 950 lessons it covers.
+                <div style="margin-top:12px"><button class="btn ghost sm" onclick="fakeRead()">Choose a PDF</button></div>
+              </div>
+              <p style="font-size:13px;color:var(--ink-dim);margin:12px 0 0">
+                Or <a href="#" onclick="alert('Prototype: opens the condition and medication picker.');return false">pick conditions and medications by hand</a>.
+              </p>
+            </div>
+
+            <div>
+              <div class="sect-title">3 &middot; What Bubby found</div>
+              <div id="found"><div class="empty"><b>Nothing read yet</b>Drop a PDF and the matches appear here for you to confirm.</div></div>
+            </div>
+          </div>
+
+          <div class="note" style="margin-top:18px">
+            Nothing is assigned until you confirm it. Bubby suggests; a syllabus is a noisy document and
+            the matches are yours to untick.
+          </div>
+          <button class="btn" style="margin-top:14px" onclick="alert('Prototype: would assign this plan and notify the cohort.')">Assign lesson plan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=1"></script>
+<script>
+
+shell('assignments.html','Lesson plans','Assign material to a cohort or one student');
+document.getElementById('rows').innerHTML = DATA.assignments.map(a => {
+  const pct = Math.round(a.done / a.total * 100);
+  return '<tr><td><b>' + a.title + '</b></td><td>' + a.cohort + '</td><td>' + a.due + '</td>' +
+    '<td class="num">' + a.items + '</td><td style="min-width:150px">' + bar(pct) + '</td>' +
+    '<td>' + (/PDF/.test(a.source) ? '<span class="pill ai">Bubby</span>' : '<span class="pill neutral">By hand</span>') + '</td></tr>';
+}).join('');
+
+const MATCHES = [
+  ['Acute coronary syndrome','…responsible for the initial evaluation of chest pain…'],
+  ['Unstable angina','…ACS spectrum, lecture 4…'],
+  ['NSTEMI','…ACS spectrum, lecture 4…'],
+  ['STEMI','…ACS spectrum, lecture 4…'],
+  ['Heart failure','…systolic and diastolic dysfunction…'],
+  ['Atrial fibrillation','…rate versus rhythm control…'],
+  ['Aortic stenosis','…murmurs of the left heart…'],
+  ['Hypertension','…JNC-8 targets, lecture 2…'],
+  ['Metoprolol','…beta blockade in rate control…'],
+  ['Furosemide','…loop diuretics in acute decompensation…']
+];
+function fakeRead(){
+  const box = document.getElementById('found');
+  box.innerHTML = '<div class="empty"><b>Bubby is reading…</b>Extracting topics and matching them to the library.</div>';
+  setTimeout(() => {
+    box.innerHTML =
+      '<p style="font-size:13px;color:var(--ink-dim);margin:0 0 10px">Found ' + MATCHES.length +
+      ' lessons in <b>cardiology-block-syllabus.pdf</b>. Untick anything that does not belong.</p>' +
+      MATCHES.map(m =>
+        '<label class="check"><input type="checkbox" checked><span><b>' + m[0] + '</b>' +
+        '<br><span style="color:var(--ink-faint);font-size:12px">' + m[1] + '</span></span></label>'
+      ).join('');
+  }, 900);
+}
+
+</script>
+</body>
+</html>

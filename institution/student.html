@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Student | Season One for Programs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="portal.css?v=2">
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="grid g-4" style="margin-bottom:18px">
+        <div class="card stat"><div class="lbl">Lessons finished</div><div class="val" id="m1">—</div><div class="delta" id="m1d"></div></div>
+        <div class="card stat"><div class="lbl">Questions answered</div><div class="val" id="m2">—</div><div class="delta" id="m2d"></div></div>
+        <div class="card stat"><div class="lbl">Accuracy</div><div class="val" id="m3">—</div><div class="delta" id="m3d"></div></div>
+        <div class="card stat"><div class="lbl">Current streak</div><div class="val" id="m4">—</div><div class="delta" id="m4d"></div></div>
+      </div>
+
+      <div class="grid g-2-1" style="margin-bottom:18px">
+        <div class="card">
+          <div class="card-head"><h2>Accuracy by rotation</h2><span class="hint">Where the gaps are</span></div>
+          <div class="card-body"><div class="cols" id="cols"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Status</h2></div>
+          <div class="card-body" id="status"></div>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-head"><h2>Assigned work</h2></div>
+          <div class="card-body flush tbl-wrap">
+            <table><thead><tr><th>Lesson plan</th><th>Due</th><th>Progress</th></tr></thead><tbody id="work"></tbody></table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>What faculty cannot see</h2></div>
+          <div class="card-body">
+            <p style="margin:0 0 10px;color:var(--ink-dim);font-size:13.5px">
+              This is a deliberate boundary, not a gap. It is written into the student's consent when they join,
+              and it is what keeps the roster a progress record rather than a full education record.
+            </p>
+            <div class="check"><input type="checkbox" disabled><span>Which answer they picked on any question</span></div>
+            <div class="check"><input type="checkbox" disabled><span>Their notes and highlights</span></div>
+            <div class="check"><input type="checkbox" disabled><span>Their flashcards</span></div>
+            <div class="check"><input type="checkbox" disabled><span>Their conversations with Bubby</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=1"></script>
+<script>
+
+const id = new URLSearchParams(location.search).get('id') || 's1';
+const s = DATA.students.find(x => x.id === id) || DATA.students[0];
+shell('roster.html', s.name, s.cohort + ' · ' + s.stage + ' year · ' + s.email);
+
+document.getElementById('m1').textContent = s.lessons;
+document.getElementById('m1d').textContent = 'of 950 in the library';
+document.getElementById('m2').textContent = s.questions.toLocaleString();
+document.getElementById('m2d').textContent = 'since joining';
+document.getElementById('m3').textContent = s.accuracy + '%';
+document.getElementById('m3d').innerHTML = s.accuracy < 65
+  ? '<span class="down">Below the cohort median</span>' : 'Cohort median is 77%';
+document.getElementById('m4').textContent = s.streak;
+document.getElementById('m4d').textContent = s.streak === 0 ? 'Last active ' + s.lastActive : 'days in a row';
+
+// Deterministic per-student so the page does not reshuffle on reload.
+const seed = s.name.length;
+document.getElementById('cols').innerHTML = DATA.rotations.slice(0,6).map((r,i) => {
+  const v = Math.max(38, Math.min(95, s.accuracy + ((i * 7 + seed) % 23) - 11));
+  const cls = v < 60 ? 'low' : v < 75 ? 'mid' : '';
+  // Scaled to 0.72 of the column so the value label and the rotation name keep their room:
+  // a 95% bar at full height would push both out of the box.
+  return '<div class="col"><em>' + v + '%</em><i class="' + cls + '" style="height:' + (v * 0.72) + '%"></i>' +
+         '<b>' + r.split(' ')[0] + '</b></div>';
+}).join('');
+
+document.getElementById('status').innerHTML =
+  '<div style="margin-bottom:12px">' + riskPill(s.risk) + '</div>' +
+  (s.risk === 'high'
+    ? '<p style="font-size:13.5px;color:var(--ink-dim);margin:0 0 14px">Flagged because activity stopped and an assessment is close. The app has not told the student they are flagged.</p>'
+    : '<p style="font-size:13.5px;color:var(--ink-dim);margin:0 0 14px">Nothing needs attention right now.</p>') +
+  '<button class="btn ghost sm" onclick="alert(\'Prototype: opens your mail client.\')">Email ' + s.name.split(' ')[0] + '</button>';
+
+document.getElementById('work').innerHTML = DATA.assignments.filter(a => a.cohort === s.cohort).map(a => {
+  const pct = s.risk === 'high' ? 15 : Math.min(100, Math.round(s.lessons / a.items * 12));
+  return '<tr><td><b>' + a.title + '</b></td><td>' + a.due + '</td><td style="min-width:150px">' + bar(pct) + '</td></tr>';
+}).join('') || '<tr><td colspan="3" class="empty">Nothing assigned to this cohort yet.</td></tr>';
+
+</script>
+</body>
+</html>

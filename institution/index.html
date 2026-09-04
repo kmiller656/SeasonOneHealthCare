@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Sign in | Season One for Programs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="portal.css?v=2">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth">
+    <h1>Season One for Programs</h1>
+    <p class="lede">Sign in to your program's account.</p>
+
+    <div class="note proto" style="margin-bottom:18px">
+      Prototype. This form does not authenticate yet &mdash; any details take you to the dashboard.
+    </div>
+
+    <form onsubmit="location.href='dashboard.html';return false">
+      <div class="field">
+        <label for="e">Work email</label>
+        <input id="e" type="email" value="amoreno@ridgeline.edu" required>
+      </div>
+      <div class="field">
+        <label for="p">Password</label>
+        <input id="p" type="password" value="demo-password" required>
+      </div>
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+
+    <p class="auth-alt">
+      No account yet? <a href="/institutions#connect">Talk to us about your program</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

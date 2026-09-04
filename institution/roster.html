@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Roster | Season One for Programs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="portal.css?v=2">
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-head">
+          <h2>Students</h2>
+          <span class="hint" id="count"></span>
+          <span class="spacer"></span>
+          <button class="btn ghost sm" onclick="alert('Prototype: CSV import — name, email, cohort.')">Import CSV</button>
+          <button class="btn ghost sm" onclick="alert('Prototype: exports the roster with progress columns.')">Export</button>
+          <button class="btn sm" onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">Add student</button>
+        </div>
+        <div class="card-body flush tbl-wrap">
+          <table>
+            <thead><tr><th>Student</th><th style="text-align:right">Lessons</th><th style="text-align:right">Questions</th><th>Accuracy</th><th style="text-align:right">Streak</th><th>Last active</th><th>Status</th><th></th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card" id="add">
+          <div class="card-head"><h2>Add a student</h2></div>
+          <div class="card-body">
+            <div class="row-2">
+              <div class="field"><label>Full name</label><input type="text" placeholder="Jordan Reyes"></div>
+              <div class="field"><label>Work email</label><input type="email" placeholder="jreyes@ridgeline.edu"></div>
+            </div>
+            <div class="row-2">
+              <div class="field"><label>Cohort</label><input type="text" value="Class of 2028"></div>
+              <div class="field"><label>Year</label><select><option>Didactic</option><option>Clinical</option></select></div>
+            </div>
+            <button class="btn" onclick="alert('Prototype: sends a join invitation and holds a seat.')">Send invitation</button>
+            <div class="note" style="margin-top:14px">
+              The student gets an email with a join code. Their study data stays theirs &mdash; joining lets you
+              see progress, never their notes, highlights or tutor conversations.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>Seats</h2></div>
+          <div class="card-body">
+            <div class="stat" style="padding:0 0 14px"><div class="lbl">Used</div><div class="val" id="seats">—</div></div>
+            <div id="seatbar"></div>
+            <p style="color:var(--ink-dim);font-size:13.5px;margin:16px 0 0">
+              Removing a student frees their seat immediately. Their own account and study data are untouched &mdash;
+              they keep the app, you stop seeing their progress.
+            </p>
+            <button class="btn ghost sm" style="margin-top:12px" onclick="alert('Prototype: opens billing to add seats.')">Add seats</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=1"></script>
+<script>
+
+shell('roster.html','Roster','Add, remove and assign students');
+document.getElementById('count').textContent = DATA.students.length + ' students';
+document.getElementById('rows').innerHTML = DATA.students.map(s =>
+  studentRow(s).replace('</tr>',
+    '<td style="text-align:right"><button class="btn ghost sm" onclick="removeStudent(\'' + s.name + '\')">Remove</button></td></tr>')
+).join('');
+document.getElementById('seats').textContent = DATA.institution.seatsUsed + ' / ' + DATA.institution.seats;
+document.getElementById('seatbar').innerHTML = bar(Math.round(DATA.institution.seatsUsed / DATA.institution.seats * 100));
+function removeStudent(name){
+  if (confirm('Remove ' + name + ' from the roster? Their seat is freed and you stop seeing their progress. Their account and study data are not affected.')) {
+    alert('Prototype: no backend to remove them from yet.');
+  }
+}
+
+</script>
+</body>
+</html>

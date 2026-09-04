@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dashboard | Season One for Programs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="portal.css?v=2">
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="note proto" style="margin-bottom:18px">
+        <b>Prototype.</b> Every number on these screens is invented and held in <code>portal.js</code>.
+        Nothing is connected to the app yet.
+      </div>
+
+      <div class="grid g-4" style="margin-bottom:18px">
+        <div class="card stat"><div class="lbl">Students</div><div class="val" id="k1">—</div><div class="delta" id="k1d"></div></div>
+        <div class="card stat"><div class="lbl">Active this week</div><div class="val" id="k2">—</div><div class="delta up">+3 vs last week</div></div>
+        <div class="card stat"><div class="lbl">Median accuracy</div><div class="val" id="k3">—</div><div class="delta">Across all answered questions</div></div>
+        <div class="card stat"><div class="lbl">At risk</div><div class="val" id="k4" style="color:var(--siren)">—</div><div class="delta">Needs a conversation</div></div>
+      </div>
+
+      <div class="card alerts" style="margin-bottom:18px">
+        <div class="card-head">
+          <h2>Alerts</h2>
+          <span class="hint">Students the app thinks need attention</span>
+          <span class="spacer"></span>
+          <button class="btn ghost sm" onclick="alert('Prototype: alert rules would be configured here.')">Alert settings</button>
+        </div>
+        <div id="alerts"></div>
+      </div>
+
+      <div class="grid g-2-1">
+        <div class="card">
+          <div class="card-head"><h2>Roster</h2><span class="spacer"></span>
+            <a class="btn ghost sm" href="roster.html">Open roster</a></div>
+          <div class="card-body flush tbl-wrap">
+            <table>
+              <thead><tr><th>Student</th><th style="text-align:right">Lessons</th><th style="text-align:right">Questions</th><th>Accuracy</th><th style="text-align:right">Streak</th><th>Last active</th><th>Status</th></tr></thead>
+              <tbody id="roster"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>Assignment progress</h2></div>
+          <div class="card-body" id="assign"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=1"></script>
+<script>
+shell('dashboard.html','Dashboard','Ridgeline University PA Program');
+document.getElementById('k1').textContent = DATA.students.length;
+document.getElementById('k1d').textContent = DATA.institution.seatsUsed + ' of ' + DATA.institution.seats + ' seats';
+document.getElementById('k2').textContent = DATA.students.filter(s => /today|yesterday|days/.test(s.lastActive) && !/1[0-9]|2[0-9]/.test(s.lastActive)).length;
+const acc = DATA.students.map(s => s.accuracy).sort((a,b) => a-b);
+document.getElementById('k3').textContent = acc[Math.floor(acc.length/2)] + '%';
+document.getElementById('k4').textContent = DATA.students.filter(s => s.risk === 'high').length;
+
+document.getElementById('alerts').innerHTML = DATA.alerts.map(a =>
+  '<div class="alert-row ' + (a.level === 'watch' ? 'warn' : '') + '">' +
+    '<span class="dot"></span>' +
+    '<span class="txt"><b>' + a.who + ' — ' + a.what + '</b><span>' + a.why + '</span></span>' +
+    '<span class="act"><a class="btn ghost sm" href="student.html?id=' + a.id + '">Open</a></span>' +
+  '</div>').join('');
+
+document.getElementById('roster').innerHTML = DATA.students.slice(0,6).map(studentRow).join('');
+
+document.getElementById('assign').innerHTML = DATA.assignments.map(a => {
+  const pct = Math.round(a.done / a.total * 100);
+  return '<div style="margin-bottom:16px"><div style="font-weight:600;font-size:14px">' + a.title + '</div>' +
+    '<div style="color:var(--ink-dim);font-size:12.5px;margin:2px 0 7px">' + a.cohort + ' · due ' + a.due + '</div>' +
+    bar(pct) + '<div style="font-size:12px;color:var(--ink-faint);margin-top:4px">' + a.done + ' of ' + a.total + ' students finished</div></div>';
+}).join('');
+</script>
+</body>
+</html>

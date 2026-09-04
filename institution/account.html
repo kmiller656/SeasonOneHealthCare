@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Account | Season One for Programs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="portal.css?v=2">
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="grid g-2-1" style="margin-bottom:18px">
+        <div class="card">
+          <div class="card-head"><h2>Program details</h2></div>
+          <div class="card-body">
+            <div class="row-2">
+              <div class="field"><label>Institution</label><input type="text" value="Ridgeline University PA Program"></div>
+              <div class="field"><label>Short name</label><input type="text" value="Ridgeline"></div>
+            </div>
+            <div class="row-2">
+              <div class="field"><label>Primary contact</label><input type="text" value="Dr. Alicia Moreno"></div>
+              <div class="field"><label>Contact email</label><input type="email" value="amoreno@ridgeline.edu"></div>
+            </div>
+            <div class="field"><label>Billing address</label><textarea>1400 Ridgeline Way
+Boulder, CO 80301</textarea></div>
+            <button class="btn" onclick="alert('Prototype: no backend to save to yet.')">Save changes</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>Subscription</h2></div>
+          <div class="card-body">
+            <div class="stat" style="padding:0"><div class="lbl">Plan</div>
+              <div class="val" style="font-size:20px" id="plan">—</div></div>
+            <p style="font-size:13.5px;color:var(--ink-dim);margin:12px 0" id="renew"></p>
+            <div id="seatbar"></div>
+            <p style="font-size:12.5px;color:var(--ink-faint);margin:8px 0 16px" id="seats"></p>
+            <button class="btn ghost sm" onclick="alert('Prototype: opens the seat change flow.')">Change seats</button>
+            <button class="btn ghost sm" onclick="alert('Prototype: downloads past invoices.')">Invoices</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-head"><h2>Branding</h2><span class="hint">Your colours in the app</span></div>
+          <div class="card-body">
+            <div class="row-2">
+              <div class="field"><label>Brand colour</label><input type="color" value="#7A2B2B" style="height:44px;padding:4px"></div>
+              <div class="field"><label>Display name in app</label><input type="text" value="Ridgeline PA"></div>
+            </div>
+            <div class="drop" style="padding:18px"><b>Logo</b>PNG or SVG, at least 512&times;512</div>
+            <div class="note" style="margin-top:14px">
+              Your colour is contrast-checked before it ships to students, and derived into a darker
+              variant for text. Right and wrong answers keep their own colours &mdash; those mean something.
+            </div>
+            <p style="font-size:12.5px;color:var(--ink-faint);margin:12px 0 0">
+              The app icon and App&nbsp;Store name stay Season One. Changing those needs a separate build per
+              institution through Apple Business Manager.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>Service requests</h2></div>
+          <div class="card-body">
+            <div class="field"><label>What do you need?</label><select>
+              <option>Add or change seats</option>
+              <option>Roster import help</option>
+              <option>Accessibility / VPAT request</option>
+              <option>Data processing agreement</option>
+              <option>Something else</option>
+            </select></div>
+            <div class="field"><label>Details</label><textarea placeholder="Tell us what you need…"></textarea></div>
+            <button class="btn" onclick="alert('Prototype: would open a ticket.')">Send request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=1"></script>
+<script>
+
+shell('account.html','Account & billing','Plan, seats, branding and requests');
+document.getElementById('plan').textContent = DATA.institution.plan;
+document.getElementById('renew').textContent = 'Renews ' + DATA.institution.renews + '. Invoiced annually.';
+document.getElementById('seatbar').innerHTML = bar(Math.round(DATA.institution.seatsUsed / DATA.institution.seats * 100));
+document.getElementById('seats').textContent = DATA.institution.seatsUsed + ' of ' + DATA.institution.seats + ' seats used';
+
+</script>
+</body>
+</html>
