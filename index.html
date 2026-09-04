@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://seasononehealthcare.com/logo-mark.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="stylesheet" href="/assets/s1.css?v=20260903d">
+<link rel="stylesheet" href="/assets/s1.css?v=20260904a">
 
 <script type="application/ld+json">
 {
@@ -30,6 +30,86 @@
   "description": "An offline study app for physician assistant students preparing for the PANCE and end-of-rotation exams. Board-style practice questions with a rationale for every answer, a clinical reference library, and a medication reference.",
   "author": { "@type": "Organization", "name": "Season One", "legalName": "Season One LLC", "url": "https://seasononehealthcare.com/" },
   "url": "https://seasononehealthcare.com/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who writes Season One?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One PA student, currently. Every question, every rationale and all 950 lessons are written by someone sitting the same seven end-of-rotation exams and the same PANCE® — not adapted from a medical-school library and relabelled for PAs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it useful before boards, or only at the end?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Before. The lessons and condition reference cover the same diseases the didactic year does, so they are meant to be read alongside a module. During rotations, practice filters to the rotation you are on. By boards, nothing has to be re-bought — it is the same library you have used for two years."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What makes it different from the other PA study tools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It works with no signal — the entire library, question bank and medication reference are on the device. It is one library rather than three products sold per exam. And every answer carries a written rationale, including why the wrong options are wrong."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are the questions like the real exams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are board-style vignettes written against the published NCCPA® and PAEA® blueprints, and every condition is mapped to its blueprint area. They are not retired or leaked exam items, and no one at Season One has access to live examination content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to buy something separate for each rotation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. One library covers every rotation and the PANCE®, with no per-exam Qbank to add and nothing expiring between rotations. Six end-of-rotation blueprints are built today: Family Medicine, Emergency Medicine, Internal Medicine, Pediatrics, Women's Health and Psychiatry. Surgery is not finished yet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it alongside my Anki or Quizlet decks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and most students run more than one tool. Season One has its own flashcards built in, including decks generated from a lesson you have just read. There is no Anki import or export yet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I make it fit my own schedule?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Build a practice set filtered by rotation, by blueprint section, or from questions you have missed. Add an exam with its date and material, and the app works out how many lessons a day that takes. You can also hand it a syllabus PDF and have it work out which lessons the exam covers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does it cost, and what if I do not like it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Season One is free while it is in beta — no card, no trial countdown, nothing to cancel. Pricing will exist eventually, and when it does it will be published on this site with the refund terms stated on the same page as the price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens to my study data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It stays yours. Your answers, scores, notes and highlights live on your device and sync through your own iCloud account. We cannot read them. If your program gives you access through Season One for Programs, faculty see your progress only — never your notes, highlights, tutor conversations or individual answers."
+      }
+    }
+  ]
 }
 </script>
 </head>
@@ -180,6 +260,96 @@
         </div>
       </div>
     </section>
+
+    <!-- FAQ.  Ordered as an objection-handling sequence rather than by topic
+         (competitor audit, 2026-09-04): credibility, then fit, then the
+         differentiator, then question quality, then the two money questions,
+         then workflow, then the exits.  Each row answers the thing a student is
+         actually hesitating over at that point.
+
+         Native <details>/<summary> rather than a JS accordion: keyboard
+         operation, aria-expanded and find-in-page all work without script, and
+         every row is closed by default because that is what makes the list
+         scannable.  Answers duplicated into FAQPage JSON-LD below so Google can
+         surface them; keep the two in sync if either is edited. -->
+    <section class="faq" aria-labelledby="faq-h">
+      <p class="eyebrow">FAQs</p>
+      <h2 id="faq-h" class="shots-h">Questions students ask</h2>
+
+      <details class="faq-row">
+        <summary>Who writes Season One?</summary>
+        <div class="faq-a">
+          <p>One PA student, currently. That is the whole answer, and it is deliberate. Every question, every rationale and all 950 lessons are written by someone sitting the same seven end-of-rotation exams and the same PANCE&reg; &mdash; not adapted from a medical-school library and relabelled for PAs.</p>
+          <p>It also means Season One is small. If something is wrong, <a href="mailto:info@seasononehealthcare.com">write to us</a> and it gets fixed, usually the same week.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>Is it useful before boards, or only at the end?</summary>
+        <div class="faq-a">
+          <p>Before. The lessons and the condition reference cover the same diseases the didactic year does, so they are meant to be read alongside a module rather than saved for a cram. During rotations, practice filters to the rotation you are actually on. By boards, nothing has to be re-bought or re-imported &mdash; it is the same library you have been using for two years.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>What makes it different from the other PA study tools?</summary>
+        <div class="faq-a">
+          <p>Three things, honestly stated.</p>
+          <p><strong>It works with no signal.</strong> The entire library, question bank and medication reference are on the device. No loading spinner in a hospital basement, on a plane, or in a rural clinic with one bar.</p>
+          <p><strong>It is one library, not three products.</strong> Most prep is sold one exam at a time. Here, didactic, rotations and boards are the same content.</p>
+          <p><strong>Every answer carries a written rationale</strong> &mdash; including why the wrong options are wrong, which is usually where the learning is.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>Are the questions like the real exams?</summary>
+        <div class="faq-a">
+          <p>They are board-style vignettes written against the published NCCPA&reg; and PAEA&reg; blueprints, and every condition in the library is mapped to the blueprint area it belongs to. Each lesson closes on what an item writer tends to reach for and the wording a question uses to test it.</p>
+          <p>To be explicit about what we are not claiming: these are not retired or leaked exam items, and no one at Season One has access to live examination content. Nobody outside the NCCPA does. Anyone telling you otherwise is either wrong or selling something they should not have.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>Do I need to buy something separate for each rotation?</summary>
+        <div class="faq-a">
+          <p>No. One library covers every rotation and the PANCE&reg;. There is no per-exam Qbank to add, and nothing expires between rotations.</p>
+          <p>Six end-of-rotation blueprints are built today &mdash; Family Medicine, Emergency Medicine, Internal Medicine, Pediatrics, Women's Health and Psychiatry. Surgery is not finished yet, and we would rather say so here than have you find out during that rotation.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>Can I use it alongside my Anki or Quizlet decks?</summary>
+        <div class="faq-a">
+          <p>Nothing stops you, and most students run more than one tool. Season One has its own flashcards built in, including decks you can generate from a lesson you have just read.</p>
+          <p>There is no Anki import or export yet. If that is the thing that would make this fit your workflow, say so &mdash; it is on the list, and what people actually ask for is what gets built next.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>Can I make it fit my own schedule?</summary>
+        <div class="faq-a">
+          <p>Yes. Build a practice set filtered by rotation, by blueprint section, or from the questions you have missed. Add an exam with its date and the material it covers, and the app works out how many lessons a day that takes and holds that number steady as the day goes on.</p>
+          <p>You can also hand it a syllabus PDF and have it work out which lessons the exam covers, rather than ticking them off a list yourself.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>What does it cost, and what if I do not like it?</summary>
+        <div class="faq-a">
+          <p>Season One is <strong>free while it is in beta</strong>. No card, no trial countdown, and nothing to cancel. If it is not for you, delete it &mdash; there is no charge to reverse and no subscription running in the background.</p>
+          <p>Pricing will exist eventually. When it does, it will be published on this site with the refund terms stated on the same page as the price, and beta testers will hear about it from us before it changes.</p>
+        </div>
+      </details>
+
+      <details class="faq-row">
+        <summary>What happens to my study data?</summary>
+        <div class="faq-a">
+          <p>It stays yours. Your answers, scores, notes and highlights live on your device and sync through your own iCloud account to your other devices. We cannot read them.</p>
+          <p>If your program gives you access through Season One for Programs, faculty can see your <em>progress</em> &mdash; what you have completed and how you are pacing. They never see your notes, your highlights, your tutor conversations or your individual answers. The full detail is in the <a href="/legal">Privacy Policy</a>.</p>
+        </div>
+      </details>
+    </section>
+
   </div>
 </main>
 
