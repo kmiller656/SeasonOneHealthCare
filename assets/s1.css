@@ -643,3 +643,28 @@ table.bp tr:last-child td{border-bottom:0}
   letter-spacing:.14em;text-transform:uppercase;color:var(--brand);
   margin:0 0 8px;
 }
+
+/* ── Stacked form fields ─────────────────────────────────────────────────────
+   Used by the ambassador application, which asks for more than the one email
+   the beta form does. Label above input rather than a placeholder standing in
+   for a label: a placeholder disappears the moment someone types, which is
+   exactly when a long form needs its labels most. */
+.field{display:block;margin:0 0 14px}
+.field > span{
+  display:block;margin:0 0 5px;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);
+}
+.field > span i{font-style:normal;text-transform:none;letter-spacing:0;opacity:.7}
+.field input,.field textarea{
+  width:100%;box-sizing:border-box;font-family:var(--sans);font-size:16px;
+  color:var(--ink);background:var(--paper);
+  border:1px solid var(--rule);border-radius:8px;padding:11px 13px;
+}
+.field textarea{resize:vertical;min-height:74px}
+.field input:focus,.field textarea:focus{
+  outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand);
+}
+.field-row{display:flex;gap:14px}
+.field-row .field{flex:1 1 0;min-width:0}
+@media (max-width:560px){ .field-row{display:block} }
