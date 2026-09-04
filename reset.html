@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <title>New password | Season One</title>
-<link rel="stylesheet" href="/assets/s1.css?v=20260903c">
+<link rel="stylesheet" href="/assets/s1.css?v=20260903d">
 </head>
 <body>
 
@@ -50,6 +50,14 @@
             <input class="auth-input" type="password" id="pw2" name="confirm-password"
                    autocomplete="new-password" required minlength="8"
                    placeholder="Type it again">
+
+            <!-- One toggle for both fields, not one each. They are meant to hold the same
+                 string, so revealing one and not the other is a state nobody wants, and two
+                 controls to compare two values is one more thing to operate than the job
+                 needs. It is a real <button> so it is reachable by keyboard and announces
+                 itself; `aria-pressed` carries the on/off state. -->
+            <button type="button" class="auth-reveal" id="reveal" aria-pressed="false"
+                    aria-controls="pw pw2">Show passwords</button>
 
             <p class="auth-hint">At least 8 characters, including a letter and a number.</p>
             <p class="auth-error" id="err" hidden></p>
@@ -172,6 +180,18 @@
     go.disabled = false;
     go.textContent = 'Change my password';
   }
+
+  // Reveal, so a typo in a masked field is findable rather than only reportable by the
+  // mismatch error after submitting.
+  var reveal = document.getElementById('reveal');
+  reveal.addEventListener('click', function () {
+    var showing = document.getElementById('pw').type === 'text';
+    var next = showing ? 'password' : 'text';
+    document.getElementById('pw').type = next;
+    document.getElementById('pw2').type = next;
+    reveal.textContent = showing ? 'Show passwords' : 'Hide passwords';
+    reveal.setAttribute('aria-pressed', showing ? 'false' : 'true');
+  });
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();

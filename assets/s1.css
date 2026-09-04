@@ -327,6 +327,16 @@ h1 em{font-style:normal;color:var(--accent)}
   border:1px solid var(--rule);border-radius:0;
 }
 .auth-input:focus{outline:none;border-color:var(--accent)}
+/* Text button rather than an eye glyph inside the field: the inputs here are square,
+   full-width and borrowed from the marketing sheet, so an absolutely-positioned icon would
+   have to fight that layout at every width. A labelled control also says what it will do,
+   which an eye does not. */
+.auth-reveal{
+  display:inline-block;margin:10px 0 0;padding:0;border:0;background:none;
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px;
+}
+.auth-reveal:hover{color:var(--accent-deep)}
 .auth-hint{font-size:13px;color:var(--ink-dim);margin:14px 0 0;max-width:26rem}
 .auth-error{
   font-size:14px;color:var(--ink-strong);background:rgba(219,82,71,.12);
