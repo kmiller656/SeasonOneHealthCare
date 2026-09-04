@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
 <title>New password | Season One</title>
-<link rel="stylesheet" href="/assets/s1.css?v=20260903b">
+<link rel="stylesheet" href="/assets/s1.css?v=20260903c">
 </head>
 <body>
 
@@ -73,39 +73,98 @@
       </div>
 
 <script>
-// Supabase verifies the emailed link on its side and bounces the browser here with a
-// short-lived session in the URL fragment. That token is the only thing authorising the
-// change, which is why this page can talk to Supabase directly with the public anon key:
-// the key identifies the project, the token identifies the person.
+// Two link formats, and the difference is why reset links were failing on the first click
+// (Kenneth, 2026-09-03 — a fresh link landing on `error_code=otp_expired`).
+//
+// * **token_hash in the query string (preferred).** The email links straight to this page,
+//   and the JavaScript below exchanges the hash for a session. Nothing is consumed until
+//   the exchange runs.
+// * **access_token in the fragment (legacy).** The email links to Supabase's own
+//   `/auth/v1/verify`, which consumes the token server-side and bounces here with a
+//   session attached.
+//
+// **The legacy format is unsafe in email and that is not a Supabase bug.** Recovery tokens
+// are single use, and Gmail, Outlook and corporate security appliances all fetch links
+// inside a message before a human ever sees it. That prefetch is a GET on `/verify`, which
+// spends the token. By the time the real click arrives the token is gone, and Supabase
+// answers — correctly — that it is expired or already used. Moving the exchange into this
+// page fixes it because a scanner that fetches static HTML does not execute the script in
+// it.
+//
+// Both are handled so an email already sitting in an inbox still works.
+//
+// The session token is the only thing authorising the change, which is why this page can
+// talk to Supabase with the public anon key: the key identifies the project, the token
+// identifies the person.
 (function () {
   var SUPABASE_URL = 'https://gvqfktkkqscgmxlahyyh.supabase.co';
   var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWZrdGtrcXNjZ214bGFoeXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwOTQ2MDgsImV4cCI6MjA5NzY3MDYwOH0.KSVEzNo0MC9JQCTwN8mpo9UyngObbmA4F3hnORc8r9k';
 
-  var params = new URLSearchParams(location.hash.replace(/^#/, ''));
-  var token = params.get('access_token');
+  var hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var query = new URLSearchParams(location.search);
+  var token = hash.get('access_token');
+  var tokenHash = query.get('token_hash');
   var form = document.getElementById('form');
   var done = document.getElementById('done');
   var bad = document.getElementById('bad');
   var err = document.getElementById('err');
   var go = document.getElementById('go');
 
-  if (!token) {
+  function dead(reason) {
     document.getElementById('head').textContent = 'That link didn\u2019t work';
-    document.getElementById('lede').textContent = 'It may have expired or already been used.';
+    document.getElementById('lede').textContent =
+      reason || 'It may have expired or already been used.';
     bad.hidden = false;
-    return;
+    form.hidden = true;
   }
 
-  // Fill the hidden username so password managers file this under the right account.
-  try {
-    var claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-    if (claims && claims.email) document.getElementById('who').value = claims.email;
-  } catch (e) { /* cosmetic only */ }
+  // Supabase puts its own failures in the fragment. Saying which one it was costs nothing
+  // and is the difference between a debuggable report and "it didn't work".
+  var upstream = hash.get('error_description') || hash.get('error');
+  if (upstream && !token && !tokenHash) {
+    return dead(decodeURIComponent(upstream.replace(/\+/g, ' ')));
+  }
 
-  // Out of the address bar before anything else — a live token should not sit in
-  // browser history or get pasted along with the URL.
-  history.replaceState(null, '', location.pathname);
-  form.hidden = false;
+  if (!token && !tokenHash) return dead();
+
+  function ready(sessionToken) {
+    token = sessionToken;
+    // Fill the hidden username so password managers file this under the right account.
+    try {
+      var claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+      if (claims && claims.email) document.getElementById('who').value = claims.email;
+    } catch (e) { /* cosmetic only */ }
+
+    // Out of the address bar — a live token should not sit in browser history or get
+    // pasted along with the URL.
+    history.replaceState(null, '', location.pathname);
+    form.hidden = false;
+  }
+
+  if (token) {
+    ready(token);
+  } else {
+    // Exchange the hash for a session. This is the step the scanner cannot perform.
+    document.getElementById('lede').textContent = 'Checking your link\u2026';
+    fetch(SUPABASE_URL + '/auth/v1/verify', {
+      method: 'POST',
+      headers: { 'apikey': ANON_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: query.get('type') || 'recovery',
+        token_hash: tokenHash
+      })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (payload) {
+        if (r.ok && payload.access_token) {
+          document.getElementById('lede').textContent = 'Choose a new password.';
+          return ready(payload.access_token);
+        }
+        dead(payload.msg || payload.error_description || undefined);
+      });
+    }).catch(function () {
+      dead('Couldn\u2019t reach the server. Check your connection and open the link again.');
+    });
+  }
 
   function fail(message) {
     err.textContent = message;
