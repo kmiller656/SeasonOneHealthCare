@@ -1,105 +1,106 @@
-/* Season One institution portal — shared shell and mock data.
+/* Annexity institution portal — shell and rendering.
  *
- * PROTOTYPE. Every figure here is invented. It exists so the screens can be
- * reacted to before the backend is built; see the institution platform plan.
- * When the backend lands, `DATA` is replaced by Supabase queries and nothing
- * about the markup has to change — which is the point of holding it in one
- * object rather than hardcoding numbers into the HTML.
+ * The mock `DATA` object that used to live here is gone; the numbers come from
+ * Supabase now (portal-data.js). What stayed is everything that turns a row into
+ * markup, unchanged, which was the point of keeping the data in one object in the
+ * first place.
+ *
+ * `CTX` is filled by each page after `loadContext()` resolves, before `shell()`
+ * runs. Nothing here fetches.
  */
 
-const DATA = {
-  institution: {
-    name: "Ridgeline University PA Program",
-    short: "Ridgeline",
-    seats: 62,
-    seatsUsed: 58,
-    plan: "Program — annual",
-    renews: "2027-08-01",
-    contact: "Dr. Alicia Moreno",
-    email: "amoreno@ridgeline.edu"
-  },
-  students: [
-    { id:"s1", name:"Aisha Bello",      email:"abello@ridgeline.edu",  cohort:"Class of 2027", stage:"Clinical", lessons:78, questions:1240, accuracy:81, streak:12, lastActive:"today",      risk:"ok"   },
-    { id:"s2", name:"Daniel Okafor",    email:"dokafor@ridgeline.edu", cohort:"Class of 2027", stage:"Clinical", lessons:71, questions:980,  accuracy:76, streak:4,  lastActive:"yesterday",  risk:"ok"   },
-    { id:"s3", name:"Priya Raghunathan",email:"praghu@ridgeline.edu",  cohort:"Class of 2027", stage:"Clinical", lessons:64, questions:1105, accuracy:84, streak:21, lastActive:"today",      risk:"ok"   },
-    { id:"s4", name:"Marcus Webb",      email:"mwebb@ridgeline.edu",   cohort:"Class of 2027", stage:"Clinical", lessons:22, questions:210,  accuracy:58, streak:0,  lastActive:"18 days ago",risk:"high" },
-    { id:"s5", name:"Sofia Alvarez",    email:"salvarez@ridgeline.edu",cohort:"Class of 2028", stage:"Didactic", lessons:41, questions:520,  accuracy:69, streak:2,  lastActive:"6 days ago", risk:"watch"},
-    { id:"s6", name:"Tomas Lindqvist",  email:"tlind@ridgeline.edu",   cohort:"Class of 2028", stage:"Didactic", lessons:53, questions:735,  accuracy:79, streak:9,  lastActive:"today",      risk:"ok"   },
-    { id:"s7", name:"Grace Nkemdirim",  email:"gnkem@ridgeline.edu",   cohort:"Class of 2028", stage:"Didactic", lessons:12, questions:95,   accuracy:52, streak:0,  lastActive:"25 days ago",risk:"high" },
-    { id:"s8", name:"Elliot Chen",      email:"echen@ridgeline.edu",   cohort:"Class of 2028", stage:"Didactic", lessons:47, questions:610,  accuracy:74, streak:6,  lastActive:"2 days ago", risk:"ok"   }
-  ],
-  alerts: [
-    { level:"high",  who:"Grace Nkemdirim", what:"No activity for 25 days", why:"Cardiology block exam is in 9 days and 3 of 14 lessons are done.", id:"s7" },
-    { level:"high",  who:"Marcus Webb",     what:"Accuracy fell to 58%",    why:"Down 14 points over the last 200 questions. EOR in 12 days.",       id:"s4" },
-    { level:"watch", who:"Sofia Alvarez",   what:"Assignment overdue",      why:"“Endocrine block — required reading” was due 3 days ago.",          id:"s5" }
-  ],
-  assignments: [
-    { id:"a1", title:"Cardiology block — required conditions", due:"2026-09-18", cohort:"Class of 2028", items:14, done:19, total:31, source:"Built from syllabus PDF" },
-    { id:"a2", title:"Endocrine block — required reading",     due:"2026-08-30", cohort:"Class of 2028", items:9,  done:24, total:31, source:"Chosen by hand" },
-    { id:"a3", title:"EOR prep — Family Medicine",             due:"2026-10-02", cohort:"Class of 2027", items:22, done:5,  total:27, source:"Built from syllabus PDF" }
-  ],
-  rotations: ["Family Medicine","Internal Medicine","Emergency Medicine","Pediatrics","Psychiatry","Women's Health","General Surgery","Elective"]
-};
+let CTX = { institution: null, role: null, email: "" };
 
 const NAV = [
-  { group:"Program" },
-  { href:"dashboard.html", icon:"◱", label:"Dashboard" },
-  { href:"roster.html",    icon:"☰", label:"Roster" },
-  { href:"assignments.html", icon:"✎", label:"Lesson plans" },
-  { group:"Account" },
-  { href:"account.html",   icon:"⚙", label:"Account & billing" },
-  { href:"legal.html",     icon:"§", label:"Legal & documents" }
+  { group: "Program" },
+  { href: "dashboard.html",   icon: "◱", label: "Dashboard" },
+  { href: "roster.html",      icon: "☰", label: "Students" },
+  { href: "assignments.html", icon: "✎", label: "Lesson plans" },
+  { href: "materials.html",   icon: "⬆", label: "Material" },
+  { group: "Account" },
+  { href: "account.html",     icon: "⚙", label: "Account & billing" },
+  { href: "support.html",     icon: "?", label: "Help & support" },
+  { href: "legal.html",       icon: "§", label: "Legal & documents" }
 ];
 
-function initials(name){
-  return name.split(" ").filter(Boolean).slice(0,2).map(w => w[0]).join("").toUpperCase();
+function initials(name) {
+  return (name || "").split(" ").filter(Boolean).slice(0, 2)
+    .map(w => w[0]).join("").toUpperCase() || "?";
 }
 
-/** Paints the sidebar and top bar. Every page calls this once. */
-function shell(active, title, sub){
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Paints the sidebar and top bar. Every page calls this once, after loadContext(). */
+function shell(active, title, sub) {
+  const inst = CTX.institution || {};
   const side = document.querySelector(".side");
-  if (side){
+  if (side) {
     side.innerHTML =
-      '<div class="side-brand">Season One<small>' + DATA.institution.short + '</small></div>' +
+      '<div class="side-brand">Annexity<small>' + esc(inst.display_name || inst.name || "") + '</small></div>' +
       NAV.map(n => n.group
         ? '<div class="side-group">' + n.group + '</div>'
         : '<a href="' + n.href + '"' + (n.href === active ? ' class="on"' : '') + '>' +
           '<span class="ic">' + n.icon + '</span>' + n.label + '</a>'
       ).join("") +
-      '<div class="side-foot">' + DATA.institution.seatsUsed + ' of ' + DATA.institution.seats +
-      ' seats used<br><a href="index.html" style="color:rgba(255,255,255,.75)">Sign out</a></div>';
+      '<div class="side-foot"><a href="#" id="signout" style="color:rgba(255,255,255,.75)">Sign out</a></div>';
+    const out = document.getElementById("signout");
+    if (out) out.addEventListener("click", e => { e.preventDefault(); signOut(); });
   }
   const top = document.querySelector(".top");
-  if (top){
+  if (top) {
     top.innerHTML =
-      '<div><h1>' + title + '</h1>' + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>' +
-      '<div class="top-right"><div class="who"><span>' + DATA.institution.contact + '</span>' +
-      '<span class="avatar">' + initials(DATA.institution.contact.replace("Dr. ","")) + '</span></div></div>';
+      '<div><h1>' + esc(title) + '</h1>' + (sub ? '<div class="sub">' + esc(sub) + '</div>' : '') + '</div>' +
+      '<div class="top-right"><div class="who"><span>' + esc(CTX.email) + '</span>' +
+      '<span class="avatar">' + initials(CTX.email.split("@")[0].replace(/[._]/g, " ")) + '</span></div></div>';
   }
 }
 
-function riskPill(risk){
-  if (risk === "high")  return '<span class="pill bad">At risk</span>';
-  if (risk === "watch") return '<span class="pill warn">Watch</span>';
-  return '<span class="pill ok">On track</span>';
+/**
+ * The status a coordinator set, or nothing.
+ *
+ * "No flag" is drawn as plain text rather than a green pill on purpose. A green
+ * "On track" badge beside every unflagged student is a claim the software has not
+ * earned — it has a lesson count, not a judgement — and it makes the two students
+ * who *are* flagged harder to spot, which is the one thing this column is for.
+ */
+function statusPill(status) {
+  if (status === "at_risk")  return '<span class="pill bad">At risk</span>';
+  if (status === "tutoring") return '<span class="pill warn">Tutoring</span>';
+  if (status === "drs")      return '<span class="pill">DRS</span>';
+  if (status === "inactive") return '<span class="pill">Inactive</span>';
+  return '<span class="muted">—</span>';
 }
 
-function bar(pct){
+function statusLabel(status) { return STATUS_LABELS[status] || status; }
+
+function bar(pct) {
+  if (pct == null) return '<span class="muted">No data yet</span>';
   const cls = pct < 60 ? "bad" : pct < 75 ? "warn" : "";
   return '<div class="bar-row"><div class="bar"><i class="' + cls +
          '" style="width:' + Math.max(2, Math.min(100, pct)) + '%"></i></div><span>' + pct + '%</span></div>';
 }
 
-function studentRow(s){
+function studentRow(s) {
   return '<tr>' +
-    '<td><a class="who-cell" href="student.html?id=' + s.id + '">' +
+    '<td><a class="who-cell" href="student.html?id=' + encodeURIComponent(s.id) + '">' +
       '<span class="avatar">' + initials(s.name) + '</span>' +
-      '<span><b>' + s.name + '</b><small>' + s.cohort + ' · ' + s.stage + '</small></span></a></td>' +
+      '<span><b>' + esc(s.name) + '</b><small>' + esc(s.cohort) + ' · ' + esc(s.stage) + '</small></span></a></td>' +
+    '<td class="mono">' + esc(s.studentNumber) + '</td>' +
     '<td class="num">' + s.lessons + '</td>' +
     '<td class="num">' + s.questions.toLocaleString() + '</td>' +
     '<td style="min-width:150px">' + bar(s.accuracy) + '</td>' +
-    '<td class="num">' + s.streak + '</td>' +
-    '<td>' + s.lastActive + '</td>' +
-    '<td>' + riskPill(s.risk) + '</td>' +
+    '<td>' + esc(sinceLabel(s.lastActive)) + '</td>' +
+    '<td>' + statusPill(s.status) + '</td>' +
   '</tr>';
+}
+
+/** One place to put an unrecoverable page error, rather than a blank screen. */
+function pageError(message) {
+  const c = document.querySelector(".content");
+  if (c) c.innerHTML = '<div class="card"><div class="card-body"><div class="alert">' +
+    esc(message) + '</div></div></div>';
 }

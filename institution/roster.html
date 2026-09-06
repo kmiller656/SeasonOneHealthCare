@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Roster | Season One for Programs</title>
+<title>Students | Annexity</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="stylesheet" href="portal.css?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css?v=4">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="shell">
@@ -14,76 +18,105 @@
   <div class="main">
     <header class="top"></header>
     <div class="content">
-      <div class="card" style="margin-bottom:18px">
+
+      <div class="card">
         <div class="card-head">
           <h2>Students</h2>
-          <span class="hint" id="count"></span>
+          <span class="hint" id="count">Loading…</span>
           <span class="spacer"></span>
-          <button class="btn ghost sm" onclick="alert('Prototype: CSV import — name, email, cohort.')">Import CSV</button>
-          <button class="btn ghost sm" onclick="alert('Prototype: exports the roster with progress columns.')">Export</button>
-          <button class="btn sm" onclick="document.getElementById('add').scrollIntoView({behavior:'smooth'})">Add student</button>
+          <input class="search" id="search" type="search" placeholder="Search name or ID" aria-label="Search students">
+          <select id="statusFilter" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="at_risk">At risk</option>
+            <option value="tutoring">Tutoring</option>
+            <option value="drs">Disability Resource Services</option>
+            <option value="inactive">Inactive</option>
+            <option value="none">No flag</option>
+          </select>
         </div>
         <div class="card-body flush tbl-wrap">
           <table>
-            <thead><tr><th>Student</th><th style="text-align:right">Lessons</th><th style="text-align:right">Questions</th><th>Accuracy</th><th style="text-align:right">Streak</th><th>Last active</th><th>Status</th><th></th></tr></thead>
+            <thead><tr>
+              <th>Student</th>
+              <th>ID</th>
+              <th style="text-align:right">Lessons</th>
+              <th style="text-align:right">Questions</th>
+              <th>Accuracy</th>
+              <th>Last active</th>
+              <th>Status</th>
+            </tr></thead>
             <tbody id="rows"></tbody>
           </table>
         </div>
       </div>
 
-      <div class="grid g-2">
-        <div class="card" id="add">
-          <div class="card-head"><h2>Add a student</h2></div>
-          <div class="card-body">
-            <div class="row-2">
-              <div class="field"><label>Full name</label><input type="text" placeholder="Jordan Reyes"></div>
-              <div class="field"><label>Work email</label><input type="email" placeholder="jreyes@ridgeline.edu"></div>
-            </div>
-            <div class="row-2">
-              <div class="field"><label>Cohort</label><input type="text" value="Class of 2028"></div>
-              <div class="field"><label>Year</label><select><option>Didactic</option><option>Clinical</option></select></div>
-            </div>
-            <button class="btn" onclick="alert('Prototype: sends a join invitation and holds a seat.')">Send invitation</button>
-            <div class="note" style="margin-top:14px">
-              The student gets an email with a join code. Their study data stays theirs &mdash; joining lets you
-              see progress, never their notes, highlights or tutor conversations.
-            </div>
-          </div>
-        </div>
+      <p class="note" style="max-width:640px;margin-top:16px">
+        Progress figures come from what each student's app reports. Their notes, highlights and
+        tutor conversations are theirs and are never sent here &mdash; see
+        <a href="https://annexity.com/legal">the privacy policy</a>.
+      </p>
 
-        <div class="card">
-          <div class="card-head"><h2>Seats</h2></div>
-          <div class="card-body">
-            <div class="stat" style="padding:0 0 14px"><div class="lbl">Used</div><div class="val" id="seats">—</div></div>
-            <div id="seatbar"></div>
-            <p style="color:var(--ink-dim);font-size:13.5px;margin:16px 0 0">
-              Removing a student frees their seat immediately. Their own account and study data are untouched &mdash;
-              they keep the app, you stop seeing their progress.
-            </p>
-            <button class="btn ghost sm" style="margin-top:12px" onclick="alert('Prototype: opens billing to add seats.')">Add seats</button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
-<script src="portal.js?v=1"></script>
+
+<script src="portal.js?v=2"></script>
+<script src="portal-data.js?v=1"></script>
 <script>
+(async function () {
+  if (!await requireSession()) return;
 
-shell('roster.html','Roster','Add, remove and assign students');
-document.getElementById('count').textContent = DATA.students.length + ' students';
-document.getElementById('rows').innerHTML = DATA.students.map(s =>
-  studentRow(s).replace('</tr>',
-    '<td style="text-align:right"><button class="btn ghost sm" onclick="removeStudent(\'' + s.name + '\')">Remove</button></td></tr>')
-).join('');
-document.getElementById('seats').textContent = DATA.institution.seatsUsed + ' / ' + DATA.institution.seats;
-document.getElementById('seatbar').innerHTML = bar(Math.round(DATA.institution.seatsUsed / DATA.institution.seats * 100));
-function removeStudent(name){
-  if (confirm('Remove ' + name + ' from the roster? Their seat is freed and you stop seeing their progress. Their account and study data are not affected.')) {
-    alert('Prototype: no backend to remove them from yet.');
+  let roster = [];
+  try {
+    const ctx = await loadContext();
+    if (!ctx.membership) {
+      pageError("This account is not on any program's staff list.");
+      return;
+    }
+    CTX = { institution: ctx.membership.institutions, role: ctx.membership.role, email: ctx.email };
+    shell("roster.html", "Students", CTX.institution.display_name || CTX.institution.name);
+    roster = await loadRoster(CTX.institution.id);
+  } catch (err) {
+    pageError("Could not load the roster: " + (err.message || err));
+    return;
   }
-}
 
+  const rows = document.getElementById("rows");
+  const count = document.getElementById("count");
+  const search = document.getElementById("search");
+  const statusFilter = document.getElementById("statusFilter");
+
+  function render() {
+    const q = search.value.trim().toLowerCase();
+    const want = statusFilter.value;
+    const shown = roster.filter(s =>
+      (!want || s.status === want) &&
+      (!q || s.name.toLowerCase().includes(q) || String(s.studentNumber).toLowerCase().includes(q))
+    );
+
+    count.textContent = shown.length === roster.length
+      ? roster.length + (roster.length === 1 ? " student" : " students")
+      : shown.length + " of " + roster.length;
+
+    if (!roster.length) {
+      // The empty state is the state this table is in on day one, so it says what
+      // to do next rather than just reporting that a list is empty.
+      rows.innerHTML = '<tr><td colspan="7"><div class="empty">' +
+        '<b>No students yet.</b><br>Students appear here once they join your program with its ' +
+        'join code. Add them from <a href="account.html">Account</a>, or ' +
+        '<a href="https://annexity.com/institutions">talk to us</a> about importing a cohort.' +
+        '</div></td></tr>';
+      return;
+    }
+    rows.innerHTML = shown.length
+      ? shown.map(studentRow).join("")
+      : '<tr><td colspan="7"><div class="empty">Nobody matches that.</div></td></tr>';
+  }
+
+  search.addEventListener("input", render);
+  statusFilter.addEventListener("change", render);
+  render();
+})();
 </script>
 </body>
 </html>

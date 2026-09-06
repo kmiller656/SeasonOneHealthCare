@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Lesson plans | Season One for Programs</title>
+<title>Lesson plans | Annexity</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="stylesheet" href="portal.css?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css?v=4">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="shell">
@@ -14,103 +18,64 @@
   <div class="main">
     <header class="top"></header>
     <div class="content">
-      <div class="card" style="margin-bottom:18px">
+      <div class="card">
         <div class="card-head">
-          <h2>Lesson plans</h2><span class="hint">What you have assigned</span>
-          <span class="spacer"></span>
-          <button class="btn sm" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">New lesson plan</button>
+          <h2>Lesson plans</h2>
+          <span class="hint" id="count"></span>
         </div>
-        <div class="card-body flush tbl-wrap">
-          <table>
-            <thead><tr><th>Title</th><th>Cohort</th><th>Due</th><th style="text-align:right">Items</th><th>Progress</th><th>Built</th></tr></thead>
-            <tbody id="rows"></tbody>
-          </table>
-        </div>
+        <div id="list"></div>
       </div>
 
-      <div class="card" id="builder">
-        <div class="card-head">
-          <h2>Build a lesson plan</h2>
-          <span class="hint">From a syllabus, or by hand</span>
-        </div>
-        <div class="card-body">
-          <div class="grid g-2">
-            <div>
-              <div class="sect-title">1 &middot; What it is</div>
-              <div class="field"><label>Title</label><input type="text" placeholder="Cardiology block — required conditions"></div>
-              <div class="row-2">
-                <div class="field"><label>Assign to</label><select id="who">
-                  <option>Whole cohort — Class of 2028</option>
-                  <option>Whole cohort — Class of 2027</option>
-                  <option>One student…</option>
-                </select></div>
-                <div class="field"><label>Due</label><input type="date" value="2026-09-18"></div>
-              </div>
+      <p class="note" style="max-width:640px;margin-top:16px">
+        Building a plan &mdash; picking conditions, setting a due date and a daily pace, and
+        assigning it to students or a whole cohort &mdash; is the next piece being built.
+        Plans already assigned show here and in each student's profile.
+      </p>
 
-              <div class="sect-title">2 &middot; The material</div>
-              <div class="drop">
-                <b>Drop a syllabus or lecture PDF</b>
-                Bubby reads it and works out which of the 950 lessons it covers.
-                <div style="margin-top:12px"><button class="btn ghost sm" onclick="fakeRead()">Choose a PDF</button></div>
-              </div>
-              <p style="font-size:13px;color:var(--ink-dim);margin:12px 0 0">
-                Or <a href="#" onclick="alert('Prototype: opens the condition and medication picker.');return false">pick conditions and medications by hand</a>.
-              </p>
-            </div>
-
-            <div>
-              <div class="sect-title">3 &middot; What Bubby found</div>
-              <div id="found"><div class="empty"><b>Nothing read yet</b>Drop a PDF and the matches appear here for you to confirm.</div></div>
-            </div>
-          </div>
-
-          <div class="note" style="margin-top:18px">
-            Nothing is assigned until you confirm it. Bubby suggests; a syllabus is a noisy document and
-            the matches are yours to untick.
-          </div>
-          <button class="btn" style="margin-top:14px" onclick="alert('Prototype: would assign this plan and notify the cohort.')">Assign lesson plan</button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
-<script src="portal.js?v=1"></script>
+<script src="portal.js?v=2"></script>
+<script src="portal-data.js?v=1"></script>
 <script>
+(async function () {
+  if (!await requireSession()) return;
+  try {
+    const ctx = await loadContext();
+    if (!ctx.membership) { pageError("This account is not on any program's staff list."); return; }
+    CTX = { institution: ctx.membership.institutions, role: ctx.membership.role, email: ctx.email };
+    shell("assignments.html", "Lesson plans", CTX.institution.display_name || CTX.institution.name);
+    const { data, error } = await sb.from("assignments")
+      .select("id, title, due_at, lessons_per_day, condition_ids, created_at")
+      .eq("institution_id", CTX.institution.id)
+      .order("created_at", { ascending: false });
+    if (error) throw error;
 
-shell('assignments.html','Lesson plans','Assign material to a cohort or one student');
-document.getElementById('rows').innerHTML = DATA.assignments.map(a => {
-  const pct = Math.round(a.done / a.total * 100);
-  return '<tr><td><b>' + a.title + '</b></td><td>' + a.cohort + '</td><td>' + a.due + '</td>' +
-    '<td class="num">' + a.items + '</td><td style="min-width:150px">' + bar(pct) + '</td>' +
-    '<td>' + (/PDF/.test(a.source) ? '<span class="pill ai">Bubby</span>' : '<span class="pill neutral">By hand</span>') + '</td></tr>';
-}).join('');
+    const targets = {};
+    if (data && data.length) {
+      const { data: t } = await sb.from("assignment_targets")
+        .select("assignment_id").in("assignment_id", data.map(a => a.id));
+      for (const row of t || []) targets[row.assignment_id] = (targets[row.assignment_id] || 0) + 1;
+    }
 
-const MATCHES = [
-  ['Acute coronary syndrome','…responsible for the initial evaluation of chest pain…'],
-  ['Unstable angina','…ACS spectrum, lecture 4…'],
-  ['NSTEMI','…ACS spectrum, lecture 4…'],
-  ['STEMI','…ACS spectrum, lecture 4…'],
-  ['Heart failure','…systolic and diastolic dysfunction…'],
-  ['Atrial fibrillation','…rate versus rhythm control…'],
-  ['Aortic stenosis','…murmurs of the left heart…'],
-  ['Hypertension','…JNC-8 targets, lecture 2…'],
-  ['Metoprolol','…beta blockade in rate control…'],
-  ['Furosemide','…loop diuretics in acute decompensation…']
-];
-function fakeRead(){
-  const box = document.getElementById('found');
-  box.innerHTML = '<div class="empty"><b>Bubby is reading…</b>Extracting topics and matching them to the library.</div>';
-  setTimeout(() => {
-    box.innerHTML =
-      '<p style="font-size:13px;color:var(--ink-dim);margin:0 0 10px">Found ' + MATCHES.length +
-      ' lessons in <b>cardiology-block-syllabus.pdf</b>. Untick anything that does not belong.</p>' +
-      MATCHES.map(m =>
-        '<label class="check"><input type="checkbox" checked><span><b>' + m[0] + '</b>' +
-        '<br><span style="color:var(--ink-faint);font-size:12px">' + m[1] + '</span></span></label>'
-      ).join('');
-  }, 900);
-}
-
+    document.getElementById("count").textContent =
+      (data || []).length + ((data || []).length === 1 ? " plan" : " plans");
+    document.getElementById("list").innerHTML = (data || []).length
+      ? '<div class="card-body flush tbl-wrap"><table><thead><tr><th>Plan</th><th>Due</th>' +
+        '<th>Pace</th><th style="text-align:right">Lessons</th><th style="text-align:right">Students</th>' +
+        '</tr></thead><tbody>' + data.map(a =>
+          '<tr><td><b>' + esc(a.title) + '</b></td>' +
+          '<td>' + (a.due_at ? esc(new Date(a.due_at).toLocaleDateString()) : '<span class="muted">No date</span>') + '</td>' +
+          '<td>' + (a.lessons_per_day ? a.lessons_per_day + '/day' : '<span class="muted">Their own pace</span>') + '</td>' +
+          '<td class="num">' + (a.condition_ids || []).length + '</td>' +
+          '<td class="num">' + (targets[a.id] || 0) + '</td></tr>').join("") +
+        '</tbody></table></div>'
+      : '<div class="empty"><b>No lesson plans yet.</b><br>' +
+        'Once you can build one, it will appear here and in each student\'s profile.</div>';
+  } catch (err) {
+    pageError("Could not load this page: " + (err.message || err));
+  }
+})();
 </script>
 </body>
 </html>

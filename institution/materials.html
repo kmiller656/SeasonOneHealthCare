@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Material | Annexity</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css?v=4">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-head"><h2>Your program's material</h2></div>
+        <div id="docs"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Before you upload anything</h2></div>
+        <div class="card-body">
+          <p>Uploading lecture slides, handouts or a syllabus means you are asserting that
+             your program holds the right to do so, and that you remain responsible for
+             that material and for anything in it that identifies a patient or a person.</p>
+          <p>What we do with it: files go to a private bucket, are served only through
+             short-lived signed links, and are readable by your program's staff and nobody
+             else's. They are used to work out which lessons a plan should cover. They are
+             not used to train anything, and they are not shared.</p>
+          <p class="note" style="margin:0">
+            Upload and the AI reading step are being built. This page will not accept files
+            until the agreement above is presented as a step you actively accept, rather
+            than as text you scrolled past.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=2"></script>
+<script src="portal-data.js?v=1"></script>
+<script>
+(async function () {
+  if (!await requireSession()) return;
+  try {
+    const ctx = await loadContext();
+    if (!ctx.membership) { pageError("This account is not on any program's staff list."); return; }
+    CTX = { institution: ctx.membership.institutions, role: ctx.membership.role, email: ctx.email };
+    shell("materials.html", "Material", CTX.institution.display_name || CTX.institution.name);
+    const { data, error } = await sb.from("institution_documents")
+      .select("id, title, byte_size, page_count, created_at")
+      .eq("institution_id", CTX.institution.id)
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    document.getElementById("docs").innerHTML = (data || []).length
+      ? '<div class="card-body flush tbl-wrap"><table><thead><tr><th>File</th><th>Pages</th>' +
+        '<th>Added</th></tr></thead><tbody>' + data.map(d =>
+          '<tr><td><b>' + esc(d.title) + '</b></td><td>' + (d.page_count || '—') + '</td>' +
+          '<td>' + esc(new Date(d.created_at).toLocaleDateString()) + '</td></tr>').join("") +
+        '</tbody></table></div>'
+      : '<div class="empty">No material uploaded yet.</div>';
+  } catch (err) {
+    pageError("Could not load this page: " + (err.message || err));
+  }
+})();
+</script>
+</body>
+</html>

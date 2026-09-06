@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="portal.css?v=3">
+<link rel="stylesheet" href="portal.css?v=4">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="auth-page">
 
@@ -41,23 +42,18 @@
     <section class="panel" role="tabpanel" id="panel-admin" aria-labelledby="tab-admin">
       <p class="lede">Sign in to your program's account.</p>
 
-      <div class="note proto">
-        Prototype. This form does not authenticate yet &mdash; any details take you
-        to the dashboard.
-      </div>
+      <div class="alert" id="admin-error" role="alert" hidden></div>
 
-      <form onsubmit="location.href='dashboard.html';return false">
+      <form id="admin-form">
         <div class="field">
           <label for="admin-email">Work email</label>
-          <input id="admin-email" type="email" autocomplete="username"
-                 value="amoreno@ridgeline.edu" required>
+          <input id="admin-email" type="email" autocomplete="username" required>
         </div>
         <div class="field">
           <label for="admin-pass">Password</label>
-          <input id="admin-pass" type="password" autocomplete="current-password"
-                 value="demo-password" required>
+          <input id="admin-pass" type="password" autocomplete="current-password" required>
         </div>
-        <button class="btn" type="submit">Sign in</button>
+        <button class="btn" type="submit" id="admin-submit">Sign in</button>
       </form>
 
       <p class="auth-alt">
@@ -68,12 +64,9 @@
     <section class="panel" role="tabpanel" id="panel-student" aria-labelledby="tab-student" hidden>
       <p class="lede">Sign in to see what your program has assigned you.</p>
 
-      <div class="note proto">
-        Prototype. Student accounts are created in the Annexity app, and the web
-        sign-in is not wired to them yet.
-      </div>
+      <div class="alert" id="student-error" role="alert" hidden></div>
 
-      <form onsubmit="location.href='https://annexity.com/#beta';return false">
+      <form id="student-form">
         <div class="field">
           <label for="student-email">Email</label>
           <input id="student-email" type="email" autocomplete="username"
@@ -83,7 +76,7 @@
           <label for="student-pass">Password</label>
           <input id="student-pass" type="password" autocomplete="current-password" required>
         </div>
-        <button class="btn" type="submit">Sign in</button>
+        <button class="btn" type="submit" id="student-submit">Sign in</button>
       </form>
 
       <p class="auth-alt">
@@ -120,6 +113,73 @@
       select(target);
       target.focus();
     });
+  });
+})();
+</script>
+<script src="portal-data.js?v=1"></script>
+<script>
+// Sign-in. Both tabs authenticate against the same Supabase project — there is one
+// account per person, and the tab decides where they land, not who they are.
+(function () {
+  function fail(box, message) {
+    box.textContent = message;
+    box.hidden = false;
+  }
+
+  // Supabase returns "Invalid login credentials" for a wrong password and for an
+  // address that has no account, deliberately, so the form cannot be used to find
+  // out who has one. Saying "check both" is honest about that rather than implying
+  // the address was right.
+  function readable(error) {
+    var m = (error && error.message) || "";
+    if (/invalid login/i.test(m)) return "That email and password did not match. Check both and try again.";
+    if (/email not confirmed/i.test(m)) return "This account still needs confirming. Open the link in the sign-up email first.";
+    if (/rate limit|too many/i.test(m)) return "Too many attempts. Wait a minute and try again.";
+    return m || "Could not sign in. Try again.";
+  }
+
+  document.getElementById("admin-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var box = document.getElementById("admin-error"), btn = document.getElementById("admin-submit");
+    box.hidden = true; btn.disabled = true; btn.textContent = "Signing in…";
+    try {
+      var res = await sb.auth.signInWithPassword({
+        email: document.getElementById("admin-email").value.trim(),
+        password: document.getElementById("admin-pass").value
+      });
+      if (res.error) throw res.error;
+
+      var ctx = await loadContext();
+      if (ctx.membership) { location.href = "dashboard.html"; return; }
+
+      // Signed in, but not staff anywhere. Say which of the two it is.
+      await sb.auth.signOut();
+      fail(box, ctx.isStudentOnly
+        ? "This is a student account. Students study in the Annexity app — use the Student tab if you are looking for your assignments."
+        : "This account is not on any program's staff list yet. Ask your program administrator to add you, or talk to us about setting your program up.");
+    } catch (err) {
+      fail(box, readable(err));
+    } finally {
+      btn.disabled = false; btn.textContent = "Sign in";
+    }
+  });
+
+  document.getElementById("student-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var box = document.getElementById("student-error"), btn = document.getElementById("student-submit");
+    box.hidden = true; btn.disabled = true; btn.textContent = "Signing in…";
+    try {
+      var res = await sb.auth.signInWithPassword({
+        email: document.getElementById("student-email").value.trim(),
+        password: document.getElementById("student-pass").value
+      });
+      if (res.error) throw res.error;
+      location.href = "me.html";
+    } catch (err) {
+      fail(box, readable(err));
+    } finally {
+      btn.disabled = false; btn.textContent = "Sign in";
+    }
   });
 })();
 </script>

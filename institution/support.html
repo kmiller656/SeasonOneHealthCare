@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Help & support | Annexity</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css?v=4">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="shell">
+  <nav class="side"></nav>
+  <div class="main">
+    <header class="top"></header>
+    <div class="content">
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-head"><h2>Ask us something</h2></div>
+        <div class="card-body">
+          <div class="alert" id="err" hidden></div>
+          <div class="ok" id="ok" hidden></div>
+          <div class="field"><label for="subject">Subject</label>
+            <input id="subject" type="text" placeholder="What is this about?"></div>
+          <div class="field"><label for="body">Details</label>
+            <textarea id="body" rows="6" placeholder="What happened, and what you expected"></textarea></div>
+          <button class="btn" id="send">Send to support</button>
+          <p class="note" style="margin-top:14px">
+            This reaches a person. An assistant that answers the common questions instantly
+            is being built; until it exists, everything comes here.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Your requests</h2></div>
+        <div id="tickets"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="portal.js?v=2"></script>
+<script src="portal-data.js?v=1"></script>
+<script>
+(async function () {
+  if (!await requireSession()) return;
+  try {
+    const ctx = await loadContext();
+    if (!ctx.membership) { pageError("This account is not on any program's staff list."); return; }
+    CTX = { institution: ctx.membership.institutions, role: ctx.membership.role, email: ctx.email };
+    shell("support.html", "Help & support", CTX.institution.display_name || CTX.institution.name);
+    async function refresh() {
+      const { data } = await sb.from("support_tickets")
+        .select("id, subject, status, created_at")
+        .order("created_at", { ascending: false });
+      document.getElementById("tickets").innerHTML = (data || []).length
+        ? '<div class="card-body flush tbl-wrap"><table><thead><tr><th>Subject</th><th>Status</th>' +
+          '<th>Sent</th></tr></thead><tbody>' + data.map(t =>
+            '<tr><td><b>' + esc(t.subject) + '</b></td>' +
+            '<td><span class="pill' + (t.status === "open" ? " warn" : " ok") + '">' + esc(t.status) + '</span></td>' +
+            '<td>' + esc(new Date(t.created_at).toLocaleDateString()) + '</td></tr>').join("") +
+          '</tbody></table></div>'
+        : '<div class="empty">No requests yet.</div>';
+    }
+    await refresh();
+
+    document.getElementById("send").addEventListener("click", async function () {
+      const err = document.getElementById("err"), ok = document.getElementById("ok");
+      const subject = document.getElementById("subject").value.trim();
+      const body = document.getElementById("body").value.trim();
+      [err, ok].forEach(n => n.hidden = true);
+      if (!subject || !body) {
+        err.textContent = "Add a subject and some details so we can help.";
+        err.hidden = false; return;
+      }
+      this.disabled = true;
+      const { error } = await sb.from("support_tickets").insert({
+        institution_id: CTX.institution.id,
+        user_id: (await sb.auth.getUser()).data.user.id,
+        email: CTX.email, subject: subject, body: body
+      });
+      if (error) { err.textContent = "Could not send that: " + error.message; err.hidden = false; }
+      else {
+        ok.textContent = "Sent. We answer to " + CTX.email + ", usually within two business days.";
+        ok.hidden = false;
+        document.getElementById("subject").value = "";
+        document.getElementById("body").value = "";
+        await refresh();
+      }
+      this.disabled = false;
+    });
+  } catch (err) {
+    pageError("Could not load this page: " + (err.message || err));
+  }
+})();
+</script>
+</body>
+</html>
