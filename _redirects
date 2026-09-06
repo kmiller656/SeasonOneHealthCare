@@ -1,0 +1,5 @@
+# The institution portal moved to annexity.com, where the rest of the product now
+# lives. Anyone holding the old link — a bookmark, a link in an email already sent —
+# lands in the right place instead of a 404. 301, because the move is permanent.
+/institution/*  https://annexity.com/institution/:splat  301
+/institution    https://annexity.com/institution/        301
