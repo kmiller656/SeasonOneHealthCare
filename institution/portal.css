@@ -7,22 +7,30 @@
    the palette, lifted value-for-value from PANCEPrep/Theme.swift so the portal,
    the site and the app cannot drift.
 
+   Re-themed 2026-09-06 for Annexity. Theme.swift is four blues and white now, so
+   the teal this was built on had drifted from the very file it claims to follow.
+   Amber and violet became steps of the one ramp, exactly as they did in the app.
+   Green and red stayed: this is a roster, and "overdue" and "done" are the two
+   things a programme director scans for — the app makes the same exception for
+   right and wrong answers.
+
    PROTOTYPE. Every number on these pages is mock data held in portal.js. No
    backend is wired; see the institution platform plan in Notion.
    ========================================================================== */
 
 :root{
-  --brand:#0E7C6B; --brand-deep:#0A5B4F; --brand-lite:#E6F2F0;
-  --amber:#EE9A1C; --amber-lite:#FDF0DA;
-  --leaf:#12875A; --leaf-lite:#E4F4EC;
-  --siren:#DB5247; --siren-lite:#FBE9E7;
-  --violet:#6B5CE6; --violet-lite:#EEECFC;
-  --ink:#121716; --ink-dim:#5B6664; --ink-faint:#8A9694;
-  --paper:#FFFFFF; --paper-2:#F6F8F8; --paper-3:#EEF2F1;
-  --rule:#E2E8E7; --rule-soft:#EDF1F0;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --brand:#375A9C; --brand-deep:#11235A; --brand-lite:#E6EFFA;
+  --amber:#6189D8; --amber-lite:#E6EFFA;
+  --leaf:#2E7861; --leaf-lite:#E8F2EE;
+  --siren:#B04F4A; --siren-lite:#F8EBEA;
+  --violet:#69A0E2; --violet-lite:#EEF3FA;
+  --ink:#0E1726; --ink-dim:#5A6D8B; --ink-faint:#8496AD;
+  --paper:#FFFFFF; --paper-2:#F7FAFD; --paper-3:#EEF3FA;
+  --rule:#E3E9F3; --rule-soft:#EDF1F8;
+  --display:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --sans:Karla,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
-  --shadow:0 1px 2px rgba(18,23,22,.05),0 4px 12px rgba(18,23,22,.05);
+  --shadow:0 1px 2px rgba(17,35,90,.05),0 4px 14px rgba(17,35,90,.07);
   --sidebar:248px;
 }
 
@@ -211,14 +219,42 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 .sect-title:first-child{margin-top:0}
 
 /* -- sign in -------------------------------------------------------------- */
+/* -- sign in --------------------------------------------------------------
+
+   White, not a colour field. This was a full-bleed brand gradient with a card
+   floating on it — the look every SaaS login had in 2019, and nothing to do with
+   a palette whose ground is white. The card now sits on white and is held by a
+   hairline instead of a drop shadow.
+   ----------------------------------------------------------------------- */
+
+.auth-page{background:var(--paper)}
 .auth-wrap{min-height:100vh;display:grid;place-items:center;padding:24px;
-  background:linear-gradient(135deg,var(--brand) 0%,var(--brand-deep) 100%)}
-.auth{width:100%;max-width:404px;background:var(--paper);border-radius:16px;
-  box-shadow:0 18px 50px rgba(0,0,0,.22);padding:30px}
-.auth h1{margin:0 0 6px;font-size:21px}
-.auth p.lede{margin:0 0 22px;color:var(--ink-dim);font-size:14px}
+  background:var(--paper)}
+.auth{width:100%;max-width:414px;background:var(--paper);
+  border:1px solid var(--rule);border-radius:16px;padding:30px 30px 26px}
+
+.auth-mark{display:flex;align-items:center;gap:9px;text-decoration:none;
+  margin-bottom:22px}
+.auth-mark svg{width:28px;height:auto;display:block}
+.auth-mark span{font-family:var(--display);font-weight:700;font-size:1.3rem;
+  letter-spacing:-.022em;color:var(--brand-deep)}
+.auth-mark:hover{text-decoration:none}
+
+/* The tabs sit on a rail rather than in a pill group: the underline says which
+   panel is showing without adding a second filled shape beside the button. */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--rule);margin-bottom:20px}
+.tab{font-family:var(--display);font-size:14.5px;font-weight:500;
+  background:none;border:0;color:var(--ink-dim);padding:9px 12px;
+  border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--brand-deep)}
+.tab[aria-selected="true"]{color:var(--brand-deep);font-weight:600;
+  border-bottom-color:var(--brand)}
+
+.auth p.lede{margin:0 0 18px;color:var(--ink-dim);font-size:14px}
+.auth .note.proto{margin-bottom:18px}
 .auth .btn{width:100%;padding:12px;font-size:15px}
 .auth-alt{text-align:center;margin-top:16px;font-size:13.5px;color:var(--ink-dim)}
+.panel[hidden]{display:none}
 
 @media(max-width:1100px){
   .g-4{grid-template-columns:repeat(2,minmax(0,1fr))}

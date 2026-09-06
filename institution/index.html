@@ -4,36 +4,124 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Sign in | Season One for Programs</title>
+<title>Sign in | Annexity</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="stylesheet" href="portal.css?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css?v=3">
 </head>
-<body>
+<body class="auth-page">
+
 <div class="auth-wrap">
   <div class="auth">
-    <h1>Season One for Programs</h1>
-    <p class="lede">Sign in to your program's account.</p>
 
-    <div class="note proto" style="margin-bottom:18px">
-      Prototype. This form does not authenticate yet &mdash; any details take you to the dashboard.
+    <a class="auth-mark" href="https://annexity.com" aria-label="Annexity">
+      <svg viewBox="0 0 252 217.4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <polygon fill="#69A0E2" points="125.8,0.0 167.0,73.3 125.4,144.5 84.3,71.5"/>
+        <polygon fill="#375A9C" points="167.0,73.3 208.3,144.9 125.4,144.5"/>
+        <polygon fill="#6189D8" points="41.0,145.4 125.4,144.5 83.7,217.4 0.0,217.3"/>
+        <polygon fill="#11235A" points="125.4,144.5 208.3,144.9 252.0,216.8 167.5,216.9"/>
+      </svg>
+      <span>Annexity</span>
+    </a>
+
+    <!--
+      Two tabs because two different people arrive here and want different things.
+      A real tablist rather than two links: arrow keys move between them, only the
+      selected tab is in the tab order, and each panel is labelled by its tab.
+    -->
+    <div class="tabs" role="tablist" aria-label="Who is signing in">
+      <button class="tab" role="tab" id="tab-admin" aria-controls="panel-admin"
+              aria-selected="true" tabindex="0">Program staff</button>
+      <button class="tab" role="tab" id="tab-student" aria-controls="panel-student"
+              aria-selected="false" tabindex="-1">Student</button>
     </div>
 
-    <form onsubmit="location.href='dashboard.html';return false">
-      <div class="field">
-        <label for="e">Work email</label>
-        <input id="e" type="email" value="amoreno@ridgeline.edu" required>
-      </div>
-      <div class="field">
-        <label for="p">Password</label>
-        <input id="p" type="password" value="demo-password" required>
-      </div>
-      <button class="btn" type="submit">Sign in</button>
-    </form>
+    <section class="panel" role="tabpanel" id="panel-admin" aria-labelledby="tab-admin">
+      <p class="lede">Sign in to your program's account.</p>
 
-    <p class="auth-alt">
-      No account yet? <a href="/institutions#connect">Talk to us about your program</a>
-    </p>
+      <div class="note proto">
+        Prototype. This form does not authenticate yet &mdash; any details take you
+        to the dashboard.
+      </div>
+
+      <form onsubmit="location.href='dashboard.html';return false">
+        <div class="field">
+          <label for="admin-email">Work email</label>
+          <input id="admin-email" type="email" autocomplete="username"
+                 value="amoreno@ridgeline.edu" required>
+        </div>
+        <div class="field">
+          <label for="admin-pass">Password</label>
+          <input id="admin-pass" type="password" autocomplete="current-password"
+                 value="demo-password" required>
+        </div>
+        <button class="btn" type="submit">Sign in</button>
+      </form>
+
+      <p class="auth-alt">
+        No account yet? <a href="https://annexity.com/institutions">Talk to us about your program</a>
+      </p>
+    </section>
+
+    <section class="panel" role="tabpanel" id="panel-student" aria-labelledby="tab-student" hidden>
+      <p class="lede">Sign in to see what your program has assigned you.</p>
+
+      <div class="note proto">
+        Prototype. Student accounts are created in the Annexity app, and the web
+        sign-in is not wired to them yet.
+      </div>
+
+      <form onsubmit="location.href='https://annexity.com/#beta';return false">
+        <div class="field">
+          <label for="student-email">Email</label>
+          <input id="student-email" type="email" autocomplete="username"
+                 placeholder="you@school.edu" required>
+        </div>
+        <div class="field">
+          <label for="student-pass">Password</label>
+          <input id="student-pass" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn" type="submit">Sign in</button>
+      </form>
+
+      <p class="auth-alt">
+        Don't have the app yet? <a href="https://annexity.com/#beta">Join the beta</a>
+      </p>
+    </section>
+
   </div>
 </div>
+
+<script>
+// Roving tabindex: one tab in the page's tab order at a time, arrows move between
+// them. Without it a keyboard user tabs through every tab before reaching the form.
+(function () {
+  var tabs = [].slice.call(document.querySelectorAll('[role="tab"]'));
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      var on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      panel.hidden = !on;
+    });
+  }
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(tab); });
+    tab.addEventListener('keydown', function (e) {
+      var next = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : null;
+      if (next === null) return;
+      e.preventDefault();
+      var target = tabs[(next + tabs.length) % tabs.length];
+      select(target);
+      target.focus();
+    });
+  });
+})();
+</script>
 </body>
 </html>
